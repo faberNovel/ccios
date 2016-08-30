@@ -21,3 +21,22 @@ ccios -p Example
 ```
 
 This generates 5 files: `ExampleViewController`, `ExampleViewContract`, `ExamplePresenter`, `ExamplePresenterImplementation`, `ExampleComponent`.
+
+The following structure is created for you in the Xcode project:
+
+```
+.
++-- App/
+|   +-- Example/
+|   |   +-- UI/
+|   |   |   +-- View/
+|   |   |   +-- ViewController/
+|   |   |   |   +-- ExampleViewController
+|   |   |   +-- ExampleViewContract
+|   |   +-- Presenter/
+|   |   |   +-- ExamplePresenter
+|   |   |   +-- ExamplePresenterImplementation
+|   |   +-- Model/
++-- DI/
+|   +-- ExampleComponent
+```
