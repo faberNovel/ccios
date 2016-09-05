@@ -6,7 +6,7 @@ Xcode File Generator for Clean Code architecture
 ```
 cd ccios
 gem build ccios.gemspec
-gem install ./ccios.gem
+gem install ./ccios-x.x.x.gem
 ```
 
 # How to use
