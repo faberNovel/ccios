@@ -20,7 +20,9 @@ Then generate files with prefix `Example`:
 ccios -p Example
 ```
 
-This generates 5 files: `ExampleViewController`, `ExampleViewContract`, `ExamplePresenter`, `ExamplePresenterImplementation`, `ExampleComponent`.
+This generates 4 files: `ExampleViewController`, `ExampleViewContract`, `ExamplePresenter`, `ExamplePresenterImplementation`.
+
+What's more it prints the code you need to add to `DependencyProvider.swift` and `PresenterAssembly.swift` for dependency injection.
 
 The following structure is created for you in the Xcode project:
 
@@ -37,6 +39,4 @@ The following structure is created for you in the Xcode project:
 |   |   |   +-- ExamplePresenter
 |   |   |   +-- ExamplePresenterImplementation
 |   |   +-- Model/
-+-- DI/
-|   +-- ExampleComponent
 ```

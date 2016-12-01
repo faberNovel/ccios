@@ -17,7 +17,7 @@ class FileCreator
 
   def create_file(prefix, suffix, group, target)
     file_path = @classes_path + '/' + prefix + suffix + '.swift'
-    
+
     raise "File #{file_path} already exists" if File.exists?(file_path)
     file = File.new(file_path, 'w')
 
@@ -29,5 +29,16 @@ class FileCreator
     file.close
     file_ref = group.new_reference(file_path)
     target.add_file_references([file_ref])
+  end
+
+  def print_file_content(prefix, suffix)
+    file_path = @classes_path + '/' + suffix + '.swift'
+
+    code_templater = CodeTemplater.new()
+    template = code_templater.content_for_suffix(prefix, suffix)
+
+    puts "Add this snippet to #{file_path}"
+    puts template
+    puts "\n"
   end
 end

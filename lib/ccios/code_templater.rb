@@ -1,5 +1,5 @@
 class CodeTemplater
-  def initialize(options)
+  def initialize(options = {})
     @options = options
   end
 
@@ -37,7 +37,7 @@ protocol #{name}ViewContract : class {
 import Foundation
 import UIKit
 
-class #{name}ViewController : SharedViewController, #{name}ViewContract, PresenterInjectable {
+class #{name}ViewController : SharedViewController, #{name}ViewContract {
     var presenter: #{name}Presenter?
 
     init() {
@@ -106,36 +106,20 @@ class #{name}PresenterImplementation : #{name}Presenter {
 }
   end
 
-  def component_content(name, options = @options)
-    %{//
-//  #{name}Component.swift
-//  #{options[:project_name]}
-//
-//  Created by #{options[:full_username]} on #{options[:date]}.
-//
-//
+  def dependency_provider_content(name, options = @options)
+    %{func #{name.camelize(:lower)}Presenter(viewContract: #{name}ViewContract) -> #{name}Presenter? {
+    return presenterAssembler
+        .resolver
+        .resolve(#{name}Presenter.self, argument: viewContract)
+}
+}
+  end
 
-import Foundation
-import Cleanse
-
-struct #{name}Component : Component {
-    typealias Root = PropertyInjector<#{name}ViewController>
-
-    let applicationModule: ApplicationModule
-    let #{name.camelize(:lower)}ViewContract: #{name}ViewContract
-
-    //MARK: - Component
-
-    func configure<B : Binder>(binder binder: B) {
-        binder.install(module: applicationModule)
-        binder.install(module: PresenterInjector<#{name}ViewController>())
-        binder
-            .bind(#{name}Presenter.self)
-            .to(factory: #{name}PresenterImplementation.init)
-        binder
-            .bind(#{name}ViewContract.self)
-            .to(value: #{name.camelize(:lower)}ViewContract)
-    }
+  def presenter_assembly_content(name, options = @options)
+    %{container.register(#{name}Presenter.self) { r, viewContract in
+    #{name}PresenterImplementation(
+        viewContract: viewContract
+    )
 }
 }
   end

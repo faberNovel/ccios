@@ -25,6 +25,7 @@ class PresenterGenerator
     file_creator.create_file(presenter_name, 'Presenter', presenter_group, target)
     file_creator.create_file(presenter_name, 'PresenterImplementation', presenter_group, target)
 
-    file_creator.create_file(presenter_name, 'Component', di_group, target)
+    file_creator.print_file_content(presenter_name, 'DependencyProvider')
+    file_creator.print_file_content(presenter_name, 'PresenterAssembly')
   end
 end
