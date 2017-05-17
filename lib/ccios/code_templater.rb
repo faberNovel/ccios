@@ -91,7 +91,7 @@ import Foundation
 
 class #{name}PresenterImplementation : #{name}Presenter {
 
-    private unowned let viewContract: #{name}ViewContract
+    private weak var viewContract: #{name}ViewContract?
 
     init(viewContract: #{name}ViewContract) {
         self.viewContract = viewContract
