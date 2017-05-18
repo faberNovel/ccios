@@ -12,6 +12,11 @@ OptionParser.new do |opts|
   end
   opts.on("-pName", "--presenter=Name", "Generate NamePresenter, NamePresenterImplementation, NameViewContract and NameViewController") do |v|
     options[:presenter] = v
+    options[:generate_presenter_delegate] = false
+  end
+  opts.on("-fName", "--full=Name", "Generate NamePresenter, NamePresenterDelegate, NamePresenterImplementation, NameViewContract and NameViewController") do |v|
+    options[:presenter] = v
+    options[:generate_presenter_delegate] = true
   end
   opts.on("-h", "--help", "Print this help") do
     puts opts
@@ -30,8 +35,9 @@ app_group = classes_group["App"]
 
 exit if options[:presenter].nil?
 presenter_name = options[:presenter]
+generate_presenter_delegate = options[:generate_presenter_delegate]
 
-presenter_generator = PresenterGenerator.new(classes_group, source_path)
+presenter_generator = PresenterGenerator.new(classes_group, source_path, generate_presenter_delegate)
 presenter_generator.generate(presenter_name, main_target)
 
 project.save(project_path)

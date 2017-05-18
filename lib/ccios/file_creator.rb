@@ -1,9 +1,11 @@
 require_relative 'code_templater'
+require 'erb'
 
 class FileCreator
-  def initialize(source_path)
+  def initialize(source_path, generate_presenter_delegate)
     @source_path = source_path
     @classes_path = source_path + '/Classes'
+    @generate_presenter_delegate = generate_presenter_delegate
   end
 
   def templater_options(target)
@@ -11,7 +13,8 @@ class FileCreator
     {
       project_name: target.display_name,
       full_username: git_username,
-      date: DateTime.now.strftime("%d/%m/%Y")
+      date: DateTime.now.strftime("%d/%m/%Y"),
+      generate_presenter_delegate: @generate_presenter_delegate
     }
   end
 
@@ -24,7 +27,8 @@ class FileCreator
     templater_options = templater_options(target)
     code_templater = CodeTemplater.new(templater_options)
     file_content = code_templater.content_for_suffix(prefix, suffix)
-    file.puts(file_content)
+    renderer = ERB.new(file_content, nil, '-')
+    file.puts(renderer.result(code_templater.get_binding))
 
     file.close
     file_ref = group.new_reference(file_path)
@@ -34,7 +38,8 @@ class FileCreator
   def print_file_content(prefix, suffix)
     file_path = @classes_path + '/' + suffix + '.swift'
 
-    code_templater = CodeTemplater.new()
+    options = { generate_presenter_delegate: @generate_presenter_delegate }
+    code_templater = CodeTemplater.new(options)
     template = code_templater.content_for_suffix(prefix, suffix)
 
     puts "Add this snippet to #{file_path}"
