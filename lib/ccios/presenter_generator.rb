@@ -2,9 +2,10 @@ require_relative 'file_creator'
 
 class PresenterGenerator
 
-  def initialize(classes_group, source_path)
+  def initialize(classes_group, source_path, generate_presenter_delegate)
     @classes_group = classes_group
     @source_path = source_path
+    @generate_presenter_delegate = generate_presenter_delegate
   end
 
   def generate(presenter_name, target)
@@ -19,7 +20,7 @@ class PresenterGenerator
     presenter_group = new_group.new_group("Presenter")
     model_group = new_group.new_group("Model")
 
-    file_creator = FileCreator.new(@source_path)
+    file_creator = FileCreator.new(@source_path, @generate_presenter_delegate)
     file_creator.create_file(presenter_name, 'ViewContract', ui_group, target)
     file_creator.create_file(presenter_name, 'ViewController', view_controller_group, target)
     file_creator.create_file(presenter_name, 'Presenter', presenter_group, target)

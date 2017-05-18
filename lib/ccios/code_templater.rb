@@ -3,6 +3,10 @@ class CodeTemplater
     @options = options
   end
 
+  def get_binding
+    binding()
+  end
+
   def content_for_suffix(prefix, suffix)
     method_name = suffix.underscore + '_content'
     public_send(method_name, prefix) if respond_to? method_name
@@ -74,7 +78,11 @@ import Foundation
 protocol #{name}Presenter {
     func start()
 }
+<% if @options[:generate_presenter_delegate] %>
+protocol #{name}PresenterDelegate : class {
+
 }
+<% end %>}
   end
 
 
@@ -92,9 +100,15 @@ import Foundation
 class #{name}PresenterImplementation : #{name}Presenter {
 
     private weak var viewContract: #{name}ViewContract?
+<% if @options[:generate_presenter_delegate] -%>
+    private weak var delegate: #{name}PresenterDelegate?
+<% end -%>
 
-    init(viewContract: #{name}ViewContract) {
+    init(viewContract: #{name}ViewContract<%if @options[:generate_presenter_delegate]%>, delegate: #{name}PresenterDelegate<% end %>) {
         self.viewContract = viewContract
+<% if @options[:generate_presenter_delegate] -%>
+        self.delegate = delegate
+<% end -%>
     }
 
     //MARK: - #{name}Presenter
@@ -107,20 +121,39 @@ class #{name}PresenterImplementation : #{name}Presenter {
   end
 
   def dependency_provider_content(name, options = @options)
-    %{func #{name.camelize(:lower)}Presenter(viewContract: #{name}ViewContract) -> #{name}Presenter? {
+    if options[:generate_presenter_delegate]
+      %{func #{name.camelize(:lower)}Presenter(viewContract: #{name}ViewContract, presenterDelegate: #{name}PresenterDelegate) -> #{name}Presenter? {
+    return presenterAssembler
+        .resolver
+        .resolve(#{name}Presenter.self, arguments: viewContract, presenterDelegate)
+}
+}
+    else
+      %{func #{name.camelize(:lower)}Presenter(viewContract: #{name}ViewContract) -> #{name}Presenter? {
     return presenterAssembler
         .resolver
         .resolve(#{name}Presenter.self, argument: viewContract)
 }
 }
+    end
   end
 
   def presenter_assembly_content(name, options = @options)
-    %{container.register(#{name}Presenter.self) { r, viewContract in
+    if options[:generate_presenter_delegate]
+      %{container.register(#{name}Presenter.self) { r, viewContract, delegate in
+    #{name}PresenterImplementation(
+        viewContract: viewContract,
+        delegate: delegate
+    )
+}
+}
+    else
+      %{container.register(#{name}Presenter.self) { r, viewContract in
     #{name}PresenterImplementation(
         viewContract: viewContract
     )
 }
 }
+    end
   end
 end

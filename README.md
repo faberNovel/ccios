@@ -17,10 +17,12 @@ Go to your `.xcodeproj` folder `cd /paht/to/my/xcodeproj`.
 Then generate files with prefix `Example`:
 
 ```
-ccios -p Example
+ccios [-p|-f] Example
 ```
 
-This generates 4 files: `ExampleViewController`, `ExampleViewContract`, `ExamplePresenter`, `ExamplePresenterImplementation`.
+`-p` stands for `presenter`, `-f` for `full` (meaning presenter and presenter delegate).
+
+This generates 4 files: `ExampleViewController`, `ExampleViewContract`, `ExamplePresenter`, `ExamplePresenterImplementation`. If the `-f` option is used the protocol `ExamplePresenterDelegate` will be generated.
 
 What's more it prints the code you need to add to `DependencyProvider.swift` and `PresenterAssembly.swift` for dependency injection.
 
