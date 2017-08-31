@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.description = "Clean Code iOS Generator"
   s.authors     = ["Pierre Felgines"]
   s.email       = 'pierre.felgines@gmail.com'
-  s.files       = ["lib/ccios.rb", "lib/ccios/code_templater.rb", "lib/ccios/file_creator.rb", "lib/ccios/presenter_generator.rb"]
+  s.files       = ["lib/ccios.rb", "lib/ccios/code_templater.rb", "lib/ccios/file_creator.rb", "lib/ccios/presenter_generator.rb", "lib/ccios/pbxproj_parser.rb"]
   s.homepage    = 'http://rubygems.org/gems/hola'
   s.license     = 'MIT'
   s.add_dependency 'xcodeproj', '~> 1.4'

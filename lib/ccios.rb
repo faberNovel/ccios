@@ -25,19 +25,13 @@ OptionParser.new do |opts|
 end.parse!
 
 source_path = Dir.pwd
-project_path = Dir.glob("#{source_path}/*.xcodeproj").first
-project = Xcodeproj::Project.open(project_path)
-
-main_target = project.targets.first
-
-classes_group = project.groups.find { |g| g.display_name === "Classes" }
-app_group = classes_group["App"]
+parser = PBXProjParser.new source_path
 
 exit if options[:presenter].nil?
 presenter_name = options[:presenter]
 generate_presenter_delegate = options[:generate_presenter_delegate]
 
-presenter_generator = PresenterGenerator.new(classes_group, source_path, generate_presenter_delegate)
-presenter_generator.generate(presenter_name, main_target)
+presenter_generator = PresenterGenerator.new parser
+presenter_generator.generate(presenter_name, generate_presenter_delegate)
 
-project.save(project_path)
+parser.save

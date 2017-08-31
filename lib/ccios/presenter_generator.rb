@@ -1,16 +1,14 @@
 require_relative 'file_creator'
+require_relative "pbxproj_parser"
 
 class PresenterGenerator
 
-  def initialize(classes_group, source_path, generate_presenter_delegate)
-    @classes_group = classes_group
-    @source_path = source_path
-    @generate_presenter_delegate = generate_presenter_delegate
+  def initialize(parser)
+    @parser = parser
   end
 
-  def generate(presenter_name, target)
-    app_group = @classes_group["App"]
-    di_group = @classes_group["DI"]
+  def generate(presenter_name, generate_presenter_delegate)
+    app_group = @parser.app_group
     raise "[Error] Group #{presenter_name} already exists in #{app_group.display_name}" if app_group[presenter_name]
     new_group = app_group.new_group(presenter_name)
 
@@ -20,7 +18,8 @@ class PresenterGenerator
     presenter_group = new_group.new_group("Presenter")
     model_group = new_group.new_group("Model")
 
-    file_creator = FileCreator.new(@source_path, @generate_presenter_delegate)
+    file_creator = FileCreator.new(@parser.source_path, generate_presenter_delegate)
+    target = @parser.main_target
     file_creator.create_file(presenter_name, 'ViewContract', ui_group, target)
     file_creator.create_file(presenter_name, 'ViewController', view_controller_group, target)
     file_creator.create_file(presenter_name, 'Presenter', presenter_group, target)
