@@ -50,4 +50,19 @@ class CodeTemplater
     options[:name] = name
     rendered_template("coordinator", options)
   end
+
+  def interactor_content(name, options = @options)
+    options[:name] = name
+    rendered_template("interactor", options)
+  end
+
+  def interactor_implementation_content(name, options = @options)
+    options[:name] = name
+    rendered_template("interactor_implementation", options)
+  end
+
+  def interactor_assembly_content(name, options = @options)
+    options[:name] = name
+    rendered_template("interactor_assembly", options)
+  end
 end
