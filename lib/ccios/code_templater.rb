@@ -65,4 +65,19 @@ class CodeTemplater
     options[:name] = name
     rendered_template("interactor_assembly", options)
   end
+
+  def repository_content(name, options = @options)
+    options[:name] = name
+    rendered_template("repository", options)
+  end
+
+  def repository_implementation_content(name, options = @options)
+    options[:name] = name
+    rendered_template("repository_implementation", options)
+  end
+
+  def repository_assembly_content(name, options = @options)
+    options[:name] = name
+    rendered_template("repository_assembly", options)
+  end
 end

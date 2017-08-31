@@ -5,6 +5,7 @@ require 'rails' # for underscore method used in code_templater.rb
 require 'ccios/presenter_generator'
 require 'ccios/coordinator_generator'
 require 'ccios/interactor_generator'
+require 'ccios/repository_generator'
 
 options = {}
 OptionParser.new do |opts|
@@ -25,6 +26,9 @@ OptionParser.new do |opts|
   end
   opts.on("-iName", "--interactor=Name", "Generate NameInteractor and NameInteractorImplementation") do |v|
     options[:interactor] = v
+  end
+  opts.on("-rName", "--repository=Name", "Generate NameRepository and NameRepositoryImplementation") do |v|
+    options[:repository] = v
   end
   opts.on("-h", "--help", "Print this help") do
     puts opts
@@ -53,6 +57,12 @@ if options[:interactor]
   interactor_name = options[:interactor]
   interactor_generator = InteractorGenerator.new parser
   interactor_generator.generate(interactor_name)
+end
+
+if options[:repository]
+  repository_name = options[:repository]
+  repository_generator = RepositoryGenerator.new parser
+  repository_generator.generate(repository_name)
 end
 
 parser.save
