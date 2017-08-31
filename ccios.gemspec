@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.description = "Clean Code iOS Generator"
   s.authors     = ["Pierre Felgines"]
   s.email       = 'pierre.felgines@gmail.com'
+  # use `git ls-files -coz -x *.gem` for development
   s.files       = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.homepage    = 'http://rubygems.org/gems/hola'
   s.license     = 'MIT'
