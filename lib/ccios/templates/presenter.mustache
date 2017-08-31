@@ -11,9 +11,9 @@ import Foundation
 protocol {{name}}Presenter {
     func start()
 }
+{{#generate_delegate}}
 
-{{#generate_presenter_delegate}}
 protocol {{name}}PresenterDelegate : class {
 
 }
-{{/generate_presenter_delegate}}
+{{/generate_delegate}}

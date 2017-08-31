@@ -15,11 +15,6 @@ OptionParser.new do |opts|
   end
   opts.on("-pName", "--presenter=Name", "Generate NamePresenter, NamePresenterImplementation, NameViewContract and NameViewController") do |v|
     options[:presenter] = v
-    options[:generate_presenter_delegate] = false
-  end
-  opts.on("-fName", "--full=Name", "Generate NamePresenter, NamePresenterDelegate, NamePresenterImplementation, NameViewContract and NameViewController") do |v|
-    options[:presenter] = v
-    options[:generate_presenter_delegate] = true
   end
   opts.on("-cName", "--coordinator=Name", "Generate NameCoordinator") do |v|
     options[:coordinator] = v
@@ -29,6 +24,9 @@ OptionParser.new do |opts|
   end
   opts.on("-rName", "--repository=Name", "Generate NameRepository and NameRepositoryImplementation") do |v|
     options[:repository] = v
+  end
+  opts.on("-d", "--delegate", "Add delegate for curent generation") do |v|
+    options[:generate_delegate] = v
   end
   opts.on("-h", "--help", "Print this help") do
     puts opts
@@ -42,14 +40,15 @@ parser = PBXProjParser.new source_path
 if options[:presenter]
   presenter_name = options[:presenter]
   presenter_generator = PresenterGenerator.new parser
-  generator_options = {generate_presenter_delegate: options[:generate_presenter_delegate]}
+  generator_options = {generate_delegate: options[:generate_delegate]}
   presenter_generator.generate(presenter_name, generator_options)
 end
 
 if options[:coordinator]
   coordinator_name = options[:coordinator]
   coordinator_generator = CoordinatorGenerator.new parser
-  coordinator_generator.generate(coordinator_name)
+  generator_options = {generate_delegate: options[:generate_delegate]}
+  coordinator_generator.generate(coordinator_name, generator_options)
 end
 
 if options[:interactor]

@@ -8,13 +8,17 @@
 
 import Foundation
 
+{{#generate_delegate}}
 protocol {{name}}CoordinatorDelegate : class {
 
 }
 
+{{/generate_delegate}}
 class {{name}}Coordinator: Coordinator {
 
+    {{#generate_delegate}}
     weak var delegate: {{name}}CoordinatorDelegate?
+    {{/generate_delegate}}
     private let navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {

@@ -7,9 +7,9 @@ class CoordinatorGenerator
     @parser = parser
   end
 
-  def generate(coordinator_name)
+  def generate(coordinator_name, options = {})
     coordinator_group = @parser.coordinator_group
-    file_creator = FileCreator.new(@parser.source_path)
+    file_creator = FileCreator.new(@parser.source_path, options)
     target = @parser.main_target
     file_creator.create_file(coordinator_name, 'Coordinator', coordinator_group, target)
   end
