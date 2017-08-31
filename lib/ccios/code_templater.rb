@@ -45,4 +45,9 @@ class CodeTemplater
     options[:name] = name
     rendered_template("presenter_assembly", options)
   end
+
+  def coordinator_content(name, options = @options)
+    options[:name] = name
+    rendered_template("coordinator", options)
+  end
 end

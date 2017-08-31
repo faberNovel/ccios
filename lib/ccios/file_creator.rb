@@ -1,7 +1,7 @@
 require_relative 'code_templater'
 
 class FileCreator
-  def initialize(source_path, generate_presenter_delegate)
+  def initialize(source_path, generate_presenter_delegate = false)
     @source_path = source_path
     @classes_path = source_path + '/Classes'
     @generate_presenter_delegate = generate_presenter_delegate

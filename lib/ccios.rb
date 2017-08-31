@@ -3,6 +3,7 @@ require 'xcodeproj'
 require 'optparse'
 require 'rails' # for underscore method used in code_templater.rb
 require 'ccios/presenter_generator'
+require 'ccios/coordinator_generator'
 
 options = {}
 OptionParser.new do |opts|
@@ -18,6 +19,9 @@ OptionParser.new do |opts|
     options[:presenter] = v
     options[:generate_presenter_delegate] = true
   end
+  opts.on("-cName", "--coordinator=Name", "Generate NameCoordinator") do |v|
+    options[:coordinator] = v
+  end
   opts.on("-h", "--help", "Print this help") do
     puts opts
     exit
@@ -27,11 +31,18 @@ end.parse!
 source_path = Dir.pwd
 parser = PBXProjParser.new source_path
 
-exit if options[:presenter].nil?
-presenter_name = options[:presenter]
-generate_presenter_delegate = options[:generate_presenter_delegate]
+if options[:presenter]
+  presenter_name = options[:presenter]
+  generate_presenter_delegate = options[:generate_presenter_delegate]
 
-presenter_generator = PresenterGenerator.new parser
-presenter_generator.generate(presenter_name, generate_presenter_delegate)
+  presenter_generator = PresenterGenerator.new parser
+  presenter_generator.generate(presenter_name, generate_presenter_delegate)
+end
+
+if options[:coordinator]
+  coordinator_name = options[:coordinator]
+  coordinator_generator = CoordinatorGenerator.new parser
+  coordinator_generator.generate(coordinator_name)
+end
 
 parser.save

@@ -1,0 +1,29 @@
+//
+//  {{name}}Coordinator.swift
+//  {{project_name}}
+//
+//  Created by {{full_username}} on {{date}}.
+//
+//
+
+import Foundation
+
+protocol {{name}}CoordinatorDelegate : class {
+
+}
+
+class {{name}}Coordinator: Coordinator {
+
+    weak var delegate: {{name}}CoordinatorDelegate?
+    private let navigationController: UINavigationController
+
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+
+    //MARK: - Public
+
+    func start() {
+
+    }
+}
