@@ -1,0 +1,15 @@
+{{#generate_presenter_delegate}}
+container.register({{name}}Presenter.self) { r, viewContract, delegate in
+    {{name}}PresenterImplementation(
+        viewContract: viewContract,
+        delegate: delegate
+    )
+}
+{{/generate_presenter_delegate}}
+{{^generate_presenter_delegate}}
+container.register({{name}}Presenter.self) { r, viewContract in
+    {{name}}PresenterImplementation(
+        viewContract: viewContract
+    )
+}
+{{/generate_presenter_delegate}}

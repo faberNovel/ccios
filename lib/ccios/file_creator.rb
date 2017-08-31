@@ -1,5 +1,4 @@
 require_relative 'code_templater'
-require 'erb'
 
 class FileCreator
   def initialize(source_path, generate_presenter_delegate)
@@ -27,8 +26,7 @@ class FileCreator
     templater_options = templater_options(target)
     code_templater = CodeTemplater.new(templater_options)
     file_content = code_templater.content_for_suffix(prefix, suffix)
-    renderer = ERB.new(file_content, nil, '-')
-    file.puts(renderer.result(code_templater.get_binding))
+    file.puts(file_content)
 
     file.close
     file_ref = group.new_reference(file_path)

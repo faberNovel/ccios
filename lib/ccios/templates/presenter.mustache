@@ -1,0 +1,19 @@
+//
+//  {{name}}Presenter.swift
+//  {{project_name}}
+//
+//  Created by {{full_username}} on {{date}}.
+//
+//
+
+import Foundation
+
+protocol {{name}}Presenter {
+    func start()
+}
+
+{{#generate_presenter_delegate}}
+protocol {{name}}PresenterDelegate : class {
+
+}
+{{/generate_presenter_delegate}}
