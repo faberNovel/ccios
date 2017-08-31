@@ -11,14 +11,14 @@ gem install ./ccios-x.x.x.gem
 
 # How to use
 
-For now there is only one generation possible.
-
 Go to your `.xcodeproj` folder `cd /paht/to/my/xcodeproj`.
 Then generate files with prefix `Example`:
 
 ```
 ccios [-p|-i|-r|-c] Example [-d]
 ```
+
+Generated templates can be found [here](https://github.com/felginep/ccios/tree/master/lib/ccios/templates)
 
 ### `-p`
 `-p` stands for `presenter`
