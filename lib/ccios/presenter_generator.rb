@@ -7,7 +7,7 @@ class PresenterGenerator
     @parser = parser
   end
 
-  def generate(presenter_name, generate_presenter_delegate)
+  def generate(presenter_name, options = {})
     app_group = @parser.app_group
     raise "[Error] Group #{presenter_name} already exists in #{app_group.display_name}" if app_group[presenter_name]
     new_group = app_group.new_group(presenter_name)
@@ -18,7 +18,7 @@ class PresenterGenerator
     presenter_group = new_group.new_group("Presenter")
     model_group = new_group.new_group("Model")
 
-    file_creator = FileCreator.new(@parser.source_path, generate_presenter_delegate)
+    file_creator = FileCreator.new(@parser.source_path, options)
     target = @parser.main_target
     file_creator.create_file(presenter_name, 'ViewContract', ui_group, target)
     file_creator.create_file(presenter_name, 'ViewController', view_controller_group, target)

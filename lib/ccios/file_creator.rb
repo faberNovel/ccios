@@ -1,20 +1,23 @@
 require_relative 'code_templater'
 
 class FileCreator
-  def initialize(source_path, generate_presenter_delegate = false)
+  def initialize(source_path, options = {})
     @source_path = source_path
     @classes_path = source_path + '/Classes'
-    @generate_presenter_delegate = generate_presenter_delegate
+    @options = options
   end
 
   def templater_options(target)
-    git_username = `cd #{@source_path}; git config user.name`.strip
-    {
+    defaults = {
       project_name: target.display_name,
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
-      generate_presenter_delegate: @generate_presenter_delegate
     }
+    defaults.merge(@options)
+  end
+
+  def git_username
+    `cd #{@source_path}; git config user.name`.strip
   end
 
   def create_file(prefix, suffix, group, target)
@@ -36,8 +39,7 @@ class FileCreator
   def print_file_content(prefix, suffix)
     file_path = @classes_path + '/' + suffix + '.swift'
 
-    options = { generate_presenter_delegate: @generate_presenter_delegate }
-    code_templater = CodeTemplater.new(options)
+    code_templater = CodeTemplater.new(@options)
     template = code_templater.content_for_suffix(prefix, suffix)
 
     puts "Add this snippet to #{file_path}"

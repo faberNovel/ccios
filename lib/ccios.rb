@@ -41,10 +41,9 @@ parser = PBXProjParser.new source_path
 
 if options[:presenter]
   presenter_name = options[:presenter]
-  generate_presenter_delegate = options[:generate_presenter_delegate]
-
   presenter_generator = PresenterGenerator.new parser
-  presenter_generator.generate(presenter_name, generate_presenter_delegate)
+  generator_options = {generate_presenter_delegate: options[:generate_presenter_delegate]}
+  presenter_generator.generate(presenter_name, generator_options)
 end
 
 if options[:coordinator]
