@@ -2,7 +2,11 @@
 Xcode File Generator for Clean Code architecture
 
 # How to install
+```
+gem install ccios
+```
 
+To build it from source:
 ```
 cd ccios
 gem build ccios.gemspec
