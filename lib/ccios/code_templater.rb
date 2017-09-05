@@ -1,4 +1,5 @@
 require 'mustache'
+require 'rails'
 
 class CodeTemplater
   def initialize(options = {})
