@@ -13,6 +13,9 @@ gem build ccios.gemspec
 gem install ./ccios-x.x.x.gem
 ```
 
+To run the tests run:
+```rake test```
+
 # How to use
 
 Go to your `.xcodeproj` folder `cd /paht/to/my/xcodeproj`.
