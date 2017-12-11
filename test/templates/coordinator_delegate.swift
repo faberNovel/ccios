@@ -21,7 +21,7 @@ class TestCoordinator: Coordinator {
         self.navigationController = navigationController
     }
 
-    //MARK: - Public
+    // MARK: - Public
 
     func start() {
 

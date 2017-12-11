@@ -26,6 +26,6 @@ class TestViewController : SharedViewController, TestViewContract {
         presenter?.start()
     }
 
-    //MARK: - TestViewContract
+    // MARK: - TestViewContract
 
 }

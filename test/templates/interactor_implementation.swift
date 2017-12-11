@@ -10,7 +10,7 @@ import Foundation
 
 class TestInteractorImplementation : TestInteractor {
 
-    //MARK: - TestInteractor
+    // MARK: - TestInteractor
 
     func execute() {
 

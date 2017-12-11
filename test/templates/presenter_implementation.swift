@@ -16,7 +16,7 @@ class TestPresenterImplementation : TestPresenter {
         self.viewContract = viewContract
     }
 
-    //MARK: - TestPresenter
+    // MARK: - TestPresenter
 
     func start() {
 

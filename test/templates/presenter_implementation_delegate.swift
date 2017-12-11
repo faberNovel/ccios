@@ -18,7 +18,7 @@ class TestPresenterImplementation : TestPresenter {
         self.delegate = delegate
     }
 
-    //MARK: - TestPresenter
+    // MARK: - TestPresenter
 
     func start() {
 
