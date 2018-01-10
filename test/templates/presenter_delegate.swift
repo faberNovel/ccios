@@ -12,6 +12,6 @@ protocol TestPresenter {
     func start()
 }
 
-protocol TestPresenterDelegate : class {
+protocol TestPresenterDelegate: class {
 
 }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol TestViewContract : class {
+protocol TestViewContract: class {
 
 }
