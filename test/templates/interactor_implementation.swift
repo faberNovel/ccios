@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TestInteractorImplementation : TestInteractor {
+class TestInteractorImplementation: TestInteractor {
 
     // MARK: - TestInteractor
 

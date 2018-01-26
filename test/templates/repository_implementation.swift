@@ -9,7 +9,7 @@
 
 import Foundation
 
-class TestRepositoryImplementation : TestRepository {
+class TestRepositoryImplementation: TestRepository {
 
     init() {
 

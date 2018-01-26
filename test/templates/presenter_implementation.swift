@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TestPresenterImplementation : TestPresenter {
+class TestPresenterImplementation: TestPresenter {
 
     private weak var viewContract: TestViewContract?
 

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TestViewController : SharedViewController, TestViewContract {
+class TestViewController: SharedViewController, TestViewContract {
     var presenter: TestPresenter?
 
     init() {
