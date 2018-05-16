@@ -1,5 +1,5 @@
 {{#generate_delegate}}
-container.register({{name}}Presenter.self) { r, viewContract, delegate in
+container.register({{name}}Presenter.self) { _, viewContract, delegate in
     {{name}}PresenterImplementation(
         viewContract: viewContract,
         delegate: delegate
@@ -7,7 +7,7 @@ container.register({{name}}Presenter.self) { r, viewContract, delegate in
 }
 {{/generate_delegate}}
 {{^generate_delegate}}
-container.register({{name}}Presenter.self) { r, viewContract in
+container.register({{name}}Presenter.self) { _, viewContract in
     {{name}}PresenterImplementation(
         viewContract: viewContract
     )

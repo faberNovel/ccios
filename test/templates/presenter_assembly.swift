@@ -1,4 +1,4 @@
-container.register(TestPresenter.self) { r, viewContract in
+container.register(TestPresenter.self) { _, viewContract in
     TestPresenterImplementation(
         viewContract: viewContract
     )
