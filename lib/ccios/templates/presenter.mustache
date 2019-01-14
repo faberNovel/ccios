@@ -13,7 +13,7 @@ protocol {{name}}Presenter {
 }
 {{#generate_delegate}}
 
-protocol {{name}}PresenterDelegate: class {
+protocol {{name}}PresenterDelegate: AnyObject {
 
 }
 {{/generate_delegate}}
