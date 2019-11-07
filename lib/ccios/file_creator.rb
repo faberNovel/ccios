@@ -3,7 +3,7 @@ require_relative 'code_templater'
 class FileCreator
   def initialize(source_path, options = {})
     @source_path = source_path
-    @classes_path = source_path + '/Classes'
+    @classes_path = source_path
     @options = options
   end
 
