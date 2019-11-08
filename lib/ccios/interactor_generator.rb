@@ -14,7 +14,7 @@ class InteractorGenerator
     raise "[Error] Group #{new_group_name} already exists in #{app_group.display_name}" if interactor_group[new_group_name]
     new_group = interactor_group.new_group(new_group_name)
 
-    path = File.join(@parser.source_path, @config["core"]["interactor"]["source"])
+    path = File.join(@parser.source_path, @config.core.interactor.source)
     file_creator = FileCreator.new(path, options)
     target = @parser.core_target
     file_creator.create_file(interactor_name, 'Interactor', new_group, target)

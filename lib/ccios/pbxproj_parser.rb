@@ -4,46 +4,46 @@ class PBXProjParser
 
   attr_accessor :source_path
 
-  def initialize(source_path, config = {})
+  def initialize(source_path, config)
     @source_path = source_path
     @config = config
     @projects = {}
   end
 
   def app_project
-    project_for("app")
+    project_for(@config.app.project)
   end
 
   def core_project
-    project_for("core")
+    project_for(@config.core.project)
   end
 
   def data_project
-    project_for("data")
+    project_for(@config.data.project)
   end
 
   def presenter_group
-    path = @config["app"]["presenter"]["group"]
+    path = @config.app.presenter.group
     app_project[path]
   end
 
   def coordinator_group
-    path = @config["app"]["coordinator"]["group"]
+    path = @config.app.coordinator.group
     app_project[path]
   end
 
   def interactor_group
-    path = @config["core"]["interactor"]["group"]
+    path = @config.core.interactor.group
     core_project[path]
   end
 
   def repository_core_group
-    path = @config["core"]["repository"]["group"]
+    path = @config.core.repository.group
     core_project[path]
   end
 
   def repository_data_group
-    path = @config["data"]["repository"]["group"]
+    path = @config.data.repository.group
     data_project[path]
   end
 
@@ -67,8 +67,8 @@ class PBXProjParser
 
   private
 
-  def project_for(module_name)
-    module_project_path = File.join(source_path, @config[module_name]["project"])
+  def project_for(path)
+    module_project_path = File.join(source_path, path)
     if !File.exists?(module_project_path)
       raise "[Error] There is no xcodeproj at path #{module_project_path}"
     end

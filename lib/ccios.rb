@@ -6,6 +6,7 @@ require 'ccios/presenter_generator'
 require 'ccios/coordinator_generator'
 require 'ccios/interactor_generator'
 require 'ccios/repository_generator'
+require 'ccios/config'
 
 options = {}
 OptionParser.new do |opts|
@@ -35,8 +36,7 @@ OptionParser.new do |opts|
 end.parse!
 
 source_path = Dir.pwd
-config_file_name = ".ccios.yml"
-config = File.exists?(config_file_name) ? YAML.load_file(config_file_name) : {}
+config = Config.new source_path
 parser = PBXProjParser.new(source_path, config)
 
 if options[:presenter]

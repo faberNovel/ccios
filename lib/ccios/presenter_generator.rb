@@ -3,7 +3,7 @@ require_relative "pbxproj_parser"
 
 class PresenterGenerator
 
-  def initialize(parser, config = {})
+  def initialize(parser, config)
     @parser = parser
     @config = config
   end
@@ -19,7 +19,7 @@ class PresenterGenerator
     presenter_group = new_group.new_group("Presenter")
     model_group = new_group.new_group("Model")
 
-    path = File.join(@parser.source_path, @config["app"]["presenter"]["source"])
+    path = File.join(@parser.source_path, @config.app.presenter.source)
     file_creator = FileCreator.new(path, options)
     target = @parser.app_target
     file_creator.create_file(presenter_name, 'ViewContract', ui_group, target)

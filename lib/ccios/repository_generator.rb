@@ -17,12 +17,12 @@ class RepositoryGenerator
     raise "[Error] Group #{repository_name} already exists in #{data_group.display_name}" if data_group[repository_name]
     data_new_group = data_group.new_group(repository_name)
 
-    path = File.join(@parser.source_path, @config["core"]["repository"]["source"])
+    path = File.join(@parser.source_path, @config.core.repository.source)
     file_creator = FileCreator.new(path, options)
     target = @parser.core_target
     file_creator.create_file(repository_name, 'Repository', core_data_new_group, target)
 
-    path = File.join(@parser.source_path, @config["data"]["repository"]["source"])
+    path = File.join(@parser.source_path, @config.data.repository.source)
     file_creator = FileCreator.new(path, options)
     target = @parser.data_target
     file_creator.create_file(repository_name, 'RepositoryImplementation', data_new_group, target)
