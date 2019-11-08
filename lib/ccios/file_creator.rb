@@ -3,7 +3,6 @@ require_relative 'code_templater'
 class FileCreator
   def initialize(source_path, options = {})
     @source_path = source_path
-    @classes_path = source_path
     @options = options
   end
 
@@ -21,7 +20,7 @@ class FileCreator
   end
 
   def create_file(prefix, suffix, group, target)
-    file_path = @classes_path + '/' + prefix + suffix + '.swift'
+    file_path = File.join(@source_path, prefix + suffix + '.swift')
 
     raise "File #{file_path} already exists" if File.exists?(file_path)
     file = File.new(file_path, 'w')
@@ -37,7 +36,7 @@ class FileCreator
   end
 
   def print_file_content(prefix, suffix)
-    file_path = @classes_path + '/' + suffix + '.swift'
+    file_path = File.join(@source_path, suffix + '.swift')
 
     code_templater = CodeTemplater.new(@options)
     template = code_templater.content_for_suffix(prefix, suffix)
