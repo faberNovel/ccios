@@ -5,11 +5,7 @@ class Config
   attr_reader :app, :core, :data
 
   def initialize(source_path)
-    raise "File #{file_name} does not exists." if !File.exists?(file_name)
-    config = YAML.load_file(file_name)
-
-    validate config
-
+    config = config_hash
     @app = AppConfig.new config["app"]
     @core = CoreConfig.new config["core"]
     @data = DataConfig.new config["data"]
@@ -17,6 +13,40 @@ class Config
 
   def file_name
     ".ccios.yml"
+  end
+
+  def config_hash
+    if File.exists?(file_name)
+      config = YAML.load_file(file_name)
+      validate config
+      config
+    else
+      puts "File #{file_name} does not exists. Using default config."
+      default_config_hash
+    end
+  end
+
+  def default_config_hash
+    project = Dir.glob("*.xcodeproj").first
+    raise "Missing xcodeproj file in #{Dir.pwd}" if project.nil?
+
+    source = "Classes"
+    {
+      "app" => {
+        "project" => project,
+        "presenter" => {"source" => source, "group" => "Classes/App"},
+        "coordinator" => {"source" => source, "group" => "Classes/Coordinator"}
+      },
+      "core" => {
+        "project" => project,
+        "interactor" => {"source" => source, "group" => "Classes/Core/Interactor"},
+        "repository" => {"source" => source, "group" => "Classes/Core/Data"}
+      },
+      "data" => {
+        "project" => project,
+        "repository" => {"source" => source, "group" => "Classes/Data"}
+      }
+    }
   end
 
   def validate(hash)
