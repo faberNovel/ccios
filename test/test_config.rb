@@ -19,6 +19,17 @@ class ConfigTest < Minitest::Test
     end
   end
 
+  def test_file_not_valid
+    Tempfile.create do |f|
+      f << "this is not yaml"
+      f.rewind
+
+      assert_raises(RuntimeError) {
+        config = Config.new f.path
+      }
+    end
+  end
+
   private
 
   def assert_config_is_ok(config)
