@@ -36,7 +36,7 @@ OptionParser.new do |opts|
 end.parse!
 
 source_path = Dir.pwd
-config = Config.new source_path
+config = Config.new ".ccios.yml"
 parser = PBXProjParser.new(source_path, config)
 
 if options[:presenter]

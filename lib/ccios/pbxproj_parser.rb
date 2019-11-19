@@ -69,9 +69,10 @@ class PBXProjParser
 
   def project_for(path)
     module_project_path = File.join(source_path, path)
-    if !File.exists?(module_project_path)
+    resolved_module_project_path = Dir.glob(module_project_path).first
+    if !File.exists?(Dir.glob(module_project_path).first)
       raise "[Error] There is no xcodeproj at path #{module_project_path}"
     end
-    @projects[module_project_path] ||= Xcodeproj::Project.open(module_project_path)
+    @projects[module_project_path] ||= Xcodeproj::Project.open(resolved_module_project_path)
   end
 end

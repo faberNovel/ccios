@@ -5,32 +5,27 @@ class Config
   attr_reader :app, :core, :data
 
   def initialize(source_path)
-    config = config_hash
+    @source_path = source_path
+    config = config_hash(source_path)
     @app = AppConfig.new config["app"]
     @core = CoreConfig.new config["core"]
     @data = DataConfig.new config["data"]
   end
 
-  def file_name
-    ".ccios.yml"
-  end
-
-  def config_hash
-    if File.exists?(file_name)
-      config = YAML.load_file(file_name)
+  def config_hash(source_path)
+    if File.exist?(source_path)
+      config = YAML.load_file(source_path)
       validate config
       config
     else
-      puts "File #{file_name} does not exists. Using default config."
+      puts "File #{source_path} does not exists. Using default config."
       default_config_hash
     end
   end
 
   def default_config_hash
-    project = Dir.glob("*.xcodeproj").first
-    raise "Missing xcodeproj file in #{Dir.pwd}" if project.nil?
-
     source = "Classes"
+    project = "*.xcodeproj"
     {
       "app" => {
         "project" => project,
@@ -73,7 +68,7 @@ class Config
     components.each do |component|
       hash = hash[component]
       keys << component
-      raise "Key \"#{keys.join(".")}\" is missing in #{file_name}" if hash.nil?
+      raise "Key \"#{keys.join(".")}\" is missing in #{@source_path}" if hash.nil?
     end
   end
 end
