@@ -10,7 +10,7 @@ class ConfigTest < Minitest::Test
   end
 
   def test_file_config
-    tempfile = Tempfile.create do |f|
+    Tempfile.create do |f|
       f << file_config_content
       f.rewind
 
@@ -44,7 +44,7 @@ class ConfigTest < Minitest::Test
   def file_config_content
     <<-eos
 app:
-  project: CleanCodeDemo.xcodeproj
+  project: MyProject.xcodeproj
   presenter:
     source: Classes
     group: Classes/App
@@ -53,7 +53,7 @@ app:
     group: Classes/Coordinator
 
 core:
-  project: CleanCodeDemo.xcodeproj
+  project: MyProject.xcodeproj
   interactor:
     source: Classes
     group: Classes/Core/Interactor
@@ -62,7 +62,7 @@ core:
     group: Classes/Core/Data
 
 data:
-  project: CleanCodeDemo.xcodeproj
+  project: MyProject.xcodeproj
   repository:
     source: Classes
     group: Classes/Data

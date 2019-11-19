@@ -22,7 +22,7 @@ class FileCreator
   def create_file(prefix, suffix, group, target)
     file_path = File.join(@source_path, prefix + suffix + '.swift')
 
-    raise "File #{file_path} already exists" if File.exists?(file_path)
+    raise "File #{file_path} already exists" if File.exist?(file_path)
     file = File.new(file_path, 'w')
 
     templater_options = templater_options(target)
