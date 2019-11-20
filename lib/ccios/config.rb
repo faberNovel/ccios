@@ -4,26 +4,17 @@ class Config
 
   attr_reader :app, :core, :data
 
-  def initialize(source_path)
-    @source_path = source_path
-    config = config_hash(source_path)
-    @app = AppConfig.new config["app"]
-    @core = CoreConfig.new config["core"]
-    @data = DataConfig.new config["data"]
-  end
-
-  def config_hash(source_path)
+  def self.parse(source_path)
     if File.exist?(source_path)
       config = YAML.load_file(source_path)
-      validate config
-      config
+      self.new config, source_path
     else
       puts "File #{source_path} does not exists. Using default config."
-      default_config_hash
+      self.default
     end
   end
 
-  def default_config_hash
+  def self.default_config_hash
     source = "Classes"
     project = "*.xcodeproj"
     {
@@ -42,6 +33,18 @@ class Config
         "repository" => {"source" => source, "group" => "Classes/Data"}
       }
     }
+  end
+
+  def self.default
+    self.new default_config_hash
+  end
+
+  def initialize(config_hash, source_path = nil)
+    @source_path = source_path
+    validate config_hash
+    @app = AppConfig.new config_hash["app"]
+    @core = CoreConfig.new config_hash["core"]
+    @data = DataConfig.new config_hash["data"]
   end
 
   def validate(hash)
@@ -68,7 +71,11 @@ class Config
     components.each do |component|
       hash = hash[component]
       keys << component
-      raise "Key \"#{keys.join(".")}\" is missing in #{@source_path}" if hash.nil?
+      if hash.nil?
+        message = "Key \"#{keys.join(".")}\" is missing"
+        message += " in #{@source_path}" unless @source_path.nil?
+        raise message
+      end
     end
   end
 end

@@ -5,7 +5,7 @@ require 'tempfile'
 class ConfigTest < Minitest::Test
 
   def test_default_config
-    config = Config.new "not_existing_file"
+    config = Config.default
     assert_config_is_ok config
   end
 
@@ -14,7 +14,7 @@ class ConfigTest < Minitest::Test
       f << file_config_content
       f.rewind
 
-      config = Config.new f.path
+      config = Config.parse f.path
       assert_config_is_ok config
     end
   end
@@ -25,7 +25,7 @@ class ConfigTest < Minitest::Test
       f.rewind
 
       assert_raises(RuntimeError) {
-        config = Config.new f.path
+        Config.parse f.path
       }
     end
   end
