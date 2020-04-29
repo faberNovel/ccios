@@ -11,26 +11,27 @@ class PresenterGenerator
   def generate(presenter_name, options = {})
     app_group = @parser.presenter_group
 
+    associate_path_to_group = !app_group.path.nil?
     path = File.join(@parser.source_path, @config.app.presenter.source)
 
     raise "[Error] Group #{presenter_name} already exists in #{app_group.display_name}" if app_group[presenter_name]
     new_group_path = File.join(path, presenter_name)
-    new_group = app_group.new_group(presenter_name, new_group_path)
+    new_group = app_group.new_group(presenter_name, associate_path_to_group ? new_group_path : nil)
 
     ui_group_path = File.join(new_group_path, "UI")
-    ui_group = new_group.new_group("UI", ui_group_path)
+    ui_group = new_group.new_group("UI", associate_path_to_group ? ui_group_path : nil)
 
     view_group_path = File.join(ui_group_path, "View")
-    view_group = ui_group.new_group("View", view_group_path)
+    view_group = ui_group.new_group("View", associate_path_to_group ? view_group_path : nil)
 
     view_controller_group_path = File.join(ui_group_path, "ViewController")
-    view_controller_group = ui_group.new_group("ViewController", view_controller_group_path)
+    view_controller_group = ui_group.new_group("ViewController", associate_path_to_group ? view_controller_group_path : nil)
 
     presenter_group_path = File.join(new_group_path, "Presenter")
-    presenter_group = new_group.new_group("Presenter", presenter_group_path)
+    presenter_group = new_group.new_group("Presenter", associate_path_to_group ? presenter_group_path : nil)
 
     model_group_path = File.join(new_group_path, "Model")
-    model_group = new_group.new_group("Model", model_group_path)
+    model_group = new_group.new_group("Model", associate_path_to_group ? model_group_path : nil)
 
     file_creator = FileCreator.new(path, options)
     target = @parser.app_target

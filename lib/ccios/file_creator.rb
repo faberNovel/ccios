@@ -43,8 +43,7 @@ class FileCreator
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
 
     git_keep_path = File.join(dirname, ".gitkeep")
-    file = File.new(git_keep_path, 'w')
-    file.close
+    FileUtils.touch(git_keep_path) if Dir.empty?(dirname)
   end
 
   def print_file_content(prefix, suffix)
