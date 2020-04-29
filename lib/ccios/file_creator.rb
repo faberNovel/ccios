@@ -1,4 +1,5 @@
 require_relative 'code_templater'
+require 'fileutils'
 
 class FileCreator
   def initialize(source_path, options = {})
@@ -20,9 +21,11 @@ class FileCreator
   end
 
   def create_file(prefix, suffix, group, target)
-    file_path = File.join(@source_path, prefix + suffix + '.swift')
+    file_path = File.join(group.real_path, prefix + suffix + '.swift')
 
     raise "File #{file_path} already exists" if File.exist?(file_path)
+    dirname = File.dirname(file_path)
+    FileUtils.mkdir_p dirname unless File.directory?(dirname)
     file = File.new(file_path, 'w')
 
     templater_options = templater_options(target)
@@ -33,6 +36,15 @@ class FileCreator
     file.close
     file_ref = group.new_reference(file_path)
     target.add_file_references([file_ref])
+  end
+
+  def create_empty_directory(group)
+    dirname = group.real_path
+    FileUtils.mkdir_p dirname unless File.directory?(dirname)
+
+    git_keep_path = File.join(dirname, ".gitkeep")
+    file = File.new(git_keep_path, 'w')
+    file.close
   end
 
   def print_file_content(prefix, suffix)
