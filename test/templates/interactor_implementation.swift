@@ -8,11 +8,15 @@
 
 import Foundation
 
-class TestInteractorImplementation: TestInteractor {
+public class TestInteractorImplementation: TestInteractor {
+
+	public init() {
+
+	}
 
     // MARK: - TestInteractor
 
-    func execute() {
+    public func execute() {
 
     }
 }
