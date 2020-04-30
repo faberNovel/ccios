@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ccios (2.2.0)
+    ccios (2.3.0)
       mustache (~> 1.0)
       rails (~> 5.1)
       xcodeproj (~> 1.4)

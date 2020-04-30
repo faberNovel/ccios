@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ccios'
-  s.version     = '2.2.0'
+  s.version     = '2.3.0'
   s.executables << 'ccios'
   s.date        = '2016-08-03'
   s.summary     = "Clean Code iOS Generator"
