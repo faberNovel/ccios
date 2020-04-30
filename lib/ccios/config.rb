@@ -15,22 +15,21 @@ class Config
   end
 
   def self.default_config_hash
-    source = "Classes"
     project = "*.xcodeproj"
     {
       "app" => {
         "project" => project,
-        "presenter" => {"source" => source, "group" => "Classes/App"},
-        "coordinator" => {"source" => source, "group" => "Classes/Coordinator"}
+        "presenter" => {"group" => "Classes/App"},
+        "coordinator" => {"group" => "Classes/Coordinator"}
       },
       "core" => {
         "project" => project,
-        "interactor" => {"source" => source, "group" => "Classes/Core/Interactor"},
-        "repository" => {"source" => source, "group" => "Classes/Core/Data"}
+        "interactor" => {"group" => "Classes/Core/Interactor"},
+        "repository" => {"group" => "Classes/Core/Data"}
       },
       "data" => {
         "project" => project,
-        "repository" => {"source" => source, "group" => "Classes/Data"}
+        "repository" => {"group" => "Classes/Data"}
       }
     }
   end
@@ -49,19 +48,14 @@ class Config
 
   def validate(hash)
     validate_path hash, "app.project"
-    validate_path hash, "app.presenter.source"
     validate_path hash, "app.presenter.group"
-    validate_path hash, "app.coordinator.source"
     validate_path hash, "app.coordinator.group"
 
     validate_path hash, "core.project"
-    validate_path hash, "core.interactor.source"
     validate_path hash, "core.interactor.group"
-    validate_path hash, "core.repository.source"
     validate_path hash, "core.repository.group"
 
     validate_path hash, "data.project"
-    validate_path hash, "data.repository.source"
     validate_path hash, "data.repository.group"
   end
 
@@ -111,10 +105,9 @@ end
 
 class ObjectConfig
 
-  attr_reader :source, :group
+  attr_reader :group
 
   def initialize(hash)
-    @source = hash["source"]
     @group = hash["group"]
   end
 end

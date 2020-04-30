@@ -36,19 +36,14 @@ class ConfigTest < Minitest::Test
     refute_nil config
 
     refute_nil config.app.project
-    refute_nil config.app.presenter.source
     refute_nil config.app.presenter.group
-    refute_nil config.app.coordinator.source
     refute_nil config.app.coordinator.group
 
     refute_nil config.core.project
-    refute_nil config.core.interactor.source
     refute_nil config.core.interactor.group
-    refute_nil config.core.repository.source
     refute_nil config.core.repository.group
 
     refute_nil config.data.project
-    refute_nil config.data.repository.source
     refute_nil config.data.repository.group
   end
 
@@ -57,25 +52,20 @@ class ConfigTest < Minitest::Test
 app:
   project: MyProject.xcodeproj
   presenter:
-    source: Classes
     group: Classes/App
   coordinator:
-    source: Classes
     group: Classes/Coordinator
 
 core:
   project: MyProject.xcodeproj
   interactor:
-    source: Classes
     group: Classes/Core/Interactor
   repository:
-    source: Classes
     group: Classes/Core/Data
 
 data:
   project: MyProject.xcodeproj
   repository:
-    source: Classes
     group: Classes/Data
 eos
   end

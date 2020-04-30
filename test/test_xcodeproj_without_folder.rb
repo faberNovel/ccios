@@ -123,25 +123,20 @@ class XcodeProjWithoutFolderTest < Minitest::Test
 app:
   project: MyProject.xcodeproj
   presenter:
-    source: MyProject/GroupWithoutFolder
     group: MyProject/GroupWithoutFolder/Presenter
   coordinator:
-    source: MyProject/GroupWithoutFolder
     group: MyProject/GroupWithoutFolder/Coordinator
 
 core:
   project: MyProject.xcodeproj
   interactor:
-    source: MyProject/GroupWithoutFolder
     group: MyProject/GroupWithoutFolder/Interactor
   repository:
-    source: MyProject/GroupWithoutFolder
     group: MyProject/GroupWithoutFolder/Interactor
 
 data:
   project: MyProject.xcodeproj
   repository:
-    source: MyProject/GroupWithoutFolder
     group: MyProject/GroupWithoutFolder/Repository
 eos
   end
