@@ -1,4 +1,4 @@
-container.register(TestInteractor.self) { r in
+container.register(TestInteractor.self) { _ in
     TestInteractorImplementation(
 
     )

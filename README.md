@@ -135,6 +135,7 @@ But you could imagine more complex project structures with multiple xcodeproj:
 ```
 app:
   project: MyProject/MyProject.xcodeproj
+  target: MyProject # optional
   presenter:
     group: Classes/App
   coordinator:
@@ -142,6 +143,7 @@ app:
 
 core:
   project: MyProjectCore/MyProjectCore.xcodeproj
+  target: MyProjectCore # optional
   interactor:
     group: MyProjectCore/Interactors
   repository:
@@ -149,6 +151,7 @@ core:
 
 data:
   project: MyProjectData/MyProjectData.xcodeproj
+  target: MyProjectData # optional
   repository:
     group: MyProjectData/Sources/Repositories
 

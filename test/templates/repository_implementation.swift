@@ -9,9 +9,9 @@
 
 import Foundation
 
-class TestRepositoryImplementation: TestRepository {
+public class TestRepositoryImplementation: TestRepository {
 
-    init() {
+    public init() {
 
     }
 

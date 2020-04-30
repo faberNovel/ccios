@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol TestInteractor {
+public protocol TestInteractor {
     func execute()
 }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol TestRepository {
+public protocol TestRepository {
 
 }
