@@ -37,6 +37,84 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		496EC499245AA7D700CE2F8F /* GroupWithFolder */ = {
+			isa = PBXGroup;
+			children = (
+				496EC49A245AA7E700CE2F8F /* Presenter */,
+				496EC49B245AA7EE00CE2F8F /* Interactor */,
+				496EC49C245AA7F900CE2F8F /* Repository */,
+				496EC49D245AA80100CE2F8F /* Coordinator */,
+			);
+			path = GroupWithFolder;
+			sourceTree = "<group>";
+		};
+		496EC49A245AA7E700CE2F8F /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		496EC49B245AA7EE00CE2F8F /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		496EC49C245AA7F900CE2F8F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		496EC49D245AA80100CE2F8F /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		496EC49E245AA83600CE2F8F /* GroupWithoutFolder */ = {
+			isa = PBXGroup;
+			children = (
+				496EC49F245AA83A00CE2F8F /* Presenter */,
+				496EC4A0245AA84200CE2F8F /* Interactor */,
+				496EC4A1245AA84800CE2F8F /* Repository */,
+				496EC4A2245AA84D00CE2F8F /* Coordinator */,
+			);
+			name = GroupWithoutFolder;
+			sourceTree = "<group>";
+		};
+		496EC49F245AA83A00CE2F8F /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Presenter;
+			sourceTree = "<group>";
+		};
+		496EC4A0245AA84200CE2F8F /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Interactor;
+			sourceTree = "<group>";
+		};
+		496EC4A1245AA84800CE2F8F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Repository;
+			sourceTree = "<group>";
+		};
+		496EC4A2245AA84D00CE2F8F /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Coordinator;
+			sourceTree = "<group>";
+		};
 		49922D8723852054009A9FF6 = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +134,8 @@
 		49922D9223852054009A9FF6 /* MyProject */ = {
 			isa = PBXGroup;
 			children = (
+				496EC49E245AA83600CE2F8F /* GroupWithoutFolder */,
+				496EC499245AA7D700CE2F8F /* GroupWithFolder */,
 				49922D9323852054009A9FF6 /* AppDelegate.swift */,
 				49922D9523852054009A9FF6 /* SceneDelegate.swift */,
 				49922D9723852054009A9FF6 /* ViewController.swift */,
