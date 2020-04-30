@@ -2,8 +2,7 @@ require_relative 'code_templater'
 require 'fileutils'
 
 class FileCreator
-  def initialize(source_path, options = {})
-    @source_path = source_path
+  def initialize(options = {})
     @options = options
   end
 
@@ -17,7 +16,7 @@ class FileCreator
   end
 
   def git_username
-    `cd #{@source_path}; git config user.name`.strip
+    `git config user.name`.strip
   end
 
   def create_file(prefix, suffix, group, target)

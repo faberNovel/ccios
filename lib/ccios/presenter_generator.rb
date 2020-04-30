@@ -12,10 +12,9 @@ class PresenterGenerator
     app_group = @parser.presenter_group
 
     associate_path_to_group = !app_group.path.nil?
-    path = File.join(@parser.source_path, @config.app.presenter.source)
 
     raise "[Error] Group #{presenter_name} already exists in #{app_group.display_name}" if app_group[presenter_name]
-    new_group_path = File.join(path, presenter_name)
+    new_group_path = File.join(app_group.real_path, presenter_name)
     new_group = app_group.new_group(presenter_name, associate_path_to_group ? new_group_path : nil)
 
     ui_group_path = File.join(new_group_path, "UI")
@@ -33,7 +32,7 @@ class PresenterGenerator
     model_group_path = File.join(new_group_path, "Model")
     model_group = new_group.new_group("Model", associate_path_to_group ? model_group_path : nil)
 
-    file_creator = FileCreator.new(path, options)
+    file_creator = FileCreator.new(options)
     target = @parser.app_target
     file_creator.create_file(presenter_name, 'ViewContract', ui_group, target)
     file_creator.create_file(presenter_name, 'ViewController', view_controller_group, target)
