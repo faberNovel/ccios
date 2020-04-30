@@ -2,6 +2,15 @@ require_relative 'code_templater'
 require 'fileutils'
 
 class FileCreator
+
+  def self.logger
+    @@logger ||= create_logger
+  end
+
+  def logger
+    FileCreator.logger
+  end
+
   def initialize(options = {})
     @options = options
   end
@@ -51,8 +60,16 @@ class FileCreator
     code_templater = CodeTemplater.new(@options)
     template = code_templater.content_for_suffix(prefix, suffix)
 
-    puts "Add this snippet to #{file_name}"
-    puts template
-    puts "\n"
+    logger.info "Add this snippet to #{file_name}"
+    logger.info template
+  end
+
+  private
+
+  def self.create_logger
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+    logger.formatter = proc { |severity, datetime, progname, msg| msg + "\n" }
+    logger
   end
 end

@@ -11,6 +11,7 @@ require 'xcodeproj'
 class XcodeProjWithoutFolderTest < Minitest::Test
 
   def setup
+    FileCreator.logger.level = Logger::ERROR
     @test_dir = set_up_project_in_temporary_directory
   end
 
