@@ -48,15 +48,15 @@ class PBXProjParser
   end
 
   def app_target
-    app_project.targets.first
+    target_for(app_project, @config.app.target)
   end
 
   def core_target
-    core_project.targets.first
+    target_for(core_project, @config.core.target)
   end
 
   def data_target
-    data_project.targets.first
+    target_for(data_project, @config.data.target)
   end
 
   def save
@@ -74,5 +74,13 @@ class PBXProjParser
       raise "[Error] There is no xcodeproj at path #{module_project_path}"
     end
     @projects[module_project_path] ||= Xcodeproj::Project.open(resolved_module_project_path)
+  end
+
+  def target_for(project, target_name)
+    if target_name.blank?
+      project.targets.find { |t| t.product_type == "com.apple.product-type.application" }
+    else
+      project.targets.find { |t| t.name == target_name }
+    end
   end
 end

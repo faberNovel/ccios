@@ -75,30 +75,33 @@ class Config
 end
 
 class AppConfig
-  attr_reader :project, :presenter, :coordinator
+  attr_reader :project, :target, :presenter, :coordinator
 
   def initialize(hash)
     @project = hash["project"]
+    @target = hash["target"]
     @presenter = ObjectConfig.new hash["presenter"]
     @coordinator = ObjectConfig.new hash["coordinator"]
   end
 end
 
 class CoreConfig
-  attr_reader :project, :interactor, :repository
+  attr_reader :project, :target, :interactor, :repository
 
   def initialize(hash)
     @project = hash["project"]
+    @target = hash["target"]
     @interactor = ObjectConfig.new hash["interactor"]
     @repository = ObjectConfig.new hash["repository"]
   end
 end
 
 class DataConfig
-  attr_reader :project, :repository
+  attr_reader :project, :target, :repository
 
   def initialize(hash)
     @project = hash["project"]
+    @target = hash["target"]
     @repository = ObjectConfig.new hash["repository"]
   end
 end
