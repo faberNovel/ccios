@@ -1,5 +1,6 @@
-container.register(TestRepository.self) { r in
+container.register(TestRepository.self) { _ in
     TestRepositoryImplementation(
 
     )
-}.inObjectScope(.container)
+}
+.inObjectScope(.container)
