@@ -104,7 +104,8 @@ The following structure is created for you in the Xcode project:
 
 ## Configuration
 
-Each project is different. You can configure the paths on disk, and the groups in the xcodeproj for the new files.
+
+Each project is different. You can configure the groups to use in the xcodeproj for the new files.
 
 Create a file `.ccios.yml` at the root of your project.
 
@@ -113,25 +114,20 @@ By default, if no file is present, the following configuration will be used:
 app:
   project: MyProject.xcodeproj
   presenter:
-    source: Classes
     group: Classes/App
   coordinator:
-    source: Classes
     group: Classes/Coordinator
 
 core:
   project: MyProject.xcodeproj
   interactor:
-    source: Classes
     group: Classes/Core/Interactor
   repository:
-    source: Classes
     group: Classes/Core/Data
 
 data:
   project: MyProject.xcodeproj
   repository:
-    source: Classes
     group: Classes/Data
 ```
 
@@ -140,26 +136,23 @@ But you could imagine more complex project structures with multiple xcodeproj:
 app:
   project: MyProject/MyProject.xcodeproj
   presenter:
-    source: MyProject/Classes
     group: Classes/App
   coordinator:
-    source: MyProject/Classes
     group: Classes/Coordinator
 
 core:
   project: MyProjectCore/MyProjectCore.xcodeproj
   interactor:
-    source: MyProjectCore/MyProjectCore/Interactors
     group: MyProjectCore/Interactors
   repository:
-    source: MyProjectCore/MyProjectCore/Repository
     group: MyProjectCore/Repository
 
 data:
   project: MyProjectData/MyProjectData.xcodeproj
   repository:
-    source: MyProjectData/MyProjectData/Sources/Repositories
     group: MyProjectData/Sources/Repositories
 
 ```
+
+*Note*: The path of the new files will be infered from the path of the group. It works with *Group with folder* and *Group without folder* in Xcode.
 
