@@ -47,12 +47,12 @@ class FileCreator
   end
 
   def print_file_content(prefix, suffix)
-    file_path = File.join(@source_path, suffix + '.swift')
+    file_name = suffix + '.swift'
 
     code_templater = CodeTemplater.new(@options)
     template = code_templater.content_for_suffix(prefix, suffix)
 
-    puts "Add this snippet to #{file_path}"
+    puts "Add this snippet to #{file_name}"
     puts template
     puts "\n"
   end
