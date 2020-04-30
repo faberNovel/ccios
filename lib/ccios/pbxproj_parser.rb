@@ -2,49 +2,77 @@ require 'xcodeproj'
 
 class PBXProjParser
 
-  attr_accessor :source_path, :project
+  attr_accessor :source_path
 
-  def initialize(source_path)
+  def initialize(source_path, config)
     @source_path = source_path
-    if project_path.nil?
-      raise "[Error] There is no xcodeproj at path #{@source_path}"
-    end
-    @project = Xcodeproj::Project.open(project_path)
+    @config = config
+    @projects = {}
   end
 
-  def project_path
-    Dir.glob("#{@source_path}/*.xcodeproj").first
+  def app_project
+    project_for(@config.app.project)
   end
 
-  def main_target
-    @project.targets.first
+  def core_project
+    project_for(@config.core.project)
   end
 
-  def classes_group
-    @project.groups.find { |g| g.display_name === "Classes" }
+  def data_project
+    project_for(@config.data.project)
   end
 
-  def app_group
-    classes_group["App"]
-  end
-
-  def core_group
-    classes_group["Core"]
+  def presenter_group
+    path = @config.app.presenter.group
+    app_project[path]
   end
 
   def coordinator_group
-    classes_group["Coordinator"]
+    path = @config.app.coordinator.group
+    app_project[path]
   end
 
   def interactor_group
-    core_group["Interactor"]
+    path = @config.core.interactor.group
+    core_project[path]
   end
 
-  def data_group
-    classes_group["Data"]
+  def repository_core_group
+    path = @config.core.repository.group
+    core_project[path]
+  end
+
+  def repository_data_group
+    path = @config.data.repository.group
+    data_project[path]
+  end
+
+  def app_target
+    app_project.targets.first
+  end
+
+  def core_target
+    core_project.targets.first
+  end
+
+  def data_target
+    data_project.targets.first
   end
 
   def save
-    @project.save
+    app_project.save
+    core_project.save
+    data_project.save
+  end
+
+  private
+
+  def project_for(path)
+    module_project_path = File.join(source_path, path)
+    resolved_module_project_path = Dir.glob(module_project_path).first
+    if !File.exist?(resolved_module_project_path)
+      raise "[Error] There is no xcodeproj at path #{module_project_path}"
+    end
+    @projects[module_project_path] ||= Xcodeproj::Project.open(resolved_module_project_path)
   end
 end

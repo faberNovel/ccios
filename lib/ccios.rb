@@ -6,6 +6,7 @@ require 'ccios/presenter_generator'
 require 'ccios/coordinator_generator'
 require 'ccios/interactor_generator'
 require 'ccios/repository_generator'
+require 'ccios/config'
 
 options = {}
 OptionParser.new do |opts|
@@ -35,31 +36,32 @@ OptionParser.new do |opts|
 end.parse!
 
 source_path = Dir.pwd
-parser = PBXProjParser.new source_path
+config = Config.parse ".ccios.yml"
+parser = PBXProjParser.new(source_path, config)
 
 if options[:presenter]
   presenter_name = options[:presenter]
-  presenter_generator = PresenterGenerator.new parser
+  presenter_generator = PresenterGenerator.new(parser, config)
   generator_options = {generate_delegate: options[:generate_delegate]}
   presenter_generator.generate(presenter_name, generator_options)
 end
 
 if options[:coordinator]
   coordinator_name = options[:coordinator]
-  coordinator_generator = CoordinatorGenerator.new parser
+  coordinator_generator = CoordinatorGenerator.new(parser, config)
   generator_options = {generate_delegate: options[:generate_delegate]}
   coordinator_generator.generate(coordinator_name, generator_options)
 end
 
 if options[:interactor]
   interactor_name = options[:interactor]
-  interactor_generator = InteractorGenerator.new parser
+  interactor_generator = InteractorGenerator.new(parser, config)
   interactor_generator.generate(interactor_name)
 end
 
 if options[:repository]
   repository_name = options[:repository]
-  repository_generator = RepositoryGenerator.new parser
+  repository_generator = RepositoryGenerator.new(parser, config)
   repository_generator.generate(repository_name)
 end
 

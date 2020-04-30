@@ -1,9 +1,17 @@
 require_relative 'code_templater'
+require 'fileutils'
 
 class FileCreator
-  def initialize(source_path, options = {})
-    @source_path = source_path
-    @classes_path = source_path + '/Classes'
+
+  def self.logger
+    @@logger ||= create_logger
+  end
+
+  def logger
+    FileCreator.logger
+  end
+
+  def initialize(options = {})
     @options = options
   end
 
@@ -17,13 +25,15 @@ class FileCreator
   end
 
   def git_username
-    `cd #{@source_path}; git config user.name`.strip
+    `git config user.name`.strip
   end
 
   def create_file(prefix, suffix, group, target)
-    file_path = @classes_path + '/' + prefix + suffix + '.swift'
+    file_path = File.join(group.real_path, prefix + suffix + '.swift')
 
-    raise "File #{file_path} already exists" if File.exists?(file_path)
+    raise "File #{file_path} already exists" if File.exist?(file_path)
+    dirname = File.dirname(file_path)
+    FileUtils.mkdir_p dirname unless File.directory?(dirname)
     file = File.new(file_path, 'w')
 
     templater_options = templater_options(target)
@@ -36,14 +46,30 @@ class FileCreator
     target.add_file_references([file_ref])
   end
 
+  def create_empty_directory(group)
+    dirname = group.real_path
+    FileUtils.mkdir_p dirname unless File.directory?(dirname)
+
+    git_keep_path = File.join(dirname, ".gitkeep")
+    FileUtils.touch(git_keep_path) if Dir.empty?(dirname)
+  end
+
   def print_file_content(prefix, suffix)
-    file_path = @classes_path + '/' + suffix + '.swift'
+    file_name = suffix + '.swift'
 
     code_templater = CodeTemplater.new(@options)
     template = code_templater.content_for_suffix(prefix, suffix)
 
-    puts "Add this snippet to #{file_path}"
-    puts template
-    puts "\n"
+    logger.info "Add this snippet to #{file_name}"
+    logger.info template
+  end
+
+  private
+
+  def self.create_logger
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+    logger.formatter = proc { |severity, datetime, progname, msg| msg + "\n" }
+    logger
   end
 end

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol TestCoordinatorDelegate: class {
+protocol TestCoordinatorDelegate: AnyObject {
 
 }
 

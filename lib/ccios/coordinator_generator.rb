@@ -3,14 +3,15 @@ require_relative "pbxproj_parser"
 
 class CoordinatorGenerator
 
-  def initialize(parser)
+  def initialize(parser, config)
     @parser = parser
+    @config = config
   end
 
   def generate(coordinator_name, options = {})
     coordinator_group = @parser.coordinator_group
-    file_creator = FileCreator.new(@parser.source_path, options)
-    target = @parser.main_target
+    file_creator = FileCreator.new(options)
+    target = @parser.app_target
     file_creator.create_file(coordinator_name, 'Coordinator', coordinator_group, target)
   end
 end

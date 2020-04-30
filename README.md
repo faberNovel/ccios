@@ -101,3 +101,58 @@ The following structure is created for you in the Xcode project:
 +-- Coordinator/
 |   +-- ExampleCoordinator
 ```
+
+## Configuration
+
+
+Each project is different. You can configure the groups to use in the xcodeproj for the new files.
+
+Create a file `.ccios.yml` at the root of your project.
+
+By default, if no file is present, the following configuration will be used:
+```
+app:
+  project: MyProject.xcodeproj
+  presenter:
+    group: Classes/App
+  coordinator:
+    group: Classes/Coordinator
+
+core:
+  project: MyProject.xcodeproj
+  interactor:
+    group: Classes/Core/Interactor
+  repository:
+    group: Classes/Core/Data
+
+data:
+  project: MyProject.xcodeproj
+  repository:
+    group: Classes/Data
+```
+
+But you could imagine more complex project structures with multiple xcodeproj:
+```
+app:
+  project: MyProject/MyProject.xcodeproj
+  presenter:
+    group: Classes/App
+  coordinator:
+    group: Classes/Coordinator
+
+core:
+  project: MyProjectCore/MyProjectCore.xcodeproj
+  interactor:
+    group: MyProjectCore/Interactors
+  repository:
+    group: MyProjectCore/Repository
+
+data:
+  project: MyProjectData/MyProjectData.xcodeproj
+  repository:
+    group: MyProjectData/Sources/Repositories
+
+```
+
+*Note*: The path of the new files will be infered from the path of the group. It works with *Group with folder* and *Group without folder* in Xcode.
+
