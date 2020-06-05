@@ -121,7 +121,7 @@ GEM
       thread_safe (~> 0.1)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
     xcodeproj (1.16.0)
       CFPropertyList (>= 2.3.3, < 4.0)
       atomos (~> 0.1.3)
