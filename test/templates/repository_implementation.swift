@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import Core
 
 public class TestRepositoryImplementation: TestRepository {
 
