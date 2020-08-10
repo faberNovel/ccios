@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 `ADUtils` adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+## [3.0.0]
+
+### Fixed
+- Use `ApplicationDependencyProvider` in Coordinator
+  - Updated by [Denis Poifol](https://github.com/denisPoifol) in Pull Request [#10](https://github.com/felginep/ccios/pull/10)
+
 ## [2.3.1]
 
 ### Fixed
