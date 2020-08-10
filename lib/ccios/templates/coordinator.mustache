@@ -19,10 +19,13 @@ class {{name}}Coordinator: Coordinator {
     {{#generate_delegate}}
     weak var delegate: {{name}}CoordinatorDelegate?
     {{/generate_delegate}}
+    private let dependencyProvider: ApplicationDependencyProvider
     private let navigationController: UINavigationController
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController,
+         dependencyProvider: ApplicationDependencyProvider) {
         self.navigationController = navigationController
+        self.dependencyProvider = dependencyProvider
     }
 
     // MARK: - Public
