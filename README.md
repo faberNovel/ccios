@@ -14,7 +14,7 @@ gem install ./ccios-x.x.x.gem
 ```
 
 To run the tests run:
-```rake test```
+```bundle exec rake test```
 
 # How to use
 
