@@ -8,4 +8,4 @@ clean:
 	rm -f ccios-*.gem
 
 tests:
-	rake test
+	bundle exec rake test

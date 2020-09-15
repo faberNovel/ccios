@@ -1,7 +1,7 @@
 require 'date'
 require 'xcodeproj'
 require 'optparse'
-require 'rails' # for underscore method used in code_templater.rb
+require 'active_support'
 require 'ccios/presenter_generator'
 require 'ccios/coordinator_generator'
 require 'ccios/interactor_generator'

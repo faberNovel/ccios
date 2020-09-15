@@ -1,5 +1,5 @@
 require 'mustache'
-require 'rails'
+require 'active_support/core_ext/string'
 
 class CodeTemplater
   def initialize(options = {})
