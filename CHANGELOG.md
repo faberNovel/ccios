@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [4.0.0]
+
+### Added
+- Use `ADCoordinator` dependency in coordinator files
+
+### Fixed
+- Use `active_support` instead of `rails` dependency
+- Add dev dependencies
+
 ## [3.0.0]
 
 ### Fixed
