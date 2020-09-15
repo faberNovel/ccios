@@ -1,5 +1,6 @@
 require_relative 'code_templater'
 require 'fileutils'
+require 'logger'
 
 class FileCreator
 

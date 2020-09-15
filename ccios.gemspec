@@ -11,7 +11,10 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.homepage    = 'http://rubygems.org/gems/hola'
   s.license     = 'MIT'
+  s.add_dependency 'activesupport', '> 4'
   s.add_dependency 'xcodeproj', '~> 1.4'
-  s.add_dependency 'rails', '~> 5.1'
   s.add_dependency "mustache", "~> 1.0"
+
+  s.add_development_dependency 'rake', '~> 12.3'
+  s.add_development_dependency 'minitest', '~> 5.11'
 end
