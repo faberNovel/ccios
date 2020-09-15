@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ADCoordinator
 
 {{#generate_delegate}}
 protocol {{name}}CoordinatorDelegate: AnyObject {
@@ -20,7 +21,7 @@ class {{name}}Coordinator: Coordinator {
     weak var delegate: {{name}}CoordinatorDelegate?
     {{/generate_delegate}}
     private let dependencyProvider: ApplicationDependencyProvider
-    private let navigationController: UINavigationController
+    private unowned var navigationController: UINavigationController
 
     init(navigationController: UINavigationController,
          dependencyProvider: ApplicationDependencyProvider) {
@@ -31,6 +32,8 @@ class {{name}}Coordinator: Coordinator {
     // MARK: - Public
 
     func start() {
-
+        let viewController = UIViewController()
+        navigationController.pushViewController(viewController, animated: false)
+        bindToLifecycle(of: viewController)
     }
 }

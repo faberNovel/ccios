@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import ADCoordinator
 
 class TestCoordinator: Coordinator {
 
     private let dependencyProvider: ApplicationDependencyProvider
-    private let navigationController: UINavigationController
+    private unowned var navigationController: UINavigationController
 
     init(navigationController: UINavigationController,
          dependencyProvider: ApplicationDependencyProvider) {
@@ -22,6 +23,8 @@ class TestCoordinator: Coordinator {
     // MARK: - Public
 
     func start() {
-
+        let viewController = UIViewController()
+        navigationController.pushViewController(viewController, animated: false)
+        bindToLifecycle(of: viewController)
     }
 }
