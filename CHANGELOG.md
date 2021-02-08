@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [4.0.1]
+
+### Fixed
+
+- Do not generate new groups with name if using folder references
+
 ## [4.0.0]
 
 ### Added
