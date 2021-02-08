@@ -15,22 +15,46 @@ class PresenterGenerator
 
     raise "[Error] Group #{presenter_name} already exists in #{app_group.display_name}" if app_group[presenter_name]
     new_group_path = File.join(app_group.real_path, presenter_name)
-    new_group = app_group.new_group(presenter_name, associate_path_to_group ? new_group_path : nil)
+    new_group = app_group.pf_new_group(
+      associate_path_to_group: associate_path_to_group,
+      name: presenter_name,
+      path: new_group_path
+    )
 
     ui_group_path = File.join(new_group_path, "UI")
-    ui_group = new_group.new_group("UI", associate_path_to_group ? ui_group_path : nil)
+    ui_group = new_group.pf_new_group(
+      associate_path_to_group: associate_path_to_group,
+      name: "UI",
+      path: ui_group_path
+    )
 
     view_group_path = File.join(ui_group_path, "View")
-    view_group = ui_group.new_group("View", associate_path_to_group ? view_group_path : nil)
+    view_group = ui_group.pf_new_group(
+      associate_path_to_group: associate_path_to_group,
+      name: "View",
+      path: view_group_path
+    )
 
     view_controller_group_path = File.join(ui_group_path, "ViewController")
-    view_controller_group = ui_group.new_group("ViewController", associate_path_to_group ? view_controller_group_path : nil)
+    view_controller_group = ui_group.pf_new_group(
+      associate_path_to_group: associate_path_to_group,
+      name: "ViewController",
+      path: view_controller_group_path
+    )
 
     presenter_group_path = File.join(new_group_path, "Presenter")
-    presenter_group = new_group.new_group("Presenter", associate_path_to_group ? presenter_group_path : nil)
+    presenter_group = new_group.pf_new_group(
+      associate_path_to_group: associate_path_to_group,
+      name: "Presenter",
+      path: presenter_group_path
+    )
 
     model_group_path = File.join(new_group_path, "Model")
-    model_group = new_group.new_group("Model", associate_path_to_group ? model_group_path : nil)
+    model_group = new_group.pf_new_group(
+      associate_path_to_group: associate_path_to_group,
+      name: "Model",
+      path: model_group_path
+    )
 
     file_creator = FileCreator.new(options)
     target = @parser.app_target
