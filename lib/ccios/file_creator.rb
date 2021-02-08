@@ -2,6 +2,18 @@ require_relative 'code_templater'
 require 'fileutils'
 require 'logger'
 
+class Xcodeproj::Project::Object::PBXGroup
+
+  def pf_new_group(associate_path_to_group:, name:, path:)
+    # When using "Group with folder" we only provide a path
+    # When using "Group without folder" we only provide a name
+    new_group(
+      associate_path_to_group ? nil : name,
+      associate_path_to_group ? path : nil
+    )
+  end
+end
+
 class FileCreator
 
   def self.logger

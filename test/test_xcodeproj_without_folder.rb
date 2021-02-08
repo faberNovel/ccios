@@ -102,6 +102,8 @@ class XcodeProjWithoutFolderTest < Minitest::Test
       generator = generator_class.new(parser, config)
       generator.generate(name)
 
+      assert_group_and_subgroups_have_no_path(group)
+
       expected_files.each do |file_name|
         base_name = File.basename(file_name)
         expected_path = File.join(@test_dir, source_path, base_name)
@@ -110,6 +112,16 @@ class XcodeProjWithoutFolderTest < Minitest::Test
         refute_nil group[file_name], "Group #{file_name} should exist"
       end
     end
+  end
+
+  def assert_group_and_subgroups_have_no_path(group)
+    subgroups = group.children.select { |o| o.isa == "PBXGroup" }
+    subgroups.each { |subgroup|
+      refute_nil subgroup.name
+      assert_nil subgroup.path
+      # recursively test children
+      assert_group_and_subgroups_have_no_path subgroup
+    }
   end
 
   def set_up_project_in_temporary_directory
