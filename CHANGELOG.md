@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [4.0.2]
+
+### Fixed
+
+- Do not duplicate suffix if already present in the command name
+
 ## [4.0.1]
 
 ### Fixed
