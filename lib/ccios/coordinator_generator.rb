@@ -12,6 +12,7 @@ class CoordinatorGenerator
     coordinator_group = @parser.coordinator_group
     file_creator = FileCreator.new(options)
     target = @parser.app_target
+    coordinator_name = coordinator_name.gsub("Coordinator", "")
     file_creator.create_file(coordinator_name, 'Coordinator', coordinator_group, target)
   end
 end
