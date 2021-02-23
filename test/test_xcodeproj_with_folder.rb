@@ -19,64 +19,84 @@ class XcodeProjWithFolderTest < Minitest::Test
     FileUtils.remove_entry(@test_dir)
   end
 
-  def test_coordinator_folders
-    generate_and_assert(
-      xcodeproj_group: Proc.new { |parser| parser.coordinator_group },
-      source_path: "MyProject/GroupWithFolder/Coordinator",
-      generator_class: CoordinatorGenerator,
-      name: "Cotest",
-      expected_files: ["CotestCoordinator.swift"]
-    )
+  [false, true].each do |use_suffix|
+    method_suffix = use_suffix ? "_with_suffix" : ""
+    name = use_suffix ? "CotestCoordinator" : "Cotest"
+    define_method "test_coordinator_folders#{method_suffix}" do
+      generate_and_assert(
+        xcodeproj_group: Proc.new { |parser| parser.coordinator_group },
+        source_path: "MyProject/GroupWithFolder/Coordinator",
+        generator_class: CoordinatorGenerator,
+        name: name,
+        expected_files: ["CotestCoordinator.swift"]
+      )
+    end
   end
 
-  def test_interactor_folders
-    generate_and_assert(
-      xcodeproj_group: Proc.new { |parser| parser.interactor_group },
-      source_path: "MyProject/GroupWithFolder/Interactor",
-      generator_class: InteractorGenerator,
-      name: "Intest",
-      expected_files: [
-        "IntestInteractor/IntestInteractor.swift",
-        "IntestInteractor/IntestInteractorImplementation.swift"
-      ]
-    )
+  [false, true].each do |use_suffix|
+    method_suffix = use_suffix ? "_with_suffix" : ""
+    name = use_suffix ? "IntestInteractor" : "Intest"
+    define_method "test_interactor_folders#{method_suffix}" do
+      generate_and_assert(
+        xcodeproj_group: Proc.new { |parser| parser.interactor_group },
+        source_path: "MyProject/GroupWithFolder/Interactor",
+        generator_class: InteractorGenerator,
+        name: name,
+        expected_files: [
+          "IntestInteractor/IntestInteractor.swift",
+          "IntestInteractor/IntestInteractorImplementation.swift"
+        ]
+      )
+    end
   end
 
-  def test_presenter_folders
-    generate_and_assert(
-      xcodeproj_group: Proc.new { |parser| parser.presenter_group },
-      source_path: "MyProject/GroupWithFolder/Presenter",
-      generator_class: PresenterGenerator,
-      name: "Pretest",
-      expected_files: [
-        "Pretest/UI/View",
-        "Pretest/UI/ViewController/PretestViewController.swift",
-        "Pretest/UI/PretestViewContract.swift",
-        "Pretest/Presenter/PretestPresenter.swift",
-        "Pretest/Presenter/PretestPresenterImplementation.swift",
-        "Pretest/Model"
-      ]
-    )
+  [false, true].each do |use_suffix|
+    method_suffix = use_suffix ? "_with_suffix" : ""
+    name = use_suffix ? "PretestPresenter" : "Pretest"
+    define_method "test_presenter_folders#{method_suffix}" do
+      generate_and_assert(
+        xcodeproj_group: Proc.new { |parser| parser.presenter_group },
+        source_path: "MyProject/GroupWithFolder/Presenter",
+        generator_class: PresenterGenerator,
+        name: name,
+        expected_files: [
+          "Pretest/UI/View",
+          "Pretest/UI/ViewController/PretestViewController.swift",
+          "Pretest/UI/PretestViewContract.swift",
+          "Pretest/Presenter/PretestPresenter.swift",
+          "Pretest/Presenter/PretestPresenterImplementation.swift",
+          "Pretest/Model"
+        ]
+      )
+    end
   end
 
-  def test_repository_data_folders
-    generate_and_assert(
-      xcodeproj_group: Proc.new { |parser| parser.repository_data_group },
-      source_path: "MyProject/GroupWithFolder/Repository",
-      generator_class: RepositoryGenerator,
-      name: "Retest",
-      expected_files: ["Retest/RetestRepositoryImplementation.swift"]
-    )
+  [false, true].each do |use_suffix|
+    method_suffix = use_suffix ? "_with_suffix" : ""
+    name = use_suffix ? "RetestRepository" : "Retest"
+    define_method "test_repository_data_folders#{method_suffix}" do
+      generate_and_assert(
+        xcodeproj_group: Proc.new { |parser| parser.repository_data_group },
+        source_path: "MyProject/GroupWithFolder/Repository",
+        generator_class: RepositoryGenerator,
+        name: name,
+        expected_files: ["Retest/RetestRepositoryImplementation.swift"]
+      )
+    end
   end
 
-  def test_repository_core_folders
-    generate_and_assert(
-      xcodeproj_group: Proc.new { |parser| parser.repository_core_group },
-      source_path: "MyProject/GroupWithFolder/Interactor",
-      generator_class: RepositoryGenerator,
-      name: "Retest",
-      expected_files: ["Retest/RetestRepository.swift"]
-    )
+  [false, true].each do |use_suffix|
+    method_suffix = use_suffix ? "_with_suffix" : ""
+    name = use_suffix ? "RetestRepository" : "Retest"
+    define_method "test_repository_core_folders#{method_suffix}" do
+      generate_and_assert(
+        xcodeproj_group: Proc.new { |parser| parser.repository_core_group },
+        source_path: "MyProject/GroupWithFolder/Interactor",
+        generator_class: RepositoryGenerator,
+        name: name,
+        expected_files: ["Retest/RetestRepository.swift"]
+      )
+    end
   end
 
   private

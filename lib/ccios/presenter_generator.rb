@@ -10,7 +10,7 @@ class PresenterGenerator
 
   def generate(presenter_name, options = {})
     app_group = @parser.presenter_group
-
+    presenter_name = presenter_name.gsub("Presenter", "")
     associate_path_to_group = !app_group.path.nil?
 
     raise "[Error] Group #{presenter_name} already exists in #{app_group.display_name}" if app_group[presenter_name]

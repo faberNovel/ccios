@@ -10,6 +10,7 @@ class InteractorGenerator
 
   def generate(interactor_name, options = {})
     interactor_group = @parser.interactor_group
+    interactor_name = interactor_name.gsub("Interactor", "")
     new_group_name = "#{interactor_name}Interactor"
 
     associate_path_to_group = !interactor_group.path.nil?

@@ -11,6 +11,7 @@ class RepositoryGenerator
   def generate(repository_name, options = {})
     core_group = @parser.repository_core_group
     data_group = @parser.repository_data_group
+    repository_name = repository_name.gsub("Repository", "")
 
     raise "[Error] Group #{repository_name} already exists in #{core_group.display_name}" if core_group[repository_name]
     associate_path_to_group = !core_group.path.nil?
