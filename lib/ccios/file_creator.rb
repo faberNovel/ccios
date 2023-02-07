@@ -28,9 +28,9 @@ class FileCreator
     @options = options
   end
 
-  def templater_options(target)
+  def templater_options(target_name)
     defaults = {
-      project_name: target.display_name,
+      project_name: target_name,
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
     }
@@ -49,7 +49,7 @@ class FileCreator
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
     file = File.new(file_path, 'w')
 
-    templater_options = templater_options(target)
+    templater_options = templater_options(target.display_name)
     code_templater = CodeTemplater.new(templater_options)
     file_content = code_templater.content_for_suffix(prefix, suffix)
     file.puts(file_content)
@@ -59,12 +59,35 @@ class FileCreator
     target.add_file_references([file_ref])
   end
 
+  def create_file_at_path(prefix, suffix, path, target_name)
+    file_path = File.join(path, prefix + suffix + '.swift')
+
+    raise "File #{file_path} already exists" if File.exist?(file_path)
+    dirname = File.dirname(file_path)
+    FileUtils.mkdir_p dirname unless File.directory?(dirname)
+    file = File.new(file_path, 'w')
+
+    templater_options = templater_options(target_name)
+    code_templater = CodeTemplater.new(templater_options)
+    file_content = code_templater.content_for_suffix(prefix, suffix)
+    file.puts(file_content)
+
+    file.close
+  end
+
   def create_empty_directory(group)
     dirname = group.real_path
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
 
     git_keep_path = File.join(dirname, ".gitkeep")
     FileUtils.touch(git_keep_path) if Dir.empty?(dirname)
+  end
+
+  def create_empty_directory_at_path(path)
+    FileUtils.mkdir_p path unless File.directory?(path)
+
+    git_keep_path = File.join(path, ".gitkeep")
+    FileUtils.touch(git_keep_path) if Dir.empty?(path)
   end
 
   def print_file_content(prefix, suffix)

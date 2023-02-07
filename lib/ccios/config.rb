@@ -109,8 +109,10 @@ end
 class ObjectConfig
 
   attr_reader :group
+  attr_reader :path
 
   def initialize(hash)
     @group = hash["group"]
+    @path = hash["path"]
   end
 end

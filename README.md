@@ -1,12 +1,15 @@
 # ccios
+
 Xcode File Generator for Clean Code architecture
 
 # How to install
+
 ```
 gem install ccios
 ```
 
 To build it from source:
+
 ```
 cd ccios
 gem build ccios.gemspec
@@ -14,7 +17,7 @@ gem install ./ccios-x.x.x.gem
 ```
 
 To run the tests run:
-```bundle exec rake test```
+`bundle exec rake test`
 
 # How to use
 
@@ -28,6 +31,7 @@ ccios [-p|-i|-r|-c] Example [-d]
 Generated templates can be found [here](https://github.com/felginep/ccios/tree/master/lib/ccios/templates)
 
 ### `-p`
+
 `-p` stands for `presenter`
 
 This generates 4 files: `ExampleViewController`, `ExampleViewContract`, `ExamplePresenter`, `ExamplePresenterImplementation`. If the `-d` option is supplied the protocol `ExamplePresenterDelegate` will be generated.
@@ -52,6 +56,7 @@ The following structure is created for you in the Xcode project:
 ```
 
 ### `-i`
+
 `-i` stands for `interactor`
 
 This generates 2 files: `ExampleInteractor` and `ExampleInteractorImplementation`.
@@ -70,6 +75,7 @@ The following structure is created for you in the Xcode project:
 ```
 
 ### `-r`
+
 `-r` stands for `repository`
 
 This generates 2 files: `ExampleRepository` and `ExampleRepositoryImplementation`.
@@ -90,6 +96,7 @@ The following structure is created for you in the Xcode project:
 ```
 
 ### `-c`
+
 `-c` stands for `coordinator`
 
 This generates one file: `ExampleCoordinator`. If the `-d` option is supplied the protocol `ExampleCoordinatorDelegate` will be generated.
@@ -104,12 +111,12 @@ The following structure is created for you in the Xcode project:
 
 ## Configuration
 
-
 Each project is different. You can configure the groups to use in the xcodeproj for the new files.
 
 Create a file `.ccios.yml` at the root of your project.
 
 By default, if no file is present, the following configuration will be used:
+
 ```
 app:
   project: MyProject.xcodeproj
@@ -132,6 +139,7 @@ data:
 ```
 
 But you could imagine more complex project structures with multiple xcodeproj:
+
 ```
 app:
   project: MyProject/MyProject.xcodeproj
@@ -153,9 +161,8 @@ data:
   project: MyProjectData/MyProjectData.xcodeproj
   target: MyProjectData # optional
   repository:
-    group: MyProjectData/Sources/Repositories
+    path: path/to/myPackage # will not create groups if `path` is provided
 
 ```
 
-*Note*: The path of the new files will be infered from the path of the group. It works with *Group with folder* and *Group without folder* in Xcode.
-
+_Note_: The path of the new files will be infered from the path of the group. It works with _Group with folder_ and _Group without folder_ in Xcode.

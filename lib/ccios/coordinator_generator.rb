@@ -9,10 +9,14 @@ class CoordinatorGenerator
   end
 
   def generate(coordinator_name, options = {})
-    coordinator_group = @parser.coordinator_group
     file_creator = FileCreator.new(options)
-    target = @parser.app_target
     coordinator_name = coordinator_name.gsub("Coordinator", "")
-    file_creator.create_file(coordinator_name, 'Coordinator', coordinator_group, target)
+    if @parser.coordinator_path
+      file_creator.create_file_at_path(coordinator_name, 'Coordinator', @parser.coordinator_path, @config.app.target)
+    else
+      coordinator_group = @parser.coordinator_group
+      target = @parser.app_target
+      file_creator.create_file(coordinator_name, 'Coordinator', coordinator_group, target)
+    end
   end
 end

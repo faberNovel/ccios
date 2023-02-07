@@ -28,9 +28,21 @@ class PBXProjParser
     app_project[path]
   end
 
+  def presenter_path
+    @config.app.presenter.path
+  end
+
   def coordinator_group
     path = @config.app.coordinator.group
     app_project[path]
+  end
+
+  def coordinator_path
+    @config.app.coordinator.path
+  end
+
+  def interactor_path
+    @config.core.interactor.path
   end
 
   def interactor_group
@@ -41,6 +53,14 @@ class PBXProjParser
   def repository_core_group
     path = @config.core.repository.group
     core_project[path]
+  end
+
+  def repository_core_path
+    @config.core.repository.path
+  end
+
+  def repository_data_path
+    @config.data.repository.path
   end
 
   def repository_data_group
