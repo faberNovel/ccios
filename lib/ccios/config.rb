@@ -2,7 +2,7 @@ require 'yaml'
 
 class Config
 
-  attr_reader :app, :core, :data
+  attr_reader :app, :core, :data, :templates
 
   def self.parse(source_path)
     if File.exist?(source_path)
@@ -30,12 +30,17 @@ class Config
       "data" => {
         "project" => project,
         "repository" => {"group" => "Classes/Data"}
-      }
+      },
+      "templates" => self.default_templates_hash
     }
   end
 
   def self.default
     self.new default_config_hash
+  end
+
+  def self.default_templates_hash
+    { "path" => File.join(File.dirname(__FILE__), "templates") }
   end
 
   def initialize(config_hash, source_path = nil)
@@ -44,6 +49,11 @@ class Config
     @app = AppConfig.new config_hash["app"]
     @core = CoreConfig.new config_hash["core"]
     @data = DataConfig.new config_hash["data"]
+    if config_hash["templates"].nil?
+      @templates = TemplatesConfig.new Config.default_templates_hash
+    else
+      @templates = TemplatesConfig.new config_hash["templates"]
+    end
   end
 
   def validate(hash)
@@ -107,10 +117,17 @@ class DataConfig
 end
 
 class ObjectConfig
-
   attr_reader :group
 
   def initialize(hash)
     @group = hash["group"]
+  end
+end
+
+class TemplatesConfig
+  attr_reader :path
+
+  def initialize(hash)
+    @path = hash["path"]
   end
 end

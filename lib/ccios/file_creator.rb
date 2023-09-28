@@ -24,8 +24,9 @@ class FileCreator
     FileCreator.logger
   end
 
-  def initialize(options = {})
+  def initialize(options = {}, config)
     @options = options
+    @config = config
   end
 
   def templater_options(target)
@@ -50,7 +51,7 @@ class FileCreator
     file = File.new(file_path, 'w')
 
     templater_options = templater_options(target)
-    code_templater = CodeTemplater.new(templater_options)
+    code_templater = CodeTemplater.new(templater_options, @config.templates.path)
     file_content = code_templater.content_for_suffix(prefix, suffix)
     file.puts(file_content)
 
@@ -70,7 +71,7 @@ class FileCreator
   def print_file_content(prefix, suffix)
     file_name = suffix + '.swift'
 
-    code_templater = CodeTemplater.new(@options)
+    code_templater = CodeTemplater.new(@options, @config.templates.path)
     template = code_templater.content_for_suffix(prefix, suffix)
 
     logger.info "Add this snippet to #{file_name}"

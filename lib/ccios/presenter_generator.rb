@@ -56,7 +56,7 @@ class PresenterGenerator
       path: model_group_path
     )
 
-    file_creator = FileCreator.new(options)
+    file_creator = FileCreator.new(options, @config)
     target = @parser.app_target
     file_creator.create_file(presenter_name, 'ViewContract', ui_group, target)
     file_creator.create_file(presenter_name, 'ViewController', view_controller_group, target)

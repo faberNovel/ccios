@@ -23,7 +23,7 @@ class InteractorGenerator
       path: new_group_path
     )
 
-    file_creator = FileCreator.new(options)
+    file_creator = FileCreator.new(options, @config)
     target = @parser.core_target
     file_creator.create_file(interactor_name, 'Interactor', new_group, target)
     file_creator.create_file(interactor_name, 'InteractorImplementation', new_group, target)
