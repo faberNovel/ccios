@@ -9,7 +9,7 @@ class Config
       config = YAML.load_file(source_path)
       self.new config, source_path
     else
-      puts "File #{source_path} does not exists. Using default config."
+      puts "File #{source_path} does not exist. Using default config."
       self.default
     end
   end
