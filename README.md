@@ -154,8 +154,14 @@ data:
   target: MyProjectData # optional
   repository:
     group: MyProjectData/Sources/Repositories
-
 ```
 
 *Note*: The path of the new files will be infered from the path of the group. It works with *Group with folder* and *Group without folder* in Xcode.
+
+And lastly you may want to use your own templates, by adding this parameter to the file:
+```
+templates:
+  path: Path/To/Users/Templates
+```
+
 
