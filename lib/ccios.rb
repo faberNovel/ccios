@@ -14,20 +14,20 @@ OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
     options[:verbose] = v
   end
-  opts.on("-pName", "--presenter=Name", "Generate NamePresenter, NamePresenterImplementation, NameViewContract and NameViewController") do |v|
-    options[:presenter] = v
+  opts.on("-pName", "--presenter=Name", "Generate NamePresenter, NamePresenterImplementation, NameViewContract and NameViewController") do |name|
+    options[:presenter] = name
   end
-  opts.on("-cName", "--coordinator=Name", "Generate NameCoordinator") do |v|
-    options[:coordinator] = v
+  opts.on("-cName", "--coordinator=Name", "Generate NameCoordinator") do |name|
+    options[:coordinator] = name
   end
-  opts.on("-iName", "--interactor=Name", "Generate NameInteractor and NameInteractorImplementation") do |v|
-    options[:interactor] = v
+  opts.on("-iName", "--interactor=Name", "Generate NameInteractor and NameInteractorImplementation") do |name|
+    options[:interactor] = name
   end
-  opts.on("-rName", "--repository=Name", "Generate NameRepository and NameRepositoryImplementation") do |v|
-    options[:repository] = v
+  opts.on("-rName", "--repository=Name", "Generate NameRepository and NameRepositoryImplementation") do |name|
+    options[:repository] = name
   end
-  opts.on("-d", "--delegate", "Add delegate for curent generation") do |v|
-    options[:generate_delegate] = v
+  opts.on("-d", "--delegate", "Add delegate for curent generation") do |add_delegate|
+    options[:generate_delegate] = add_delegate
   end
   opts.on("-h", "--help", "Print this help") do
     puts opts
