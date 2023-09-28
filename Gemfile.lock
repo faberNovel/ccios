@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ccios (4.0.2)
+    ccios (4.1.0)
       activesupport (> 4)
       mustache (~> 1.0)
       xcodeproj (~> 1.4)
@@ -22,7 +22,7 @@ GEM
     concurrent-ruby (1.1.8)
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
-    minitest (5.14.2)
+    minitest (5.20.0)
     mustache (1.1.1)
     nanaimo (0.3.0)
     rake (12.3.3)
@@ -45,4 +45,4 @@ DEPENDENCIES
   rake (~> 12.3)
 
 BUNDLED WITH
-   1.17.3
+   2.4.10
