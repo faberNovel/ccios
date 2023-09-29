@@ -1,0 +1,23 @@
+//
+//  {{name}}ViewController.swift
+//  {{project_name}}
+//
+//  Created by {{full_username}} on {{date}}.
+//
+//
+
+import Foundation
+import UIKit
+
+@MainActor
+class {{name}}ViewController: SharedViewController, {{name}}ViewContract {
+    var presenter: {{name}}Presenter?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        presenter?.start()
+    }
+
+    // MARK: - {{name}}ViewContract
+
+}

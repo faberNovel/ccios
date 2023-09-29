@@ -1,0 +1,35 @@
+//
+//  {{name}}PresenterImplementation.swift
+//  {{project_name}}
+//
+//  Created by {{full_username}} on {{date}}.
+//
+//
+
+import Foundation
+
+class {{name}}PresenterImplementation: {{name}}Presenter {
+
+    private weak var viewContract: {{name}}ViewContract?
+    {{#generate_delegate}}
+    private weak var delegate: {{name}}PresenterDelegate?
+    {{/generate_delegate}}
+
+    {{#generate_delegate}}
+    nonisolated init(viewContract: {{name}}ViewContract, delegate: {{name}}PresenterDelegate) {
+        self.viewContract = viewContract
+        self.delegate = delegate
+    }
+    {{/generate_delegate}}
+    {{^generate_delegate}}
+    nonisolated init(viewContract: {{name}}ViewContract) {
+        self.viewContract = viewContract
+    }
+    {{/generate_delegate}}
+
+    // MARK: - {{name}}Presenter
+
+    func start() {
+
+    }
+}
