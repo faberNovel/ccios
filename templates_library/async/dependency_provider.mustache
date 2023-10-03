@@ -1,0 +1,14 @@
+{{#generate_delegate}}
+func {{lowercased_name}}Presenter(viewContract: {{name}}ViewContract, presenterDelegate: {{name}}PresenterDelegate) -> {{name}}Presenter? {
+    return presenterAssembler
+        .resolver
+        .resolve({{name}}Presenter.self, arguments: viewContract, presenterDelegate)
+}
+{{/generate_delegate}}
+{{^generate_delegate}}
+func {{lowercased_name}}Presenter(viewContract: {{name}}ViewContract) -> {{name}}Presenter? {
+    return presenterAssembler
+        .resolver
+        .resolve({{name}}Presenter.self, argument: viewContract)
+}
+{{/generate_delegate}}

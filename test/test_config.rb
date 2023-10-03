@@ -9,13 +9,24 @@ class ConfigTest < Minitest::Test
     assert_config_is_ok config
   end
 
-  def test_file_config
+  def test_file_config_no_templates
     Tempfile.create do |f|
-      f << file_config_content
+      f << file_config_content_no_templates
       f.rewind
 
       config = Config.parse f.path
       assert_config_is_ok config
+    end
+  end
+
+  def test_file_config_with_templates
+    Tempfile.create do |f|
+      f << file_config_content_with_templates
+      f.rewind
+
+      config = Config.parse f.path
+      assert_config_is_ok config
+      assert_equal config.templates.path, "ccios/templates"
     end
   end
 
@@ -45,9 +56,11 @@ class ConfigTest < Minitest::Test
 
     refute_nil config.data.project
     refute_nil config.data.repository.group
+
+    refute_nil config.templates.path
   end
 
-  def file_config_content
+  def file_config_content_no_templates
     <<-eos
 app:
   project: MyProject.xcodeproj
@@ -67,6 +80,32 @@ data:
   project: MyProject.xcodeproj
   repository:
     group: Classes/Data
+eos
+  end
+
+  def file_config_content_with_templates
+    <<-eos
+app:
+  project: MyProject.xcodeproj
+  presenter:
+    group: Classes/App
+  coordinator:
+    group: Classes/Coordinator
+
+core:
+  project: MyProject.xcodeproj
+  interactor:
+    group: Classes/Core/Interactor
+  repository:
+    group: Classes/Core/Data
+
+data:
+  project: MyProject.xcodeproj
+  repository:
+    group: Classes/Data
+
+templates:
+  path: ccios/templates
 eos
   end
 end

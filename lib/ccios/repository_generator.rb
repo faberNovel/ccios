@@ -31,11 +31,11 @@ class RepositoryGenerator
       path: data_new_group_path
     )
 
-    file_creator = FileCreator.new(options)
+    file_creator = FileCreator.new(options, @config)
     core_target = @parser.core_target
     file_creator.create_file(repository_name, 'Repository', core_data_new_group, core_target)
 
-    file_creator = FileCreator.new(options)
+    file_creator = FileCreator.new(options, @config)
     data_target = @parser.data_target
     file_creator.create_file(repository_name, 'RepositoryImplementation', data_new_group, data_target)
 

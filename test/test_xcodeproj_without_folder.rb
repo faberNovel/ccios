@@ -87,11 +87,9 @@ class XcodeProjWithoutFolderTest < Minitest::Test
       io.puts ccios_yml_without_folders_content
     end
 
-    Kernel.silence_warnings do # xcodeproj emit lots of warnings during `rake test` and not in irb
-      config = Config.parse yml_path
-      parser = PBXProjParser.new(@test_dir, config)
-      yield(config, parser)
-    end
+    config = Config.parse yml_path
+    parser = PBXProjParser.new(@test_dir, config)
+    yield(config, parser)
   end
 
   def generate_and_assert(xcodeproj_group:, source_path:, generator_class:, name:, expected_files:)

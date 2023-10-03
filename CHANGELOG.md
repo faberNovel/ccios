@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [4.1.0]
+
+### Added
+- Allow user to overload templates with local version thanks to the new config parameter in `.ccios.yml`
+
 ## [4.0.2]
 
 ### Fixed

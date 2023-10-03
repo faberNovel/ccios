@@ -1,0 +1,21 @@
+//
+//  {{name}}Presenter.swift
+//  {{project_name}}
+//
+//  Created by {{full_username}} on {{date}}.
+//
+//
+
+import Foundation
+
+@MainActor
+protocol {{name}}Presenter {
+    func start()
+}
+{{#generate_delegate}}
+
+@MainActor
+protocol {{name}}PresenterDelegate: AnyObject {
+
+}
+{{/generate_delegate}}
