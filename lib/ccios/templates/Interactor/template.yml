@@ -5,6 +5,7 @@ parameters:
 variables:
   project: "*.xcodeproj"
   base_path: "Core/Interactor"
+  target: ""
 generated_elements:
   - name: "interactor"
     file: "{{ name }}Interactor/{{ name }}Interactor.swift"

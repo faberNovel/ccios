@@ -7,7 +7,6 @@ class GroupTemplateDefinition
     @name = group_template_definition_hash["name"]
     @path = group_template_definition_hash["group"]
     @template = group_template_definition_hash["path"]
-    @target = group_template_definition_hash["target"]
     @variables = group_template_definition_hash["variables"] || {}
   end
 

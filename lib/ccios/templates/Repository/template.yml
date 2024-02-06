@@ -4,6 +4,7 @@ parameters:
   - argument: "name"
 variables:
   project: "*.xcodeproj"
+  target: ""
 generated_elements:
   - name: "repository"
     file: "{{ name }}/{{ name }}Repository.swift"

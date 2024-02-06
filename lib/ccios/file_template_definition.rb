@@ -7,7 +7,6 @@ class FileTemplateDefinition
     @name = file_template_definition_hash["name"]
     @path = file_template_definition_hash["file"]
     @template = file_template_definition_hash["template"]
-    @target = file_template_definition_hash["target"]
     @variables = file_template_definition_hash["variables"] || {}
   end
 
@@ -37,8 +36,9 @@ class FileTemplateDefinition
     base_group = project[base_path]
     raise "Base path \"#{base_path}\" is missing" if base_group.nil?
 
-    target = parser.target_for(project, @target)
-    raise "Unable to find target \"#{@target}\"" if target.nil?
+    target_name = merged_variables["target"]
+    target = parser.target_for(project, target_name)
+    raise "Unable to find target \"#{target_name}\"" if target.nil?
   end
 
   def generate(parser, project, context, template_definition, config)
@@ -64,7 +64,8 @@ class FileTemplateDefinition
       )
     end
 
-    target = parser.target_for(project, @target)
+    target_name = merged_variables["target"]
+    target = parser.target_for(project, target_name)
     FileCreator.new.create_file_using_template_path(
       template_definition.template_source_file(@template),
       generated_filename,
