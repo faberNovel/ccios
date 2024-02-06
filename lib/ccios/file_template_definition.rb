@@ -4,6 +4,7 @@ require_relative 'pbxproj_parser'
 
 class FileTemplateDefinition
   def initialize(file_template_definition_hash)
+    @name = file_template_definition_hash["name"]
     @path = file_template_definition_hash["file"]
     @template = file_template_definition_hash["template"]
     @target = file_template_definition_hash["target"]
@@ -11,8 +12,8 @@ class FileTemplateDefinition
   end
 
   def validate(parser, project, context, template_definition, config)
-    merged_variables = template_definition.variables.merged(@variables)
-    merged_variables = merged_variables.merge(config.variables)
+
+    merged_variables = config.variables_for_template_element(template_definition, @name, @variables)
 
     code_templater = CodeTemplater.new
     expected_context_keys = template_definition.provided_context_keys
@@ -41,8 +42,7 @@ class FileTemplateDefinition
   end
 
   def generate(parser, project, context, template_definition, config)
-    merged_variables = template_definition.variables.merged(@variables)
-    merged_variables = merged_variables.merge(config.variables)
+    merged_variables = config.variables_for_template_element(template_definition, @name, @variables)
 
     base_path = merged_variables["base_path"]
     base_group = project[base_path]

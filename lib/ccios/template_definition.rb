@@ -53,7 +53,7 @@ class TemplateDefinition
     raise "Error: missing name in template" if @name.nil?
     raise "Error: invalid template name" unless @name.is_a? String
 
-    merged_variables = @variables.merge(config.variables)
+    merged_variables = config.variables_for_template(self)
     project_path = merged_variables["project"]
 
     project = parser.project_for(project_path)
@@ -87,7 +87,7 @@ class TemplateDefinition
     # interactor_name = "SampleInteractor"
     # interactor_name = interactor_name.gsub("Interactor", "")
 
-    merged_variables = @variables.merge(config.variables)
+    merged_variables = config.variables_for_template(self)
     project_path = merged_variables["project"]
 
     project = parser.project_for project_path

@@ -6,10 +6,12 @@ variables:
   project: "*.xcodeproj"
   base_path: "Core/Interactor"
 generated_elements:
-  - file: "{{ name }}Interactor/{{ name }}Interactor.swift"
+  - name: "interactor"
+    file: "{{ name }}Interactor/{{ name }}Interactor.swift"
     template: "interactor"
     variables: {}
-  - file: "{{ name }}Interactor/{{ name }}InteractorImplementation.swift"
+  - name: "interactor_implementation"
+    file: "{{ name }}Interactor/{{ name }}InteractorImplementation.swift"
     template: "interactor_implementation"
     variables: {}
 code_snippets:

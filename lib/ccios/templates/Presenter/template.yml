@@ -10,21 +10,27 @@ variables:
   project: "*.xcodeproj"
   base_path: "App"
 generated_elements:
-  - group: "{{ name }}/UI/View"
+  - name: "ui_view_group"
+    group: "{{ name }}/UI/View"
     variables: {}
-  - file: "{{ name }}/UI/ViewController/{{ name }}ViewController.swift"
+  - name: "view_controller"
+    file: "{{ name }}/UI/ViewController/{{ name }}ViewController.swift"
     template: "viewController"
     variables: {}
-  - file: "{{ name }}/UI/{{ name }}ViewContract.swift"
+  - name: "view_contract"
+    file: "{{ name }}/UI/{{ name }}ViewContract.swift"
     template: "viewContract"
     variables: {}
-  - file: "{{ name }}/Presenter/{{ name }}Presenter.swift"
+  - name: "presenter"
+    file: "{{ name }}/Presenter/{{ name }}Presenter.swift"
     template: "presenter"
     variables: {}
-  - file: "{{ name }}/Presenter/{{ name }}PresenterImplementation.swift"
+  - name: "presenter_implementation"
+    file: "{{ name }}/Presenter/{{ name }}PresenterImplementation.swift"
     template: "presenterImplementation"
     variables: {}
-  - group: "{{ name }}/Model"
+  - name: "model_group"
+    group: "{{ name }}/Model"
     variables: {}
 code_snippets:
   - name: DependencyProvider

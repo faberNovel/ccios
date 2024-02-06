@@ -4,6 +4,7 @@ require_relative 'pbxproj_parser'
 
 class GroupTemplateDefinition
   def initialize(group_template_definition_hash)
+    @name = group_template_definition_hash["name"]
     @path = group_template_definition_hash["group"]
     @template = group_template_definition_hash["path"]
     @target = group_template_definition_hash["target"]
@@ -11,8 +12,7 @@ class GroupTemplateDefinition
   end
 
   def validate(parser, project, context, template_definition, config)
-    merged_variables = template_definition.variables.merged(@variables)
-    merged_variables = merged_variables.merge(config.variables)
+    merged_variables = config.variables_for_template_element(template_definition, @name, @variables)
 
     code_templater = CodeTemplater.new
     pathTags = code_templater.get_unknown_context_keys_for_string(@path)
@@ -28,8 +28,7 @@ class GroupTemplateDefinition
   end
 
   def generate(parser, project, context, template_definition, config)
-    merged_variables = template_definition.variables.merged(@variables)
-    merged_variables = merged_variables.merge(config.variables)
+    merged_variables = config.variables_for_template_element(template_definition, @name, @variables)
 
     base_path = merged_variables["base_path"]
     base_group = project[base_path]

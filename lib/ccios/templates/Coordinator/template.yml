@@ -10,7 +10,8 @@ parameters:
     template_variable_name: "generate_delegate"
     description: "Generate delegate protocols when provided"
 generated_elements:
-  - file: "{{ name }}Coordinator.swift"
+  - name: "coordinator"
+    file: "{{ name }}Coordinator.swift"
     template: "coordinator"
     variables: {}
 template_file_source:

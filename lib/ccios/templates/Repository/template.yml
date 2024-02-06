@@ -5,11 +5,13 @@ parameters:
 variables:
   project: "*.xcodeproj"
 generated_elements:
-  - file: "{{ name }}/{{ name }}Repository.swift"
+  - name: "repository"
+    file: "{{ name }}/{{ name }}Repository.swift"
     template: "repository"
     variables:
       base_path: "Core/Data"
-  - file: "{{ name }}/{{ name }}RepositoryImplementation.swift"
+  - name: "repository_implementation"
+    file: "{{ name }}/{{ name }}RepositoryImplementation.swift"
     template: "repository_implementation"
     variables:
       base_path: "Data"
