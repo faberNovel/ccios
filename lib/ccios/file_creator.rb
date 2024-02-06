@@ -43,7 +43,7 @@ class FileCreator
     tags
   end
 
-  def create_file_using_template_path(template_path, generated_filename, group, target, context)
+  def create_file_using_template_path(template_path, generated_filename, group, targets, context)
     file_path = File.join(group.real_path, generated_filename)
 
     raise "File #{file_path} already exists" if File.exist?(file_path)
@@ -51,14 +51,16 @@ class FileCreator
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
     file = File.new(file_path, 'w')
 
-    context = context.merge(templater_options(target))
+    context = context.merge(templater_options(targets[0]))
     file_content = CodeTemplater.new.render_file_content_from_template(template_path, generated_filename, context)
 
     file.puts(file_content)
 
     file.close
     file_ref = group.new_reference(file_path)
-    target.add_file_references([file_ref])
+    targets.each do |target|
+      target.add_file_references([file_ref])
+    end
   end
 
   def print_file_content_using_template(filename, template_path, context)

@@ -37,8 +37,18 @@ class FileTemplateDefinition
     raise "Base path \"#{base_path}\" is missing" if base_group.nil?
 
     target_name = merged_variables["target"]
-    target = parser.target_for(project, target_name)
-    raise "Unable to find target \"#{target_name}\"" if target.nil?
+    if target_name.is_a?(String)
+      target = parser.target_for(project, target_name)
+      raise "Unable to find target \"#{target_name}\"" if target.nil?
+    elsif target_name.is_a?(Array)
+      target_name.each do |target_name|
+        target = parser.target_for(project, target_name)
+        raise "Unable to find target \"#{target_name}\"" if target.nil?
+      end
+    else
+      raise "Invalid target in template #{@name}"
+    end
+
   end
 
   def generate(parser, project, context, template_definition, config)
@@ -65,12 +75,19 @@ class FileTemplateDefinition
     end
 
     target_name = merged_variables["target"]
-    target = parser.target_for(project, target_name)
+
+    targets = []
+    if target_name.is_a?(String)
+      targets = [parser.target_for(project, target_name)]
+    elsif target_name.is_a?(Array)
+      targets = target_name.map { |name| parser.target_for(project, name) }
+    end
+
     FileCreator.new.create_file_using_template_path(
       template_definition.template_source_file(@template),
       generated_filename,
       group,
-      target,
+      targets,
       context
     )
   end
