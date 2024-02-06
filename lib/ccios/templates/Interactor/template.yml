@@ -1,8 +1,9 @@
 name: "interactor"
 description: "Generate NameInteractor and NameInteractorImplementation"
-project: "*.xcodeproj"
 parameters:
   - argument: "name"
+variables:
+  project: "*.xcodeproj"
 generated_elements:
   - file: "{{ name }}Interactor/{{ name }}Interactor.swift"
     base_path: "Core/Interactor"

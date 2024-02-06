@@ -1,8 +1,9 @@
 name: "repository"
 description: "Generate NameRepository and NameRepositoryImplementation"
-project: "*.xcodeproj"
 parameters:
   - argument: "name"
+variables:
+  project: "*.xcodeproj"
 generated_elements:
   - file: "{{ name }}/{{ name }}Repository.swift"
     base_path: "Core/Data"

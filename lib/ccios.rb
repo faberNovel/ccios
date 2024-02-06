@@ -92,7 +92,7 @@ end
 # TODO: use template.project
 parser = PBXProjParser.new(source_path, config)
 
-template.validate(parser, options)
-template.generate(parser, options)
+template.validate(parser, options, config)
+template.generate(parser, options, config)
 
 parser.save

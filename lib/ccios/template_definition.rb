@@ -28,7 +28,7 @@ class TemplateDefinition
     @template_path = template_path
 
     @name = template_definition_hash["name"]
-    @project_path = template_definition_hash["project"] || "*.xcodeproj"
+    @variables = template_definition_hash["variables"] || {}
 
     @parameters = template_definition_hash["parameters"].map { |hash|
       next ArgumentTemplateParameter.new(hash) unless hash["argument"].nil?
@@ -48,13 +48,16 @@ class TemplateDefinition
     @template_file_source = template_definition_hash["template_file_source"] || {}
   end
 
-  def validate(parser, options)
+  def validate(parser, options, config)
 
     raise "Error: missing name in template" if @name.nil?
     raise "Error: invalid template name" unless @name.is_a? String
 
-    project = parser.project_for(@project_path)
-    raise "Error: Unable to find project \"#{@project_path}\"" if project.nil?
+    merged_variables = @variables.merge(config.variables)
+    project_path = merged_variables["project"]
+
+    project = parser.project_for(project_path)
+    raise "Error: Unable to find project \"#{project_path}\"" if project.nil?
 
     @template_file_source.each do |file_template_name, path|
       raise "Missing template source file for \"#{file_template_name}\"" unless File.exist?(self.template_source_file(file_template_name))
@@ -78,13 +81,16 @@ class TemplateDefinition
     @parameters.map { |p| p.template_variable_name }.to_set
   end
 
-  def generate(parser, options)
+  def generate(parser, options, config)
 
     # TODO: Reimplement suffix strip ?
     # interactor_name = "SampleInteractor"
     # interactor_name = interactor_name.gsub("Interactor", "")
 
-    project = parser.project_for @project_path
+    merged_variables = @variables.merge(config.variables)
+    project_path = merged_variables["project"]
+
+    project = parser.project_for project_path
 
     @generated_elements.each do |element|
       element.generate(parser, project, options, self)
