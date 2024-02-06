@@ -17,7 +17,7 @@ class CodeTemplater
 
   def render_file_content_from_template(template_path, filename, context)
     filename = File.basename(filename, File.extname(filename))
-    context = context.merge({name: filename, lowercased_name: filename.camelize(:lower)})
+    context = context.merge({filename: filename, lowercased_filename: filename.camelize(:lower)})
     Mustache.render(File.read(template_path), context)
   end
 
@@ -26,7 +26,7 @@ class CodeTemplater
     templateView.template_file = template_path
     tags = (templateView.template.tags || [])
     tags = tags.map { |t| t.split(".")[-1] }.to_set
-    tags.subtract(Set["name", "lowercased_name"])
+    tags.subtract(Set["filename", "lowercased_filename"])
     tags
   end
 end
