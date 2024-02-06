@@ -2,7 +2,7 @@ require 'yaml'
 
 class Config
 
-  attr_reader :variables
+  attr_reader :variables, :templates_collection
 
   def self.parse(source_path)
     if File.exist?(source_path)
@@ -24,7 +24,10 @@ class Config
 
   def initialize(config_hash, source_path = nil)
     @variables = config_hash["variables"] || {}
+    @templates_collection = config_hash["templates_collection"] || nil
     @templates_config = {}
+
+    raise "Invalid \"templates_collection\" in config, should be a string" unless @templates_collection.is_a?(String) || @templates_collection.nil?
 
     templates_config = config_hash["templates_config"] || {}
     raise "Invalid \"templates_config\" in configuration, it should be a dictionary" unless templates_config.is_a?(Hash)

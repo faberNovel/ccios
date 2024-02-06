@@ -14,13 +14,23 @@ default_templates = Dir.children(default_template_folder)
     .select { |path| File.directory? path }
     .map { |template_path| TemplateDefinition.parse(template_path) }
     .compact
+custom_templates = []
+if !config.templates_collection.nil?
+    custom_templates = Dir.children(config.templates_collection)
+    .map { |name| File.join(config.templates_collection, name) }
+    .select { |path| File.directory? path }
+    .map { |template_path| TemplateDefinition.parse(template_path) }
+    .compact
+end
 
 templates = {}
 subcommands = {}
 
 options = {}
 
-default_templates.each do |template|
+all_templates = default_templates + custom_templates
+
+all_templates.each do |template|
   templates[template.name] = template
   subcommands[template.name] = OptionParser.new do |opts|
 
