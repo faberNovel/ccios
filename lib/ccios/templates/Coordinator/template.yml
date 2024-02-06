@@ -2,6 +2,7 @@ name: "coordinator"
 description: "Generate NameCoordinator"
 variables:
   project: "*.xcodeproj"
+  base_path: "Coordinator"
 parameters:
   - argument: "name"
   - flag: "delegate"
@@ -10,7 +11,7 @@ parameters:
     description: "Generate delegate protocols when provided"
 generated_elements:
   - file: "{{ name }}Coordinator.swift"
-    base_path: "Coordinator"
     template: "coordinator"
+    variables: {}
 template_file_source:
   coordinator: "coordinator.mustache"

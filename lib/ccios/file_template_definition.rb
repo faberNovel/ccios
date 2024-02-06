@@ -4,13 +4,16 @@ require_relative 'pbxproj_parser'
 
 class FileTemplateDefinition
   def initialize(file_template_definition_hash)
-    @base_path = file_template_definition_hash["base_path"]
     @path = file_template_definition_hash["file"]
     @template = file_template_definition_hash["template"]
     @target = file_template_definition_hash["target"]
+    @variables = file_template_definition_hash["variables"] || {}
   end
 
-  def validate(parser, project, context, template_definition)
+  def validate(parser, project, context, template_definition, config)
+    merged_variables = template_definition.variables.merged(@variables)
+    merged_variables = merged_variables.merge(config.variables)
+
     code_templater = CodeTemplater.new
     expected_context_keys = template_definition.provided_context_keys
     pathTags = code_templater.get_unknown_context_keys_for_string(@path)
@@ -27,15 +30,22 @@ class FileTemplateDefinition
       raise "Unknown parameter \"#{tag}\" in template \"#{@template}\"" unless expected_context_keys.include?(tag)
     end
 
-    base_group = project[@base_path]
-    raise "Base path \"#{@base_path}\" is missing" if base_group.nil?
+    base_path = merged_variables["base_path"]
+    raise "Missing base_path variable" if base_path.nil?
+
+    base_group = project[base_path]
+    raise "Base path \"#{base_path}\" is missing" if base_group.nil?
 
     target = parser.target_for(project, @target)
     raise "Unable to find target \"#{@target}\"" if target.nil?
   end
 
-  def generate(parser, project, context, template_definition)
-    base_group = project[@base_path]
+  def generate(parser, project, context, template_definition, config)
+    merged_variables = template_definition.variables.merged(@variables)
+    merged_variables = merged_variables.merge(config.variables)
+
+    base_path = merged_variables["base_path"]
+    base_group = project[base_path]
     file_path = CodeTemplater.new.render_string(@path, context)
 
     intermediates_groups = file_path.split("/")[0...-1]

@@ -10,7 +10,7 @@ require_relative 'snippet_template_definition'
 
 class TemplateDefinition
 
-  attr_reader :name, :template_path, :template_file_source, :parameters
+  attr_reader :name, :template_path, :template_file_source, :parameters, :variables
 
   def self.parse(template_path)
     template_definition = File.join(template_path, 'template.yml')
@@ -64,7 +64,7 @@ class TemplateDefinition
     end
 
     @generated_elements.each do |generated_element|
-      generated_element.validate(parser, project, options, self)
+      generated_element.validate(parser, project, options, self, config)
     end
 
     @snippets.each do |snippet|
@@ -93,7 +93,7 @@ class TemplateDefinition
     project = parser.project_for project_path
 
     @generated_elements.each do |element|
-      element.generate(parser, project, options, self)
+      element.generate(parser, project, options, self, config)
     end
 
     @snippets.each do |snippet|

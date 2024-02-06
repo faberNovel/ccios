@@ -4,13 +4,14 @@ parameters:
   - argument: "name"
 variables:
   project: "*.xcodeproj"
+  base_path: "Core/Interactor"
 generated_elements:
   - file: "{{ name }}Interactor/{{ name }}Interactor.swift"
-    base_path: "Core/Interactor"
     template: "interactor"
+    variables: {}
   - file: "{{ name }}Interactor/{{ name }}InteractorImplementation.swift"
-    base_path: "Core/Interactor"
     template: "interactor_implementation"
+    variables: {}
 code_snippets:
   - name: InteractorAssembly
     template: "interactor_assembly"

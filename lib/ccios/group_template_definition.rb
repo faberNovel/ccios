@@ -4,25 +4,35 @@ require_relative 'pbxproj_parser'
 
 class GroupTemplateDefinition
   def initialize(group_template_definition_hash)
-    @base_path = group_template_definition_hash["base_path"]
     @path = group_template_definition_hash["group"]
     @template = group_template_definition_hash["path"]
     @target = group_template_definition_hash["target"]
+    @variables = group_template_definition_hash["variables"] || {}
   end
 
-  def validate(parser, project, context, template_definition)
+  def validate(parser, project, context, template_definition, config)
+    merged_variables = template_definition.variables.merged(@variables)
+    merged_variables = merged_variables.merge(config.variables)
+
     code_templater = CodeTemplater.new
     pathTags = code_templater.get_unknown_context_keys_for_string(@path)
     pathTags.each do |tag|
       raise "Unknown parameter \"#{tag}\" in path \"#{@path}\"" if context[tag].nil?
     end
 
-    base_group = project[@base_path]
-    raise "Base path \"#{@base_path}\" is missing" if base_group.nil?
+    base_path = merged_variables["base_path"]
+    raise "Missing base_path variable" if base_path.nil?
+
+    base_group = project[base_path]
+    raise "Base path \"#{base_path}\" is missing" if base_group.nil?
   end
 
-  def generate(parser, project, context, template_definition)
-    base_group = project[@base_path]
+  def generate(parser, project, context, template_definition, config)
+    merged_variables = template_definition.variables.merged(@variables)
+    merged_variables = merged_variables.merge(config.variables)
+
+    base_path = merged_variables["base_path"]
+    base_group = project[base_path]
     group_path = CodeTemplater.new.render_string(@path, context)
 
     group_path = group_path.split("/")

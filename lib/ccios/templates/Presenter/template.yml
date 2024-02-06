@@ -8,23 +8,24 @@ parameters:
     description: "Generate delegate protocols when provided"
 variables:
   project: "*.xcodeproj"
+  base_path: "App"
 generated_elements:
   - group: "{{ name }}/UI/View"
-    base_path: "App"
+    variables: {}
   - file: "{{ name }}/UI/ViewController/{{ name }}ViewController.swift"
-    base_path: "App"
     template: "viewController"
+    variables: {}
   - file: "{{ name }}/UI/{{ name }}ViewContract.swift"
-    base_path: "App"
     template: "viewContract"
+    variables: {}
   - file: "{{ name }}/Presenter/{{ name }}Presenter.swift"
-    base_path: "App"
     template: "presenter"
+    variables: {}
   - file: "{{ name }}/Presenter/{{ name }}PresenterImplementation.swift"
-    base_path: "App"
     template: "presenterImplementation"
+    variables: {}
   - group: "{{ name }}/Model"
-    base_path: "App"
+    variables: {}
 code_snippets:
   - name: DependencyProvider
     template: "dependency_provider"

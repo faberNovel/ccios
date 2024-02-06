@@ -6,11 +6,13 @@ variables:
   project: "*.xcodeproj"
 generated_elements:
   - file: "{{ name }}/{{ name }}Repository.swift"
-    base_path: "Core/Data"
     template: "repository"
+    variables:
+      base_path: "Core/Data"
   - file: "{{ name }}/{{ name }}RepositoryImplementation.swift"
-    base_path: "Data"
     template: "repository_implementation"
+    variables:
+      base_path: "Data"
 code_snippets:
   - name: RepositoryAssembly
     template: "repository_assembly"
