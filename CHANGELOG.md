@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+This release is an entire rewrite of the templating system, allowing customization of template and settings.
+
+### Added
+
+- New templating system that allow definition of custom templates per project
+- A template can now declare multiple CLI arguments and flags
+- Generated files can be added to multiple targets
+- The base_path group and target nan be configured independently for each generated file if needed.
+- Add validation that each variable present in a mustache file is provided by the template. The default provided variables are: `filename`, `lowercase_filename`, `project_name`, `full_username` and `date`
+- List of known templates is available using `ccios --help`
+
+### Removed
+
+- There is no longer an automatic suffix removal from the argument passed in the CLI. Example: `ccios presenter ExamplePresenter` will generate a file named: `ExamplePresenterPresenter`
+
+### Changed
+
+- Default templates has been migrated to the new format
+- Configuration file (`.ccios`) format has been changed
+- Command line invocation has changed:
+    - `ccios -p Example [-d]` is now `ccios presenter Example [-d]`
+    - `ccios -c Example [-d]` is now `ccios coordinator Example [-d]`
+    - `ccios -i Example [-d]` is now `ccios interactor Example`
+    - `ccios -r Example [-d]` is now `ccios repository Example`
+- Some default provided mustache variables has been renamed:
+    - `name` is now `filename`
+    - `lowercased_name` is now `lowercased_filename`
+
 ## [4.1.0]
 
 ### Added
