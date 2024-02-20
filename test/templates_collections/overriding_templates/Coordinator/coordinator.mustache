@@ -1,0 +1,39 @@
+//
+//  {{name}}Coordinator.swift
+//  {{project_name}}
+//
+//  Created by {{full_username}} on {{date}}.
+//
+//
+
+import Foundation
+import ADCoordinator
+
+{{#generate_delegate}}
+protocol {{name}}CoordinatorDelegate: AnyObject {
+
+}
+
+{{/generate_delegate}}
+class {{name}}Coordinator: Coordinator {
+
+    {{#generate_delegate}}
+    weak var delegate: {{name}}CoordinatorDelegate?
+    {{/generate_delegate}}
+    private let dependencyProvider: ApplicationDependencyProvider
+    private unowned var navigationController: UINavigationController
+
+    init(navigationController: UINavigationController,
+         dependencyProvider: ApplicationDependencyProvider) {
+        self.navigationController = navigationController
+        self.dependencyProvider = dependencyProvider
+    }
+
+    // MARK: - Public
+
+    func start() {
+        let viewController = UIViewController()
+        navigationController.pushViewController(viewController, animated: false)
+        bindToLifecycle(of: viewController)
+    }
+}

@@ -1,0 +1,18 @@
+name: "coordinator"
+description: "My custom Coordinator template"
+variables:
+  project: "*.xcodeproj"
+  base_path: "Coordinator"
+parameters:
+  - argument: "name"
+  - flag: "delegate"
+    short_name: "d"
+    template_variable_name: "generate_delegate"
+    description: "Generate delegate protocols when provided"
+generated_elements:
+  - name: "coordinator"
+    file: "{{ name }}Coordinator.swift"
+    template: "coordinator"
+    variables: {}
+template_file_source:
+  coordinator: "coordinator.mustache"
