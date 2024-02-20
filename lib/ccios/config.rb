@@ -7,6 +7,7 @@ class Config
   def self.parse(source_path)
     if File.exist?(source_path)
       config = YAML.load_file(source_path)
+      raise "Invalid config file" unless config.is_a?(Hash)
       self.new config, source_path
     else
       puts "File #{source_path} does not exist. Using default config."
