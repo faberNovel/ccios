@@ -4,34 +4,17 @@ require 'optparse'
 require 'active_support'
 require 'ccios/config'
 require 'ccios/template_definition'
+require 'ccios/templates_loader'
 
 config = Config.parse ".ccios.yml"
 source_path = Dir.pwd
 
-default_template_folder = File.join(File.dirname(__FILE__), "ccios", "templates")
-default_templates = Dir.children(default_template_folder)
-    .map { |name| File.join(default_template_folder, name) }
-    .select { |path| File.directory? path }
-    .map { |template_path| TemplateDefinition.parse(template_path) }
-    .compact
-custom_templates = []
-if !config.templates_collection.nil?
-    custom_templates = Dir.children(config.templates_collection)
-    .map { |name| File.join(config.templates_collection, name) }
-    .select { |path| File.directory? path }
-    .map { |template_path| TemplateDefinition.parse(template_path) }
-    .compact
-end
+templates = TemplatesLoader.new.get_templates(config)
 
-templates = {}
 subcommands = {}
-
 options = {}
 
-all_templates = default_templates + custom_templates
-
-all_templates.each do |template|
-  templates[template.name] = template
+templates.values.each do |template|
   subcommands[template.name] = OptionParser.new do |opts|
 
     arguments = template.parameters.select { |p| p.is_a?(ArgumentTemplateParameter) }
