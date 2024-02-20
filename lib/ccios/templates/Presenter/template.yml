@@ -36,11 +36,12 @@ generated_elements:
 code_snippets:
   - name: DependencyProvider
     template: "dependency_provider"
-  - name: DependencyProvider
-    template: "dependency_provider"
+  - name: PresenterAssembly
+    template: "presenter_assembly"
 template_file_source:
   viewController: "view_controller.mustache"
   viewContract: "view_contract.mustache"
   presenter: "presenter.mustache"
   presenterImplementation: "presenter_implementation.mustache"
   dependency_provider: "dependency_provider.mustache"
+  presenter_assembly: "presenter_assembly.mustache"
