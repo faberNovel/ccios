@@ -42,9 +42,13 @@ class TemplateDefinition
       next nil
     }.compact
 
+    if template_definition_hash["code_snippets"].nil?
+        @snippets = []
+    else
     @snippets = template_definition_hash["code_snippets"].map { |hash|
       SnippetTemplateDefinition.new(hash)
-    } unless template_definition_hash["code_snippets"].nil?
+    }
+    end
 
     @template_file_source = template_definition_hash["template_file_source"] || {}
   end
