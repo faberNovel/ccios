@@ -8,11 +8,11 @@ This release is an entire rewrite of the templating system, allowing customizati
 
 ### Added
 
-- New templating system that allow definition of custom templates per project
+- New templating system that allows definition of custom templates per project
 - A template can now declare multiple CLI arguments and flags
 - Generated files can be added to multiple targets
-- The base_path group and target nan be configured independently for each generated file if needed.
-- Add validation that each variable present in a mustache file is provided by the template. The default provided variables are: `filename`, `lowercase_filename`, `project_name`, `full_username` and `date`
+- The base_path group and target can be configured independently for each generated file if needed.
+- Add validation that each variable used in a mustache file is provided by the template. The default provided variables are: `filename`, `lowercase_filename`, `project_name`, `full_username` and `date`
 - List of known templates is available using `ccios --help`
 
 ### Removed
