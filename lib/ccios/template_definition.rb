@@ -10,7 +10,7 @@ require_relative 'snippet_template_definition'
 
 class TemplateDefinition
 
-  attr_reader :name, :template_path, :template_file_source, :parameters, :variables
+  attr_reader :name, :description, :template_path, :template_file_source, :parameters, :variables
 
   def self.parse(template_path)
     template_definition = File.join(template_path, 'template.yml')
@@ -28,6 +28,7 @@ class TemplateDefinition
     @template_path = template_path
 
     @name = template_definition_hash["name"]
+    @description = template_definition_hash["description"] || ""
     @variables = template_definition_hash["variables"] || {}
 
     @parameters = template_definition_hash["parameters"].map { |hash|
