@@ -4,22 +4,22 @@ require 'xcodeproj'
 
 class ParserTest < Minitest::Test
 
-  def test_projects_are_equal
+  def test_project_query
     dir = File.join(File.dirname(__FILE__), "project")
     config = Config.default
     parser = PBXProjParser.new(dir, config)
 
-    assert parser.app_project.equal? parser.core_project
-    assert parser.app_project.equal? parser.data_project
+    assert parser.project_for("MyProject.xcodeproj")
   end
 
-  def test_targets_are_equal
+  def test_target_query
     dir = File.join(File.dirname(__FILE__), "project")
     config = Config.default
     parser = PBXProjParser.new(dir, config)
 
-    assert parser.app_target.equal? parser.core_target
-    assert parser.app_target.equal? parser.data_target
+    project = parser.project_for("MyProject.xcodeproj")
+    assert project
+    assert parser.target_for(project, "MyProject")
   end
 
 end
