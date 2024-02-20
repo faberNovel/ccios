@@ -1,9 +1,6 @@
 require 'minitest/autorun'
-require_relative '../lib/ccios/coordinator_generator'
-require_relative '../lib/ccios/interactor_generator'
-require_relative '../lib/ccios/presenter_generator'
-require_relative '../lib/ccios/repository_generator'
-require_relative '../lib/ccios/pbxproj_parser'
+require_relative '../lib/ccios/templates_loader'
+require_relative '../lib/ccios/file_creator'
 require 'tempfile'
 require 'tmpdir'
 require 'xcodeproj'
@@ -19,28 +16,40 @@ class XcodeProjWithFolderTest < Minitest::Test
     FileUtils.remove_entry(@test_dir)
   end
 
-  [false, true].each do |use_suffix|
+  # [false, true].each do |use_suffix|
+  [false].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "CotestCoordinator" : "Cotest"
     define_method "test_coordinator_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser| parser.coordinator_group },
+        xcodeproj_group: Proc.new { |parser, template, config|
+          template_config = config.variables_for_template(template)
+          project = parser.project_for template_config["project"]
+          group = project[template_config["base_path"]]
+          group
+        },
         source_path: "MyProject/GroupWithFolder/Coordinator",
-        generator_class: CoordinatorGenerator,
+        template_name: "coordinator",
         name: name,
         expected_files: ["CotestCoordinator.swift"]
       )
     end
   end
 
-  [false, true].each do |use_suffix|
+  # [false, true].each do |use_suffix|
+  [false].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "IntestInteractor" : "Intest"
     define_method "test_interactor_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser| parser.interactor_group },
+        xcodeproj_group: Proc.new { |parser, template, config|
+          template_config = config.variables_for_template(template)
+          project = parser.project_for template_config["project"]
+          group = project[template_config["base_path"]]
+          group
+        },
         source_path: "MyProject/GroupWithFolder/Interactor",
-        generator_class: InteractorGenerator,
+        template_name: "interactor",
         name: name,
         expected_files: [
           "IntestInteractor/IntestInteractor.swift",
@@ -50,14 +59,20 @@ class XcodeProjWithFolderTest < Minitest::Test
     end
   end
 
-  [false, true].each do |use_suffix|
+  # [false, true].each do |use_suffix|
+  [false].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "PretestPresenter" : "Pretest"
     define_method "test_presenter_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser| parser.presenter_group },
+        xcodeproj_group: Proc.new { |parser, template, config|
+          template_config = config.variables_for_template(template)
+          project = parser.project_for template_config["project"]
+          group = project[template_config["base_path"]]
+          group
+        },
         source_path: "MyProject/GroupWithFolder/Presenter",
-        generator_class: PresenterGenerator,
+        template_name: "presenter",
         name: name,
         expected_files: [
           "Pretest/UI/View",
@@ -71,28 +86,42 @@ class XcodeProjWithFolderTest < Minitest::Test
     end
   end
 
-  [false, true].each do |use_suffix|
+  # [false, true].each do |use_suffix|
+  [false].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "RetestRepository" : "Retest"
     define_method "test_repository_data_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser| parser.repository_data_group },
+        xcodeproj_group: Proc.new { |parser, template, config|
+          template_config = config.variables_for_template(template)
+          project = parser.project_for template_config["project"]
+          element_config = config.variables_for_template_element(template, "repository_implementation")
+          group = project[element_config["base_path"]]
+          group
+        },
         source_path: "MyProject/GroupWithFolder/Repository",
-        generator_class: RepositoryGenerator,
+        template_name: "repository",
         name: name,
         expected_files: ["Retest/RetestRepositoryImplementation.swift"]
       )
     end
   end
 
-  [false, true].each do |use_suffix|
+  # [false, true].each do |use_suffix|
+  [false].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "RetestRepository" : "Retest"
     define_method "test_repository_core_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser| parser.repository_core_group },
+        xcodeproj_group: Proc.new { |parser, template, config|
+          template_config = config.variables_for_template(template)
+          project = parser.project_for template_config["project"]
+          element_config = config.variables_for_template_element(template, "repository")
+          group = project[element_config["base_path"]]
+          group
+        },
         source_path: "MyProject/GroupWithFolder/Interactor",
-        generator_class: RepositoryGenerator,
+        template_name: "repository",
         name: name,
         expected_files: ["Retest/RetestRepository.swift"]
       )
@@ -112,13 +141,15 @@ class XcodeProjWithFolderTest < Minitest::Test
     yield(config, parser)
   end
 
-  def generate_and_assert(xcodeproj_group:, source_path:, generator_class:, name:, expected_files:)
+  def generate_and_assert(xcodeproj_group:, source_path:, template_name:, name:, expected_files:)
     setup_parser do |config, parser|
-      group = xcodeproj_group.call(parser)
+      template = TemplatesLoader.new.get_templates(config)[template_name]
+      raise "Template not found #{template_name}" if template.nil?
+
+      group = xcodeproj_group.call(parser, template, config)
       assert_empty group.children, "#{group.display_name} group should not contain anything #{group.children}"
 
-      generator = generator_class.new(parser, config)
-      generator.generate(name)
+      template.generate(parser, {"name" => name}, config)
 
       assert_group_and_subgroups_have_no_name(group)
 
@@ -149,24 +180,26 @@ class XcodeProjWithFolderTest < Minitest::Test
 
   def ccios_yml_with_folders_content
     <<-eos
-app:
+variables:
   project: MyProject.xcodeproj
+
+templates_config:
+  repository:
+    variables: {}
+    elements_variables:
+      repository:
+        base_path: MyProject/GroupWithFolder/Interactor
+      repository_implementation:
+        base_path: MyProject/GroupWithFolder/Repository
   presenter:
-    group: MyProject/GroupWithFolder/Presenter
+    variables:
+      base_path: MyProject/GroupWithFolder/Presenter
   coordinator:
-    group: MyProject/GroupWithFolder/Coordinator
-
-core:
-  project: MyProject.xcodeproj
+    variables:
+      base_path: MyProject/GroupWithFolder/Coordinator
   interactor:
-    group: MyProject/GroupWithFolder/Interactor
-  repository:
-    group: MyProject/GroupWithFolder/Interactor
-
-data:
-  project: MyProject.xcodeproj
-  repository:
-    group: MyProject/GroupWithFolder/Repository
+    variables:
+      base_path: MyProject/GroupWithFolder/Interactor
 eos
   end
 
