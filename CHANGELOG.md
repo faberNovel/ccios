@@ -15,10 +15,6 @@ This release is an entire rewrite of the templating system, allowing customizati
 - Add validation that each variable used in a mustache file is provided by the template. The default provided variables are: `filename`, `lowercase_filename`, `project_name`, `full_username` and `date`
 - List of known templates is available using `ccios --help`
 
-### Removed
-
-- There is no longer an automatic suffix removal from the argument passed in the CLI. Example: `ccios presenter ExamplePresenter` will generate a file named: `ExamplePresenterPresenter`
-
 ### Changed
 
 - Default templates has been migrated to the new format
