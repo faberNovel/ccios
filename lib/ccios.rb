@@ -82,7 +82,6 @@ if !expected_remaining_arguments.empty?
   exit 1
 end
 
-# TODO: use template.project
 parser = PBXProjParser.new(source_path, config)
 
 template.validate(parser, options, config)
