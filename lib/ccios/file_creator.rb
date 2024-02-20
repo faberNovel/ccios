@@ -1,6 +1,7 @@
 require_relative 'code_templater'
 require 'fileutils'
 require 'logger'
+require 'xcodeproj'
 
 class Xcodeproj::Project::Object::PBXGroup
 
