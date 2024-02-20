@@ -2,6 +2,7 @@ name: "interactor"
 description: "Generate NameInteractor and NameInteractorImplementation"
 parameters:
   - argument: "name"
+    removeSuffix: "Interactor"
 variables:
   project: "*.xcodeproj"
   base_path: "Core/Interactor"

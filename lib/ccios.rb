@@ -74,7 +74,7 @@ subcommands[template_name].order! do |argument|
     puts "Unexpected argument: #{argument}"
     exit 1
   end
-  options[expected_argument.name] = argument
+  options[expected_argument.template_variable_name] = argument
 end
 
 if !expected_remaining_arguments.empty?

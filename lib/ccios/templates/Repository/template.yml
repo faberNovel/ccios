@@ -2,6 +2,7 @@ name: "repository"
 description: "Generate NameRepository and NameRepositoryImplementation"
 parameters:
   - argument: "name"
+    removeSuffix: "Repository"
 variables:
   project: "*.xcodeproj"
   target: ""

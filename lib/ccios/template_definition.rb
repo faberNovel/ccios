@@ -68,6 +68,8 @@ class TemplateDefinition
       raise "Missing template source file for \"#{file_template_name}\"" unless File.exist?(self.template_source_file(file_template_name))
     end
 
+    options = agrument_transformed_options(options)
+
     @generated_elements.each do |generated_element|
       generated_element.validate(parser, project, options, self, config)
     end
@@ -88,9 +90,7 @@ class TemplateDefinition
 
   def generate(parser, options, config)
 
-    # TODO: Reimplement suffix strip ?
-    # interactor_name = "SampleInteractor"
-    # interactor_name = interactor_name.gsub("Interactor", "")
+    options = agrument_transformed_options(options)
 
     merged_variables = config.variables_for_template(self)
     project_path = merged_variables["project"]
@@ -104,6 +104,13 @@ class TemplateDefinition
     @snippets.each do |snippet|
       snippet.generate(options, self)
     end
+  end
+
+  def agrument_transformed_options(options)
+    @parameters.select { |p| p.is_a? ArgumentTemplateParameter }.each do |argument|
+      options[argument.template_variable_name] = argument.transformed_value(options[argument.template_variable_name])
+    end
+    options
   end
 
 end
