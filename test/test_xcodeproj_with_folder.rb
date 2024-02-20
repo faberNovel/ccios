@@ -16,8 +16,7 @@ class XcodeProjWithFolderTest < Minitest::Test
     FileUtils.remove_entry(@test_dir)
   end
 
-  # [false, true].each do |use_suffix|
-  [false].each do |use_suffix|
+  [false, true].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "CotestCoordinator" : "Cotest"
     define_method "test_coordinator_folders#{method_suffix}" do
@@ -36,8 +35,7 @@ class XcodeProjWithFolderTest < Minitest::Test
     end
   end
 
-  # [false, true].each do |use_suffix|
-  [false].each do |use_suffix|
+  [false, true].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "IntestInteractor" : "Intest"
     define_method "test_interactor_folders#{method_suffix}" do
@@ -59,8 +57,7 @@ class XcodeProjWithFolderTest < Minitest::Test
     end
   end
 
-  # [false, true].each do |use_suffix|
-  [false].each do |use_suffix|
+  [false, true].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "PretestPresenter" : "Pretest"
     define_method "test_presenter_folders#{method_suffix}" do
@@ -86,8 +83,7 @@ class XcodeProjWithFolderTest < Minitest::Test
     end
   end
 
-  # [false, true].each do |use_suffix|
-  [false].each do |use_suffix|
+  [false, true].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "RetestRepository" : "Retest"
     define_method "test_repository_data_folders#{method_suffix}" do
@@ -107,8 +103,7 @@ class XcodeProjWithFolderTest < Minitest::Test
     end
   end
 
-  # [false, true].each do |use_suffix|
-  [false].each do |use_suffix|
+  [false, true].each do |use_suffix|
     method_suffix = use_suffix ? "_with_suffix" : ""
     name = use_suffix ? "RetestRepository" : "Retest"
     define_method "test_repository_core_folders#{method_suffix}" do
