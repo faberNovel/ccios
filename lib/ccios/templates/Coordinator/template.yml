@@ -3,6 +3,7 @@ description: "Generate NameCoordinator"
 variables:
   project: "*.xcodeproj"
   base_path: "Coordinator"
+  target: ""
 parameters:
   - argument: "name"
   - flag: "delegate"
