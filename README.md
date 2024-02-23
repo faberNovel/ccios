@@ -205,6 +205,8 @@ parameters:
     description: "name argument description"
     # When present, the argument will be usable in templates under the provided name. [Optional]
     template_variable_name: "in_template_variable_name"
+    # When present, will remove the provided suffix from the argument given. Example "MySuffix" will be tranformed into "My". [Optional]
+    removeSuffix: "Suffix"
     # When present, the lowercased argument will be usable in templates under the provided name. [Optional]
     lowercased_variable_name: "name_of_the_lowercased_variable"
   # Use this to represent a flag parameter in the CLI, the flag will be provided to templates as `true` when present in the executed command.
