@@ -205,6 +205,8 @@ parameters:
     description: "name argument description"
     # When present, the argument will be usable in templates under the provided name. [Optional]
     template_variable_name: "in_template_variable_name"
+    # When present, the lowercased argument will be usable in templates under the provided name. [Optional]
+    lowercased_variable_name: "name_of_the_lowercased_variable"
   # Use this to represent a flag parameter in the CLI, the flag will be provided to templates as `true` when present in the executed command.
   - flag: "long_name"
     # The short name of this flag to use on CLI. [optional]

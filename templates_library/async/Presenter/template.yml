@@ -3,6 +3,7 @@ description: "Generate NamePresenter, NamePresenterImplementation, NameViewContr
 parameters:
   - argument: "name"
     removeSuffix: "Presenter"
+    lowercased_variable_name: "lowercased_name"
   - flag: "delegate"
     short_name: "d"
     template_variable_name: "generate_delegate"

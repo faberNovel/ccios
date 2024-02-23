@@ -85,7 +85,7 @@ class TemplateDefinition
   end
 
   def provided_context_keys
-    @parameters.map { |p| p.template_variable_name }.to_set
+    @parameters.flat_map { |p| p.provided_context_keys }.to_set
   end
 
   def generate(parser, options, config)
@@ -108,7 +108,7 @@ class TemplateDefinition
 
   def agrument_transformed_options(options)
     @parameters.select { |p| p.is_a? ArgumentTemplateParameter }.each do |argument|
-      options[argument.template_variable_name] = argument.transformed_value(options[argument.template_variable_name])
+      options = argument.update_context(options)
     end
     options
   end

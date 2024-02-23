@@ -10,4 +10,8 @@ class FlagTemplateParameter
     raise "Missing flag name" if @name.nil? || @name.empty?
     raise "Invalid flag template_variable_name for #{@name}" if @template_variable_name.nil? || template_variable_name.empty?
   end
+
+  def provided_context_keys
+    [@template_variable_name]
+  end
 end
