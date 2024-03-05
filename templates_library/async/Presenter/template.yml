@@ -18,11 +18,11 @@ generated_elements:
     variables: {}
   - name: "view_controller"
     file: "{{ name }}/UI/ViewController/{{ name }}ViewController.swift"
-    template: "viewController"
+    template: "view_controller"
     variables: {}
   - name: "view_contract"
     file: "{{ name }}/UI/{{ name }}ViewContract.swift"
-    template: "viewContract"
+    template: "view_contract"
     variables: {}
   - name: "presenter"
     file: "{{ name }}/Presenter/{{ name }}Presenter.swift"
@@ -30,7 +30,7 @@ generated_elements:
     variables: {}
   - name: "presenter_implementation"
     file: "{{ name }}/Presenter/{{ name }}PresenterImplementation.swift"
-    template: "presenterImplementation"
+    template: "presenter_implementation"
     variables: {}
   - name: "model_group"
     group: "{{ name }}/Model"
@@ -41,9 +41,9 @@ code_snippets:
   - name: PresenterAssembly
     template: "presenter_assembly"
 template_file_source:
-  viewController: "view_controller.mustache"
-  viewContract: "view_contract.mustache"
+  view_controller: "view_controller.mustache"
+  view_contract: "view_contract.mustache"
   presenter: "presenter.mustache"
-  presenterImplementation: "presenter_implementation.mustache"
+  presenter_implementation: "presenter_implementation.mustache"
   dependency_provider: "dependency_provider.mustache"
   presenter_assembly: "presenter_assembly.mustache"
