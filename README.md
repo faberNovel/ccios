@@ -214,9 +214,9 @@ parameters:
     # The short name of this flag to use on CLI. [optional]
     short_name: "n"
     # Description used in the help command. [Optional]
-    description: "Generate delegate protocols when provided"
+    description: "Description for the long_name flag"
     # When present, the argument will be usable in templates under the provided name. [Optional]
-    template_variable_name: "generate_delegate"
+    template_variable_name: "in_template_flag_name"
 # List of templates variables that is used to generate files in an xcode project. [Optional]
 # Those variables can be overridden in config file, see section "Variable hierarchy" for more informations.
 variables:
