@@ -246,7 +246,10 @@ generated_elements:
       - base_path: "path/override/to/base_group"
 # List of code snippets that will be printed by the CLI after the generation of files. [Optional]
 code_snippets:
-  - name: InteractorAssembly
+    # The name will be used in the printed line "Add this snippet to FilenameInWhichTheSnippetIsExpected" before the generated code snippet.
+    # This name will also be given to the snippet template under the variable `filename` and `lowercased_filename`. [Required]
+  - name: FilenameInWhichTheSnippetIsExpected
+    # The template specifies the name of template that will be used from `template_file_source`. [Required]
     template: "file_snippets"
 # List of templating files used for element generation or code snippets. [Required]
 # The key is used as an identifier in `generated_elements` or `code_snippets`, the value is the path from the template directory.
