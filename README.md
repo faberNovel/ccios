@@ -231,20 +231,20 @@ variables:
 generated_elements:
     # Path from the `base_path` variable where the file will be generated
   - file: "{{ name }}/{{ name }}File.swift"
-    # This name identify this generated file to allow variable overrides in config file. [Required]
+    # This name identifies this generated file to allow variable overrides in config file. [Required]
     name: "file"
-    # The template specify the name of template that will be used from `template_file_source`
+    # The template specifies the name of template that will be used from `template_file_source`
     template: "file"
     # List of default element variable. [Optional]
     variables: {}
     # Path from the `base_path` variable where the directory will be generated
   - group: "{{ name }}/group"
-    # This name identify this generated file to allow variable overrides in config file. [Required]
+    # This name identifies this generated file to allow variable overrides in config file. [Required]
     name: "group"
     # List of default element variable. [Optional]
     variables:
       - base_path: "path/override/to/base_group"
-# List of code snippets that will be printer by the CLI after the generation of files. [Optional]
+# List of code snippets that will be printed by the CLI after the generation of files. [Optional]
 code_snippets:
   - name: InteractorAssembly
     template: "file_snippets"

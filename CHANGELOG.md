@@ -24,7 +24,7 @@ This release is an entire rewrite of the templating system, allowing customizati
     - `ccios -c Example [-d]` is now `ccios coordinator Example [-d]`
     - `ccios -i Example [-d]` is now `ccios interactor Example`
     - `ccios -r Example [-d]` is now `ccios repository Example`
-- Some default provided mustache variables has been renamed:
+- Some default provided mustache variables have been renamed:
     - `name` is now `filename`
     - `lowercased_name` is now `lowercased_filename`
 
