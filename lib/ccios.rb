@@ -22,7 +22,7 @@ templates.values.each do |template|
 
     arguments_line = arguments.map { |argument| "<#{argument.name}>" }.join(" ")
 
-    opts.banner = "Usage: ccios #{template.name} <name> [options]"
+    opts.banner = "Usage: ccios #{template.name} #{arguments_line} [options]"
 
     flags.each do |flagParameter|
       if flagParameter.short_name != nil
