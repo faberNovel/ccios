@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [5.0.0]
+
 This release is an entire rewrite of the templating system, allowing customization of template and settings.
 
 ### Added
