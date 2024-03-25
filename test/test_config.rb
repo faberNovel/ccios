@@ -4,29 +4,13 @@ require 'tempfile'
 
 class ConfigTest < Minitest::Test
 
-  def test_default_config
-    config = Config.default
-    assert_config_is_ok config
-  end
-
-  def test_file_config_no_templates
+  def test_file_config_with_templates_collection
     Tempfile.create do |f|
-      f << file_config_content_no_templates
+      f << file_config_content_templates_collection
       f.rewind
 
       config = Config.parse f.path
-      assert_config_is_ok config
-    end
-  end
-
-  def test_file_config_with_templates
-    Tempfile.create do |f|
-      f << file_config_content_with_templates
-      f.rewind
-
-      config = Config.parse f.path
-      assert_config_is_ok config
-      assert_equal config.templates.path, "ccios/templates"
+      assert_equal config.templates_collection, "ccios/templates"
     end
   end
 
@@ -43,69 +27,31 @@ class ConfigTest < Minitest::Test
 
   private
 
-  def assert_config_is_ok(config)
-    refute_nil config
-
-    refute_nil config.app.project
-    refute_nil config.app.presenter.group
-    refute_nil config.app.coordinator.group
-
-    refute_nil config.core.project
-    refute_nil config.core.interactor.group
-    refute_nil config.core.repository.group
-
-    refute_nil config.data.project
-    refute_nil config.data.repository.group
-
-    refute_nil config.templates.path
-  end
-
-  def file_config_content_no_templates
+  def file_config_content_templates_collection
     <<-eos
-app:
-  project: MyProject.xcodeproj
-  presenter:
-    group: Classes/App
-  coordinator:
-    group: Classes/Coordinator
-
-core:
-  project: MyProject.xcodeproj
-  interactor:
-    group: Classes/Core/Interactor
-  repository:
-    group: Classes/Core/Data
-
-data:
-  project: MyProject.xcodeproj
-  repository:
-    group: Classes/Data
+templates_collection: ccios/templates
 eos
   end
 
-  def file_config_content_with_templates
+  def file_config_content_with_variables
     <<-eos
-app:
+variables:
   project: MyProject.xcodeproj
+
+templates_config:
+  repository:
+    variables: {}
+    elements_variables:
+      repository:
+        base_path: Core/Data
+        target: Core
+      repository_implementation:
+        base_path: "Data"
+        target: Data
   presenter:
-    group: Classes/App
-  coordinator:
-    group: Classes/Coordinator
-
-core:
-  project: MyProject.xcodeproj
-  interactor:
-    group: Classes/Core/Interactor
-  repository:
-    group: Classes/Core/Data
-
-data:
-  project: MyProject.xcodeproj
-  repository:
-    group: Classes/Data
-
-templates:
-  path: ccios/templates
+    variables:
+      target: MyProject
+      base_path: MyProject/App
 eos
   end
 end

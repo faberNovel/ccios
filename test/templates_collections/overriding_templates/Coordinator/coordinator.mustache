@@ -1,21 +1,25 @@
 //
-//  TestCoordinator.swift
-//  ProjectName
+//  {{name}}Coordinator.swift
+//  {{project_name}}
 //
-//  Created by Georges Abitbol on 01/01/1970.
+//  Created by {{full_username}} on {{date}}.
 //
 //
 
 import Foundation
 import ADCoordinator
 
-protocol TestCoordinatorDelegate: AnyObject {
+{{#generate_delegate}}
+protocol {{name}}CoordinatorDelegate: AnyObject {
 
 }
 
-class TestCoordinator: Coordinator {
+{{/generate_delegate}}
+class {{name}}Coordinator: Coordinator {
 
-    weak var delegate: TestCoordinatorDelegate?
+    {{#generate_delegate}}
+    weak var delegate: {{name}}CoordinatorDelegate?
+    {{/generate_delegate}}
     private let dependencyProvider: ApplicationDependencyProvider
     private unowned var navigationController: UINavigationController
 

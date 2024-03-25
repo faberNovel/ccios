@@ -1,0 +1,13 @@
+name: "simple"
+variables:
+  project: "*.xcodeproj"
+  base_path: "Group"
+parameters:
+  - argument: "name"
+generated_elements:
+  - name: "file"
+    file: "{{ name }}.txt"
+    template: "template"
+    variables: {}
+template_file_source:
+  template: "template.mustache"

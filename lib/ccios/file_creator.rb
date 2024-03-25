@@ -1,6 +1,7 @@
 require_relative 'code_templater'
 require 'fileutils'
 require 'logger'
+require 'xcodeproj'
 
 class Xcodeproj::Project::Object::PBXGroup
 
@@ -24,40 +25,51 @@ class FileCreator
     FileCreator.logger
   end
 
-  def initialize(options = {}, config)
-    @options = options
-    @config = config
-  end
-
   def templater_options(target)
     defaults = {
       project_name: target.display_name,
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
     }
-    defaults.merge(@options)
+    defaults
   end
 
   def git_username
     `git config user.name`.strip
   end
 
-  def create_file(prefix, suffix, group, target)
-    file_path = File.join(group.real_path, prefix + suffix + '.swift')
+  def get_unknown_template_tags_for(template_path)
+    tags = CodeTemplater.new.get_unknown_context_keys_for_template(template_path)
+    tags.subtract(Set["project_name", "full_username", "date"])
+    tags
+  end
+
+  def create_file_using_template_path(template_path, generated_filename, group, targets, context)
+    file_path = File.join(group.real_path, generated_filename)
 
     raise "File #{file_path} already exists" if File.exist?(file_path)
     dirname = File.dirname(file_path)
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
     file = File.new(file_path, 'w')
 
-    templater_options = templater_options(target)
-    code_templater = CodeTemplater.new(templater_options, @config.templates.path)
-    file_content = code_templater.content_for_suffix(prefix, suffix)
+    context = context.merge(templater_options(targets[0]))
+    file_content = CodeTemplater.new.render_file_content_from_template(template_path, generated_filename, context)
+
     file.puts(file_content)
 
     file.close
     file_ref = group.new_reference(file_path)
-    target.add_file_references([file_ref])
+    targets.each do |target|
+      target.add_file_references([file_ref])
+    end
+  end
+
+  def print_file_content_using_template(filename, template_path, context)
+    file_content = CodeTemplater.new.render_file_content_from_template(template_path, filename, context)
+    Mustache.render(File.read(template_path), context)
+
+    logger.info "Add this snippet to #{filename}"
+    logger.info file_content
   end
 
   def create_empty_directory(group)
@@ -66,16 +78,6 @@ class FileCreator
 
     git_keep_path = File.join(dirname, ".gitkeep")
     FileUtils.touch(git_keep_path) if Dir.empty?(dirname)
-  end
-
-  def print_file_content(prefix, suffix)
-    file_name = suffix + '.swift'
-
-    code_templater = CodeTemplater.new(@options, @config.templates.path)
-    template = code_templater.content_for_suffix(prefix, suffix)
-
-    logger.info "Add this snippet to #{file_name}"
-    logger.info template
   end
 
   private

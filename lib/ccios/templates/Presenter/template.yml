@@ -1,0 +1,49 @@
+name: "presenter"
+description: "Generate NamePresenter, NamePresenterImplementation, NameViewContract and NameViewController"
+parameters:
+  - argument: "name"
+    removeSuffix: "Presenter"
+    lowercased_variable_name: "lowercased_name"
+  - flag: "delegate"
+    short_name: "d"
+    template_variable_name: "generate_delegate"
+    description: "Generate delegate protocols when provided"
+variables:
+  project: "*.xcodeproj"
+  base_path: "App"
+  target: ""
+generated_elements:
+  - name: "ui_view_group"
+    group: "{{ name }}/UI/View"
+    variables: {}
+  - name: "view_controller"
+    file: "{{ name }}/UI/ViewController/{{ name }}ViewController.swift"
+    template: "view_controller"
+    variables: {}
+  - name: "view_contract"
+    file: "{{ name }}/UI/{{ name }}ViewContract.swift"
+    template: "view_contract"
+    variables: {}
+  - name: "presenter"
+    file: "{{ name }}/Presenter/{{ name }}Presenter.swift"
+    template: "presenter"
+    variables: {}
+  - name: "presenter_implementation"
+    file: "{{ name }}/Presenter/{{ name }}PresenterImplementation.swift"
+    template: "presenter_implementation"
+    variables: {}
+  - name: "model_group"
+    group: "{{ name }}/Model"
+    variables: {}
+code_snippets:
+  - name: DependencyProvider
+    template: "dependency_provider"
+  - name: PresenterAssembly
+    template: "presenter_assembly"
+template_file_source:
+  view_controller: "view_controller.mustache"
+  view_contract: "view_contract.mustache"
+  presenter: "presenter.mustache"
+  presenter_implementation: "presenter_implementation.mustache"
+  dependency_provider: "dependency_provider.mustache"
+  presenter_assembly: "presenter_assembly.mustache"

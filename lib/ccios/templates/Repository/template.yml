@@ -1,0 +1,26 @@
+name: "repository"
+description: "Generate NameRepository and NameRepositoryImplementation"
+parameters:
+  - argument: "name"
+    removeSuffix: "Repository"
+variables:
+  project: "*.xcodeproj"
+  target: ""
+generated_elements:
+  - name: "repository"
+    file: "{{ name }}/{{ name }}Repository.swift"
+    template: "repository"
+    variables:
+      base_path: "Core/Data"
+  - name: "repository_implementation"
+    file: "{{ name }}/{{ name }}RepositoryImplementation.swift"
+    template: "repository_implementation"
+    variables:
+      base_path: "Data"
+code_snippets:
+  - name: RepositoryAssembly
+    template: "repository_assembly"
+template_file_source:
+  repository: "repository.mustache"
+  repository_implementation: "repository_implementation.mustache"
+  repository_assembly: "repository_assembly.mustache"

@@ -1,0 +1,25 @@
+name: "interactor"
+description: "Generate NameInteractor and NameInteractorImplementation"
+parameters:
+  - argument: "name"
+    removeSuffix: "Interactor"
+variables:
+  project: "*.xcodeproj"
+  base_path: "Core/Interactor"
+  target: ""
+generated_elements:
+  - name: "interactor"
+    file: "{{ name }}Interactor/{{ name }}Interactor.swift"
+    template: "interactor"
+    variables: {}
+  - name: "interactor_implementation"
+    file: "{{ name }}Interactor/{{ name }}InteractorImplementation.swift"
+    template: "interactor_implementation"
+    variables: {}
+code_snippets:
+  - name: InteractorAssembly
+    template: "interactor_assembly"
+template_file_source:
+  interactor: "interactor.mustache"
+  interactor_implementation: "interactor_implementation.mustache"
+  interactor_assembly: "interactor_assembly.mustache"

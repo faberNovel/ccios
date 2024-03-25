@@ -2,11 +2,12 @@ require 'yaml'
 
 class Config
 
-  attr_reader :app, :core, :data, :templates
+  attr_reader :variables, :templates_collection
 
   def self.parse(source_path)
     if File.exist?(source_path)
       config = YAML.load_file(source_path)
+      raise "Invalid config file" unless config.is_a?(Hash)
       self.new config, source_path
     else
       puts "File #{source_path} does not exist. Using default config."
@@ -14,120 +15,69 @@ class Config
     end
   end
 
-  def self.default_config_hash
-    project = "*.xcodeproj"
-    {
-      "app" => {
-        "project" => project,
-        "presenter" => {"group" => "Classes/App"},
-        "coordinator" => {"group" => "Classes/Coordinator"}
-      },
-      "core" => {
-        "project" => project,
-        "interactor" => {"group" => "Classes/Core/Interactor"},
-        "repository" => {"group" => "Classes/Core/Data"}
-      },
-      "data" => {
-        "project" => project,
-        "repository" => {"group" => "Classes/Data"}
-      },
-      "templates" => self.default_templates_hash
-    }
-  end
-
   def self.default
     self.new default_config_hash
   end
 
-  def self.default_templates_hash
-    { "path" => File.join(File.dirname(__FILE__), "templates") }
+  def self.default_config_hash
+    {}
   end
 
   def initialize(config_hash, source_path = nil)
-    @source_path = source_path
-    validate config_hash
-    @app = AppConfig.new config_hash["app"]
-    @core = CoreConfig.new config_hash["core"]
-    @data = DataConfig.new config_hash["data"]
-    if config_hash["templates"].nil?
-      @templates = TemplatesConfig.new Config.default_templates_hash
-    else
-      @templates = TemplatesConfig.new config_hash["templates"]
+    @variables = config_hash["variables"] || {}
+    @templates_collection = config_hash["templates_collection"] || nil
+    @templates_config = {}
+
+    raise "Invalid \"templates_collection\" in config, should be a string" unless @templates_collection.is_a?(String) || @templates_collection.nil?
+
+    templates_config = config_hash["templates_config"] || {}
+    raise "Invalid \"templates_config\" in configuration, it should be a dictionary" unless templates_config.is_a?(Hash)
+    templates_config.each do |key, hash|
+      raise "Invalid template configuration for \"#{key}\"" unless hash.is_a?(Hash)
+      template_config = TemplateConfig.new(hash)
+      @templates_config[key] = template_config
     end
   end
 
-  def validate(hash)
-    validate_path hash, "app.project"
-    validate_path hash, "app.presenter.group"
-    validate_path hash, "app.coordinator.group"
-
-    validate_path hash, "core.project"
-    validate_path hash, "core.interactor.group"
-    validate_path hash, "core.repository.group"
-
-    validate_path hash, "data.project"
-    validate_path hash, "data.repository.group"
+  def variables_for_template(template)
+    template_config = @templates_config[template.name] || TemplateConfig.new({})
+    @variables.merge(template.variables).merge(template_config.variables)
   end
 
-  def validate_path(hash, path)
-    components = path.split(".")
-    keys = []
-    components.each do |component|
-      hash = hash[component]
-      keys << component
-      if hash.nil?
-        message = "Key \"#{keys.join(".")}\" is missing"
-        message += " in #{@source_path}" unless @source_path.nil?
-        raise message
-      end
+  def variables_for_template_element(template, element_name, element_default_variables = {})
+    template_config = @templates_config[template.name] || TemplateConfig.new({})
+    element_config = template_config.element_configuration_for(element_name)
+    template_variables = @variables.merge(template.variables).merge(template_config.variables)
+    template_variables.merge(element_default_variables).merge(element_config.variables)
+  end
+end
+
+class TemplateConfig
+
+  attr_reader :variables
+
+  def initialize(hash)
+    @variables = hash["variables"] || {}
+    @template_element_config = {}
+
+    elements_variables = hash["elements_variables"] || {}
+    raise "Invalid configuration, \"elements_variables\" should be a dictionary" unless elements_variables.is_a?(Hash)
+    elements_variables.each do |key, hash|
+      raise "Invalid element variable configuration for \"#{key}\"" unless hash.is_a?(Hash)
+      @template_element_config[key] = TemplateElementConfig.new(hash)
     end
   end
-end
 
-class AppConfig
-  attr_reader :project, :target, :presenter, :coordinator
-
-  def initialize(hash)
-    @project = hash["project"]
-    @target = hash["target"]
-    @presenter = ObjectConfig.new hash["presenter"]
-    @coordinator = ObjectConfig.new hash["coordinator"]
+  def element_configuration_for(element)
+    @template_element_config[element] || TemplateConfig.new({})
   end
 end
 
-class CoreConfig
-  attr_reader :project, :target, :interactor, :repository
+class TemplateElementConfig
+
+  attr_reader :variables
 
   def initialize(hash)
-    @project = hash["project"]
-    @target = hash["target"]
-    @interactor = ObjectConfig.new hash["interactor"]
-    @repository = ObjectConfig.new hash["repository"]
-  end
-end
-
-class DataConfig
-  attr_reader :project, :target, :repository
-
-  def initialize(hash)
-    @project = hash["project"]
-    @target = hash["target"]
-    @repository = ObjectConfig.new hash["repository"]
-  end
-end
-
-class ObjectConfig
-  attr_reader :group
-
-  def initialize(hash)
-    @group = hash["group"]
-  end
-end
-
-class TemplatesConfig
-  attr_reader :path
-
-  def initialize(hash)
-    @path = hash["path"]
+    @variables = hash
   end
 end
