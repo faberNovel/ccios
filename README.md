@@ -225,7 +225,7 @@ variables:
   project: "*.xcodeproj"
   # The base path used to generate an element. This variable must be defined once here, or on each elements below.
   base_path: "path/to/base_group"
-  # The target in which files are added. Can be a string, a list of strings, or an empty string. This variable must be defined once here, or on each elements below. If an empty string is provided, it will use the first target found in the Xcode project. If present it will override the global default target.
+  # The target in which files are added. Can be a string, a list of strings, or an empty string. This variable must be defined once here, or on each elements below. If this variable is not set or if an empty string is provided, it will use the first target found in the Xcode project. If present it will override the global default target. [Optional]
   target: "SomeTarget"
 # List of generated elements. [Required]
 # Each element can be a file (using `file`), or an empty folder (using `group`)

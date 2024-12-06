@@ -20,10 +20,7 @@ class Config
   end
 
   def self.default_config_hash
-    {
-        # A blank target by default will use the first one found
-        "variables" => { "target" => "" }
-    }
+    {}
   end
 
   def initialize(config_hash, source_path = nil)
