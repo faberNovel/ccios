@@ -138,6 +138,7 @@ templates_collection: ccios/templates
 # Global overrides of variables [Optional]
 variables:
   project: Project.xcodeproj
+  target: SomeDefaultTarget
 
 # Per template variables override
 templates_config:
@@ -224,8 +225,8 @@ variables:
   project: "*.xcodeproj"
   # The base path used to generate an element. This variable must be defined once here, or on each elements below.
   base_path: "path/to/base_group"
-  # The target in which files are added. Can be a string, a list of strings, or an empty string. This variable must be defined once here, or on each elements below. If an empty string is provided, it will use the first target found in the Xcode project.
-  target: ""
+  # The target in which files are added. Can be a string, a list of strings, or an empty string. This variable must be defined once here, or on each elements below. If an empty string is provided, it will use the first target found in the Xcode project. If present it will override the global default target.
+  target: "SomeTarget"
 # List of generated elements. [Required]
 # Each element can be a file (using `file`), or an empty folder (using `group`)
 generated_elements:
