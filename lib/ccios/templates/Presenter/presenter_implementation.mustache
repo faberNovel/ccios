@@ -30,6 +30,7 @@ class {{name}}PresenterImplementation: {{name}}Presenter {
     // MARK: - {{name}}Presenter
 
     func start() {
-
+        let viewModel = {{name}}ViewModelMapper().map()
+        viewContract?.configure(with: viewModel)
     }
 }
