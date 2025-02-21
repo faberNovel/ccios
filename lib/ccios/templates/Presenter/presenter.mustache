@@ -8,11 +8,13 @@
 
 import Foundation
 
+@MainActor
 protocol {{name}}Presenter {
     func start()
 }
 {{#generate_delegate}}
 
+@MainActor
 protocol {{name}}PresenterDelegate: AnyObject {
 
 }
