@@ -88,6 +88,7 @@ class FileTemplateDefinition
       generated_filename,
       group,
       targets,
+      project,
       context
     )
   end
