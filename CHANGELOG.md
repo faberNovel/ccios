@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Target variable is now optional, an empty string or an unset value will use the first target of the project. This change allows templates to not overrides global target settings in `.ccios.yml`
+- When multiple targets are provided for a file, `{{project_name}}` will now be replaced by the name of the project instead of the name of the first target
+- `@MainActor` has been added to relevent files in Coordinator and Presenter templates to improve Swift 6 support
+- dependency provider snippets has been updated to handle Swift 6 issue (see [this issue](https://github.com/Swinject/Swinject/issues/571) for why this is required)
+
 ## [5.0.0]
 
 This release is an entire rewrite of the templating system, allowing customization of template and settings.
