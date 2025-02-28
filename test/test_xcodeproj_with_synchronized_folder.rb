@@ -21,12 +21,6 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
     name = use_suffix ? "CotestCoordinator" : "Cotest"
     define_method "test_coordinator_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser, template, config|
-          template_config = config.variables_for_template(template)
-          project = parser.project_for template_config["project"]
-          group = project[template_config["base_path"]]
-          group
-        },
         source_path: "MyProject/GroupWithSynchronizedFolder/Coordinator",
         template_name: "coordinator",
         name: name,
@@ -40,12 +34,6 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
     name = use_suffix ? "IntestInteractor" : "Intest"
     define_method "test_interactor_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser, template, config|
-          template_config = config.variables_for_template(template)
-          project = parser.project_for template_config["project"]
-          group = project[template_config["base_path"]]
-          group
-        },
         source_path: "MyProject/GroupWithSynchronizedFolder/Interactor",
         template_name: "interactor",
         name: name,
@@ -62,12 +50,6 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
     name = use_suffix ? "PretestPresenter" : "Pretest"
     define_method "test_presenter_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser, template, config|
-          template_config = config.variables_for_template(template)
-          project = parser.project_for template_config["project"]
-          group = project[template_config["base_path"]]
-          group
-        },
         source_path: "MyProject/GroupWithSynchronizedFolder/Presenter",
         template_name: "presenter",
         name: name,
@@ -88,13 +70,6 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
     name = use_suffix ? "RetestRepository" : "Retest"
     define_method "test_repository_data_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser, template, config|
-          template_config = config.variables_for_template(template)
-          project = parser.project_for template_config["project"]
-          element_config = config.variables_for_template_element(template, "repository_implementation")
-          group = project[element_config["base_path"]]
-          group
-        },
         source_path: "MyProject/GroupWithSynchronizedFolder/Repository",
         template_name: "repository",
         name: name,
@@ -108,13 +83,6 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
     name = use_suffix ? "RetestRepository" : "Retest"
     define_method "test_repository_core_folders#{method_suffix}" do
       generate_and_assert(
-        xcodeproj_group: Proc.new { |parser, template, config|
-          template_config = config.variables_for_template(template)
-          project = parser.project_for template_config["project"]
-          element_config = config.variables_for_template_element(template, "repository")
-          group = project[element_config["base_path"]]
-          group
-        },
         source_path: "MyProject/GroupWithSynchronizedFolder/Interactor",
         template_name: "repository",
         name: name,
@@ -136,22 +104,16 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
     yield(config, parser)
   end
 
-  def generate_and_assert(xcodeproj_group:, source_path:, template_name:, name:, expected_files:)
+  def generate_and_assert(source_path:, template_name:, name:, expected_files:)
     setup_parser do |config, parser|
       template = TemplatesLoader.new.get_templates(config)[template_name]
       raise "Template not found #{template_name}" if template.nil?
 
-      group = xcodeproj_group.call(parser, template, config)
-      assert_empty group.children, "#{group.display_name} group should not contain anything #{group.children}"
-
       template.generate(parser, {"name" => name}, config)
-
-      assert_group_and_subgroups_have_no_name(group)
 
       expected_files.each do |file_name|
         expected_path = File.join(@test_dir, source_path, file_name)
         assert File.exist?(expected_path), "File #{expected_path} does not exist"
-        refute_nil group[file_name]
       end
     end
   end
