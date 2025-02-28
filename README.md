@@ -297,3 +297,16 @@ Element will use variables in this order (first in this list is used): (For file
 - Config Template variables
 - Default templates variables
 - Config Global variables
+
+# How to develop
+
+1. install the gem locally using
+```bash
+make install
+```
+2. Run use the locally installed ccios gem on your project
+```bash
+ccios presenter MyNewPresenterStack
+```
+
+Note: ensure that you use the same ruby version when building, installing and running this local version of ccios.
