@@ -1,6 +1,5 @@
 require_relative 'code_templater'
 require_relative 'file_creator'
-require_relative 'pbxproj_parser'
 
 class GroupTemplateDefinition
   def initialize(group_template_definition_hash)
@@ -22,7 +21,7 @@ class GroupTemplateDefinition
     base_path = merged_variables["base_path"]
     raise "Missing base_path variable" if base_path.nil?
 
-    base_group = project[base_path]
+    base_group = XcodeGroupRepresentation.findGroup(base_path, project)
     raise "Base path \"#{base_path}\" is missing" if base_group.nil?
   end
 
@@ -30,25 +29,13 @@ class GroupTemplateDefinition
     merged_variables = config.variables_for_template_element(template_definition, @name, @variables)
 
     base_path = merged_variables["base_path"]
-    base_group = project[base_path]
+    base_group = XcodeGroupRepresentation.findGroup(base_path, project)
     group_path = CodeTemplater.new.render_string(@path, context)
 
-    group_path = group_path.split("/")
-
-    group = base_group
-    associate_path_to_group = !base_group.path.nil?
-
-    group_path.each do |group_name|
-      new_group_path = File.join(group.real_path, group_name)
-      existing_group = group.groups.find { |g| g.display_name == group_name }
-      group = existing_group || group.pf_new_group(
-        associate_path_to_group: associate_path_to_group,
-        name: group_name,
-        path: new_group_path
-      )
-    end
+    group_path_components = group_path.split("/")
+    group = base_group.create_groups_if_needed_for_intermediate_groups(group_path_components)
 
     file_creator = FileCreator.new
-    file_creator.create_empty_directory(group)
+    file_creator.create_empty_directory_for_group(group)
   end
 end
