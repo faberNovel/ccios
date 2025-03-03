@@ -12,6 +12,8 @@ import UIKit
 class {{name}}ViewController: SharedViewController, {{name}}ViewContract {
     var presenter: {{name}}Presenter?
 
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.start()
@@ -21,5 +23,4 @@ class {{name}}ViewController: SharedViewController, {{name}}ViewContract {
 
     func configure(with viewModel: {{name}}ViewModel) {
     }
-
 }
