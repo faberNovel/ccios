@@ -6,3 +6,7 @@
 - Update the version in ccios.gemspec & run `bundle install`
 - Create a Pull Request
 - Once merged, create a tag `A.B.C` on the merged commit
+- Create release in GitHub
+- Publish release to RubyGem:
+	- `make build`
+	- `gem push ccios-A.B.C.gem`
