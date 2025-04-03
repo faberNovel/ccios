@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'xcodeproj', '~> 1.4'
   s.add_dependency "mustache", "~> 1.0"
 
-  s.add_development_dependency 'rake', '~> 12.3'
+  s.add_development_dependency 'rake', '~> 13.2'
   s.add_development_dependency 'minitest', '~> 5.11'
 end

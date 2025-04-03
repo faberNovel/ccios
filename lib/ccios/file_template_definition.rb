@@ -37,7 +37,7 @@ class FileTemplateDefinition
     raise "Base path \"#{base_path}\" is missing" if base_group.nil?
 
     target_name = merged_variables["target"]
-    if target_name.is_a?(String)
+    if target_name.is_a?(String) || target_name.nil?
       target = parser.target_for(project, target_name)
       raise "Unable to find target \"#{target_name}\"" if target.nil?
     elsif target_name.is_a?(Array)
@@ -77,7 +77,7 @@ class FileTemplateDefinition
     target_name = merged_variables["target"]
 
     targets = []
-    if target_name.is_a?(String)
+    if target_name.is_a?(String) || target_name.nil?
       targets = [parser.target_for(project, target_name)]
     elsif target_name.is_a?(Array)
       targets = target_name.map { |name| parser.target_for(project, name) }
@@ -88,6 +88,7 @@ class FileTemplateDefinition
       generated_filename,
       group,
       targets,
+      project,
       context
     )
   end

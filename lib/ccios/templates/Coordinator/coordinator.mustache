@@ -10,6 +10,7 @@ import Foundation
 import ADCoordinator
 
 {{#generate_delegate}}
+@MainActor
 protocol {{name}}CoordinatorDelegate: AnyObject {
 
 }
@@ -23,8 +24,10 @@ class {{name}}Coordinator: Coordinator {
     private let dependencyProvider: ApplicationDependencyProvider
     private unowned var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController,
-         dependencyProvider: ApplicationDependencyProvider) {
+    init(
+        navigationController: UINavigationController,
+        dependencyProvider: ApplicationDependencyProvider
+    ) {
         self.navigationController = navigationController
         self.dependencyProvider = dependencyProvider
     }

@@ -11,7 +11,6 @@ parameters:
 variables:
   project: "*.xcodeproj"
   base_path: "App"
-  target: ""
 generated_elements:
   - name: "ui_view_group"
     group: "{{ name }}/UI/View"
@@ -32,8 +31,13 @@ generated_elements:
     file: "{{ name }}/Presenter/{{ name }}PresenterImplementation.swift"
     template: "presenter_implementation"
     variables: {}
-  - name: "model_group"
-    group: "{{ name }}/Model"
+  - name: "view_model"
+    file: "{{ name }}/Model/{{ name }}ViewModel.swift"
+    template: "view_model"
+    variables: {}
+  - name: "view_model_mapper"
+    file: "{{ name }}/Model/Mapper/{{ name }}ViewModelMapper.swift"
+    template: "view_model_mapper"
     variables: {}
 code_snippets:
   - name: DependencyProvider
@@ -45,5 +49,7 @@ template_file_source:
   view_contract: "view_contract.mustache"
   presenter: "presenter.mustache"
   presenter_implementation: "presenter_implementation.mustache"
+  view_model: "view_model.mustache"
+  view_model_mapper: "view_model_mapper.mustache"
   dependency_provider: "dependency_provider.mustache"
   presenter_assembly: "presenter_assembly.mustache"

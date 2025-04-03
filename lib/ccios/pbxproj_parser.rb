@@ -27,7 +27,7 @@ class PBXProjParser
   end
 
   def target_for(project, target_name)
-    if target_name.blank?
+    if target_name.blank? || target_name.nil?
       project.targets.find { |t| t.product_type == "com.apple.product-type.application" }
     else
       project.targets.find { |t| t.name == target_name }

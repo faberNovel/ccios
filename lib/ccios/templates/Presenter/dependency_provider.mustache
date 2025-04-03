@@ -2,13 +2,17 @@
 func {{lowercased_name}}Presenter(viewContract: {{name}}ViewContract, presenterDelegate: {{name}}PresenterDelegate) -> {{name}}Presenter? {
     return presenterAssembler
         .resolver
-        .resolve({{name}}Presenter.self, arguments: viewContract, presenterDelegate)
+        .resolve(
+            {{name}}Presenter.self,
+            arguments: viewContract as {{name}}ViewContract,
+            presenterDelegate as {{name}}PresenterDelegate
+        )
 }
 {{/generate_delegate}}
 {{^generate_delegate}}
 func {{lowercased_name}}Presenter(viewContract: {{name}}ViewContract) -> {{name}}Presenter? {
     return presenterAssembler
         .resolver
-        .resolve({{name}}Presenter.self, argument: viewContract)
+        .resolve({{name}}Presenter.self, argument: viewContract as {{name}}ViewContract)
 }
 {{/generate_delegate}}

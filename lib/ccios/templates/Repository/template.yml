@@ -5,7 +5,6 @@ parameters:
     removeSuffix: "Repository"
 variables:
   project: "*.xcodeproj"
-  target: ""
 generated_elements:
   - name: "repository"
     file: "{{ name }}/{{ name }}Repository.swift"

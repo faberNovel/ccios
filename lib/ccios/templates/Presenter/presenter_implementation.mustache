@@ -15,6 +15,8 @@ class {{name}}PresenterImplementation: {{name}}Presenter {
     private weak var delegate: {{name}}PresenterDelegate?
     {{/generate_delegate}}
 
+    // MARK: - Lifecycle
+
     {{#generate_delegate}}
     init(viewContract: {{name}}ViewContract, delegate: {{name}}PresenterDelegate) {
         self.viewContract = viewContract
@@ -30,6 +32,7 @@ class {{name}}PresenterImplementation: {{name}}Presenter {
     // MARK: - {{name}}Presenter
 
     func start() {
-
+        let viewModel = {{name}}ViewModelMapper().map()
+        viewContract?.configure(with: viewModel)
     }
 }

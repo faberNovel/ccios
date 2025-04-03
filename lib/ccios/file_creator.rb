@@ -15,6 +15,13 @@ class Xcodeproj::Project::Object::PBXGroup
   end
 end
 
+class Xcodeproj::Project
+
+  def project_name_from_path
+    File.basename(@path, File.extname(@path))
+  end
+end
+
 class FileCreator
 
   def self.logger
@@ -25,12 +32,16 @@ class FileCreator
     FileCreator.logger
   end
 
-  def templater_options(target)
+  def templater_options(targets, project)
     defaults = {
-      project_name: target.display_name,
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
     }
+    if targets.count == 1
+      defaults["project_name"] = targets[0].display_name
+    else
+      defaults["project_name"] = project.project_name_from_path
+    end
     defaults
   end
 
@@ -44,7 +55,7 @@ class FileCreator
     tags
   end
 
-  def create_file_using_template_path(template_path, generated_filename, group, targets, context)
+  def create_file_using_template_path(template_path, generated_filename, group, targets, project, context)
     file_path = File.join(group.real_path, generated_filename)
 
     raise "File #{file_path} already exists" if File.exist?(file_path)
@@ -52,7 +63,7 @@ class FileCreator
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
     file = File.new(file_path, 'w')
 
-    context = context.merge(templater_options(targets[0]))
+    context = context.merge(templater_options(targets, project))
     file_content = CodeTemplater.new.render_file_content_from_template(template_path, generated_filename, context)
 
     file.puts(file_content)

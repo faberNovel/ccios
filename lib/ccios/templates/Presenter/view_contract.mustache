@@ -8,6 +8,7 @@
 
 import Foundation
 
+@MainActor
 protocol {{name}}ViewContract: AnyObject {
-
+    func configure(with viewModel: {{name}}ViewModel)
 }
