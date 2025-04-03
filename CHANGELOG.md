@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [5.1.0]
+
 ### Changed
 
 - Target variable is now optional, an empty string or an unset value will use the first target of the project. This change allows templates to not overrides global target settings in `.ccios.yml`
