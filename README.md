@@ -137,6 +137,7 @@ templates_collection: ccios/templates
 
 # Global overrides of variables [Optional]
 variables:
+  project_type: xcode
   project: Project.xcodeproj
   target: SomeDefaultTarget
 
@@ -221,6 +222,8 @@ parameters:
 # List of templates variables that is used to generate files in an xcode project. [Optional]
 # Those variables can be overridden in config file, see section "Variable hierarchy" for more informations.
 variables:
+  # Type of project "spm" or "xcode", will be considered as "xcode" if not specified. [Optional]
+  project_type: spm
   # The name of the xcode project. "*.xcodeproj" will use the first it finds. [required]
   project: "*.xcodeproj"
   # The base path used to generate an element. This variable must be defined once here, or on each elements below.
