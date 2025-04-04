@@ -33,21 +33,35 @@ class FileTemplateDefinition
     base_path = merged_variables["base_path"]
     raise "Missing base_path variable" if base_path.nil?
 
-    # base_group = XcodeGroupRepresentation.findGroup(base_path, project)
-    # raise "Base path \"#{base_path}\" is missing" if base_group.nil?
+    target_name = merged_variables["target"]
+    if project.nil?
+      if target_name.is_a?(String)
+        target = target_name
+      elsif target_name.nil?
+        guessed_name = guess_spm_target_name(base_path)
+        raise "Unable to guess the target from the base path \"#{base_path}\", please specify the target in your config file" if guessed_name.nil?
+        target = guessed_name
+      elsif target_name.is_a?(Array)
+        raise "A template generating files in an spm project cannot specify multiple targets"
+      else
+        raise "Invalid target in template #{@name}"
+      end
+    else
+      base_group = XcodeGroupRepresentation.findGroup(base_path, project)
+      raise "Base path \"#{base_path}\" is missing" if base_group.nil?
 
-    # target_name = merged_variables["target"]
-    # if target_name.is_a?(String) || target_name.nil?
-    #   target = parser.target_for(project, target_name)
-    #   raise "Unable to find target \"#{target_name}\"" if target.nil?
-    # elsif target_name.is_a?(Array)
-    #   target_name.each do |target_name|
-    #     target = parser.target_for(project, target_name)
-    #     raise "Unable to find target \"#{target_name}\"" if target.nil?
-    #   end
-    # else
-    #   raise "Invalid target in template #{@name}"
-    # end
+      if target_name.is_a?(String) || target_name.nil?
+        target = parser.target_for(project, target_name)
+        raise "Unable to find target \"#{target_name}\"" if target.nil?
+      elsif target_name.is_a?(Array)
+        target_name.each do |target_name|
+          target = parser.target_for(project, target_name)
+          raise "Unable to find target \"#{target_name}\"" if target.nil?
+        end
+      else
+        raise "Invalid target in template #{@name}"
+      end
+    end
 
   end
 
@@ -65,21 +79,39 @@ class FileTemplateDefinition
 
     target_name = merged_variables["target"]
 
-    # targets = []
-    # if target_name.is_a?(String) || target_name.nil?
-    #   targets = [parser.target_for(project, target_name)]
-    # elsif target_name.is_a?(Array)
-    #   targets = target_name.map { |name| parser.target_for(project, name) }
-    # end
+    targets = []
+    if project.nil?
+      if target_name.is_a?(String)
+        targets = [target_name]
+      elsif target_name.nil?
+        guessed_name = guess_spm_target_name(base_path)
+        targets = [guessed_name]
+      end
+    else
+      if target_name.is_a?(String) || target_name.nil?
+        targets = [parser.target_for(project, target_name)]
+      elsif target_name.is_a?(Array)
+        targets = target_name.map { |name| parser.target_for(project, name) }
+      end
+    end
 
     FileCreator.new.create_file_using_template_path(
       template_definition.template_source_file(@template),
       generated_filename,
       group,
-      [],
-      # targets,
+      targets,
       project,
       context
     )
+  end
+
+  private def guess_spm_target_name(path)
+    parts = path.split(File::SEPARATOR)
+    sources_index = parts.index("Sources")
+    if sources_index && sources_index + 1 < parts.length
+      return parts[sources_index + 1]
+    else
+      return nil
+    end
   end
 end

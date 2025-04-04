@@ -18,7 +18,6 @@ class XcodeGroupRepresentation
       elsif deepest_group.is_a?(Xcodeproj::Project::Object::PBXGroup)
         deepest_group = deepest_group.find_subpath(group_name)
         return nil if deepest_group.nil?
-        # return self.new nil, nil, additional_path
       else
         raise "Unsupported element found with name \"#{group_name}\": #{deepest_group}"
       end
@@ -27,13 +26,18 @@ class XcodeGroupRepresentation
   end
 
   def initialize(project, xcode_group, additional_path = [])
-    # throw "Unsupported group type" unless xcode_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup) || xcode_group.is_a?(Xcodeproj::Project::Object::PBXGroup)
-    # if !additional_path.empty? && !xcode_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup)
-    #   throw "additional_path can only be specified for a synchronized file system group"
-    # end
-    @project = project # can be nil
+    if project.nil?
+      throw "Unexpected xcode_group when project is nil, we should be in an spm context" unless xcode_group.nil?
+    else
+      throw "Unsupported group type" unless xcode_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup) || xcode_group.is_a?(Xcodeproj::Project::Object::PBXGroup)
+      if !additional_path.empty? && !xcode_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup)
+        throw "additional_path can only be specified for a synchronized file system group"
+      end
+    end
+    # This represent the xcode project if present, if nil we should be generating files in an Swift package
+    @project = project
     # This represents the deepest group or folder reference in the project
-    @xcode_deepest_group = xcode_group # can be nil
+    @xcode_deepest_group = xcode_group
     # This represents the additional filesystem path after `xcode_deepest_group` as an Array of strings. This should be non empty only when deepest group is a synchronized group
     @additional_path = additional_path
   end
@@ -73,7 +77,7 @@ class XcodeGroupRepresentation
     new_additional_path = @additional_path
 
     intermediates_groups.each do |group_name|
-      if new_deepest_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup) || new_deepest_group.nil?
+      if new_deepest_group.nil? || new_deepest_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup)
         new_additional_path.append(group_name)
       elsif new_deepest_group.is_a?(Xcodeproj::Project::Object::PBXGroup)
         existing_child = new_deepest_group.find_subpath(group_name)

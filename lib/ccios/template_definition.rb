@@ -59,10 +59,17 @@ class TemplateDefinition
     raise "Error: invalid template name" unless @name.is_a? String
 
     merged_variables = config.variables_for_template(self)
-    project_path = merged_variables["project"]
-
-    project = parser.project_for(project_path)
-    # raise "Error: Unable to find project \"#{project_path}\"" if project.nil?
+    project_type = merged_variables["project_type"] || "xcode"
+    case project_type
+    when "xcode"
+      project_path = merged_variables["project"]
+      project = parser.project_for(project_path)
+      raise "Error: Unable to find project \"#{project_path}\"" if project.nil?
+    when "spm"
+      project = nil
+    else
+      raise "Invalid project_type given \"#{project_type}\""
+    end
 
     @template_file_source.each do |file_template_name, path|
       raise "Missing template source file for \"#{file_template_name}\"" unless File.exist?(self.template_source_file(file_template_name))
@@ -93,9 +100,16 @@ class TemplateDefinition
     options = agrument_transformed_options(options)
 
     merged_variables = config.variables_for_template(self)
-    project_path = merged_variables["project"]
 
-    project = parser.project_for project_path
+    project_type = merged_variables["project_type"] || "xcode"
+    case project_type
+    when "xcode"
+      project_path = merged_variables["project"]
+      project = parser.project_for project_path
+    when "spm"
+      project = nil
+
+    end
 
     @generated_elements.each do |element|
       element.generate(parser, project, options, self, config)

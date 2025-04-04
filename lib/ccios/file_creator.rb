@@ -25,12 +25,19 @@ class FileCreator
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
     }
-    defaults["project_name"] = "TBD"
-    # if targets.count == 1
-    #   defaults["project_name"] = targets[0].display_name
-    # else
-    #   defaults["project_name"] = project.project_name_from_path
-    # end
+    if project.nil?
+      if targets.count == 1
+        defaults["project_name"] = targets[0]
+      else
+        raise "A file outside an xcode project cannot require multiple targets"
+      end
+    else
+      if targets.count == 1
+        defaults["project_name"] = targets[0].display_name
+      else
+        defaults["project_name"] = project.project_name_from_path
+      end
+    end
     defaults
   end
 
