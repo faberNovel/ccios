@@ -4,7 +4,7 @@ PATH
     ccios (5.1.0)
       activesupport (> 4)
       mustache (~> 1.0)
-      xcodeproj (~> 1.4)
+      xcodeproj (~> 1.27)
 
 GEM
   remote: https://rubygems.org/

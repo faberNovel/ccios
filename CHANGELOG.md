@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Add support for Xcode 16 synchronized folders
+
 ## [5.1.0]
 
 ### Changed

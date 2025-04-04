@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,6 +25,10 @@
 		49922D9F23852057009A9FF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		49922DA123852057009A9FF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FE77422B2D68C62200F94376 /* GroupWithSynchronizedFolder */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GroupWithSynchronizedFolder; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		49922D8D23852054009A9FF6 /* Frameworks */ = {
@@ -134,6 +138,7 @@
 		49922D9223852054009A9FF6 /* MyProject */ = {
 			isa = PBXGroup;
 			children = (
+				FE77422B2D68C62200F94376 /* GroupWithSynchronizedFolder */,
 				496EC49E245AA83600CE2F8F /* GroupWithoutFolder */,
 				496EC499245AA7D700CE2F8F /* GroupWithFolder */,
 				49922D9323852054009A9FF6 /* AppDelegate.swift */,
@@ -161,6 +166,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FE77422B2D68C62200F94376 /* GroupWithSynchronizedFolder */,
 			);
 			name = MyProject;
 			productName = MyProject;
