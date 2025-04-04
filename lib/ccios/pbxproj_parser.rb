@@ -18,6 +18,7 @@ class PBXProjParser
   end
 
   def project_for(path)
+    return nil
     module_project_path = File.join(source_path, path)
     resolved_module_project_path = Dir.glob(module_project_path).first
     if !File.exist?(resolved_module_project_path)

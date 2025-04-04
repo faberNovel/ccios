@@ -62,7 +62,7 @@ class TemplateDefinition
     project_path = merged_variables["project"]
 
     project = parser.project_for(project_path)
-    raise "Error: Unable to find project \"#{project_path}\"" if project.nil?
+    # raise "Error: Unable to find project \"#{project_path}\"" if project.nil?
 
     @template_file_source.each do |file_template_name, path|
       raise "Missing template source file for \"#{file_template_name}\"" unless File.exist?(self.template_source_file(file_template_name))

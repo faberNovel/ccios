@@ -25,11 +25,12 @@ class FileCreator
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
     }
-    if targets.count == 1
-      defaults["project_name"] = targets[0].display_name
-    else
-      defaults["project_name"] = project.project_name_from_path
-    end
+    defaults["project_name"] = "TBD"
+    # if targets.count == 1
+    #   defaults["project_name"] = targets[0].display_name
+    # else
+    #   defaults["project_name"] = project.project_name_from_path
+    # end
     defaults
   end
 

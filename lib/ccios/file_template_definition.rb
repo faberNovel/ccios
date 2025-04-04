@@ -33,21 +33,21 @@ class FileTemplateDefinition
     base_path = merged_variables["base_path"]
     raise "Missing base_path variable" if base_path.nil?
 
-    base_group = XcodeGroupRepresentation.findGroup(base_path, project)
-    raise "Base path \"#{base_path}\" is missing" if base_group.nil?
+    # base_group = XcodeGroupRepresentation.findGroup(base_path, project)
+    # raise "Base path \"#{base_path}\" is missing" if base_group.nil?
 
-    target_name = merged_variables["target"]
-    if target_name.is_a?(String) || target_name.nil?
-      target = parser.target_for(project, target_name)
-      raise "Unable to find target \"#{target_name}\"" if target.nil?
-    elsif target_name.is_a?(Array)
-      target_name.each do |target_name|
-        target = parser.target_for(project, target_name)
-        raise "Unable to find target \"#{target_name}\"" if target.nil?
-      end
-    else
-      raise "Invalid target in template #{@name}"
-    end
+    # target_name = merged_variables["target"]
+    # if target_name.is_a?(String) || target_name.nil?
+    #   target = parser.target_for(project, target_name)
+    #   raise "Unable to find target \"#{target_name}\"" if target.nil?
+    # elsif target_name.is_a?(Array)
+    #   target_name.each do |target_name|
+    #     target = parser.target_for(project, target_name)
+    #     raise "Unable to find target \"#{target_name}\"" if target.nil?
+    #   end
+    # else
+    #   raise "Invalid target in template #{@name}"
+    # end
 
   end
 
@@ -65,18 +65,19 @@ class FileTemplateDefinition
 
     target_name = merged_variables["target"]
 
-    targets = []
-    if target_name.is_a?(String) || target_name.nil?
-      targets = [parser.target_for(project, target_name)]
-    elsif target_name.is_a?(Array)
-      targets = target_name.map { |name| parser.target_for(project, name) }
-    end
+    # targets = []
+    # if target_name.is_a?(String) || target_name.nil?
+    #   targets = [parser.target_for(project, target_name)]
+    # elsif target_name.is_a?(Array)
+    #   targets = target_name.map { |name| parser.target_for(project, name) }
+    # end
 
     FileCreator.new.create_file_using_template_path(
       template_definition.template_source_file(@template),
       generated_filename,
       group,
-      targets,
+      [],
+      # targets,
       project,
       context
     )
