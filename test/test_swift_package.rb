@@ -108,7 +108,7 @@ class SwiftPackageTest < Minitest::Test
   def ccios_yml_swift_package_content
     <<-eos
 variables:
-  project_type: spm
+  project_type: filesystem
 
 templates_config:
   repository:

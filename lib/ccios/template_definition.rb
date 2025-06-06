@@ -65,10 +65,10 @@ class TemplateDefinition
       project_path = merged_variables["project"]
       project = parser.project_for(project_path)
       raise "Error: Unable to find project \"#{project_path}\"" if project.nil?
-    when "spm"
+    when "filesystem"
       project = nil
     else
-      raise "Invalid project_type given \"#{project_type}\""
+      raise "Invalid project_type given \"#{project_type}\", only \"xcode\" and \"fiilesystem\" are supported"
     end
 
     @template_file_source.each do |file_template_name, path|
@@ -106,7 +106,7 @@ class TemplateDefinition
     when "xcode"
       project_path = merged_variables["project"]
       project = parser.project_for project_path
-    when "spm"
+    when "filesystem"
       project = nil
 
     end

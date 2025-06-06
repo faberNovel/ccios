@@ -27,7 +27,7 @@ class XcodeGroupRepresentation
 
   def initialize(project, xcode_group, additional_path = [])
     if project.nil?
-      throw "Unexpected xcode_group when project is nil, we should be in an spm context" unless xcode_group.nil?
+      throw "Unexpected xcode_group when project is nil, we should be in an filesystem context" unless xcode_group.nil?
     else
       throw "Unsupported group type" unless xcode_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup) || xcode_group.is_a?(Xcodeproj::Project::Object::PBXGroup)
       if !additional_path.empty? && !xcode_group.is_a?(Xcodeproj::Project::Object::PBXFileSystemSynchronizedRootGroup)

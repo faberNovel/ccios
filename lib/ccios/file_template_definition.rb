@@ -38,11 +38,11 @@ class FileTemplateDefinition
       if target_name.is_a?(String)
         target = target_name
       elsif target_name.nil?
-        guessed_name = guess_spm_target_name(base_path)
+        guessed_name = guess_target_name_from_path(base_path)
         raise "Unable to guess the target from the base path \"#{base_path}\", please specify the target in your config file" if guessed_name.nil?
         target = guessed_name
       elsif target_name.is_a?(Array)
-        raise "A template generating files in an spm project cannot specify multiple targets"
+        raise "A template generating files in an filesystem project type cannot specify multiple targets"
       else
         raise "Invalid target in template #{@name}"
       end
@@ -84,7 +84,7 @@ class FileTemplateDefinition
       if target_name.is_a?(String)
         targets = [target_name]
       elsif target_name.nil?
-        guessed_name = guess_spm_target_name(base_path)
+        guessed_name = guess_target_name_from_path(base_path)
         targets = [guessed_name]
       end
     else
@@ -105,7 +105,8 @@ class FileTemplateDefinition
     )
   end
 
-  private def guess_spm_target_name(path)
+  private def guess_target_name_from_path(path)
+    # SPM standard format
     parts = path.split(File::SEPARATOR)
     sources_index = parts.index("Sources")
     if sources_index && sources_index + 1 < parts.length

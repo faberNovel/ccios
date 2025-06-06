@@ -222,8 +222,8 @@ parameters:
 # List of templates variables that is used to generate files in an xcode project. [Optional]
 # Those variables can be overridden in config file, see section "Variable hierarchy" for more informations.
 variables:
-  # Type of project "spm" or "xcode", will be considered as "xcode" if not specified. [Optional]
-  project_type: spm
+  # Type of project "filesystem" or "xcode", will be considered as "xcode" if not specified. [Optional]
+  project_type: filesystem
   # The name of the xcode project. "*.xcodeproj" will use the first it finds. [required]
   project: "*.xcodeproj"
   # The base path used to generate an element. This variable must be defined once here, or on each elements below.
