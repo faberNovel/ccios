@@ -223,6 +223,7 @@ parameters:
 # Those variables can be overridden in config file, see section "Variable hierarchy" for more informations.
 variables:
   # Type of project "filesystem" or "xcode", will be considered as "xcode" if not specified. [Optional]
+  # You want to use "filesystem" if you want to generate files for an SPM project, or if your Xcode project uses the new synchronized group from Xcode 16.
   project_type: filesystem
   # The name of the xcode project. "*.xcodeproj" will use the first it finds. [required]
   project: "*.xcodeproj"
