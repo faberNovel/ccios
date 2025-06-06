@@ -109,11 +109,13 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
       template = TemplatesLoader.new.get_templates(config)[template_name]
       raise "Template not found #{template_name}" if template.nil?
 
-      template.generate(parser, {"name" => name}, config)
+      Dir.chdir(@test_dir) do
+        template.generate(parser, {"name" => name}, config)
 
-      expected_files.each do |file_name|
-        expected_path = File.join(@test_dir, source_path, file_name)
-        assert File.exist?(expected_path), "File #{expected_path} does not exist"
+        expected_files.each do |file_name|
+          expected_path = File.join(@test_dir, source_path, file_name)
+          assert File.exist?(expected_path), "File #{expected_path} does not exist"
+        end
       end
     end
   end
@@ -138,6 +140,7 @@ class XcodeProjWithSynchronizedFolderTest < Minitest::Test
   def ccios_yml_with_folders_content
     <<-eos
 variables:
+  project_type: filesystem
   project: MyProject.xcodeproj
 
 templates_config:
