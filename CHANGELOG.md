@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [5.2.0]
+
 ### Added
 
 - Add support for Swift Packages and Xcode 16 synchronized folders
