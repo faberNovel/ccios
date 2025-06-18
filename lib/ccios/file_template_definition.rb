@@ -1,6 +1,6 @@
 require_relative 'code_templater'
 require_relative 'file_creator'
-require_relative 'pbxproj_parser'
+require_relative 'xcode_group_representation'
 
 class FileTemplateDefinition
   def initialize(file_template_definition_hash)
@@ -33,20 +33,34 @@ class FileTemplateDefinition
     base_path = merged_variables["base_path"]
     raise "Missing base_path variable" if base_path.nil?
 
-    base_group = project[base_path]
-    raise "Base path \"#{base_path}\" is missing" if base_group.nil?
-
     target_name = merged_variables["target"]
-    if target_name.is_a?(String) || target_name.nil?
-      target = parser.target_for(project, target_name)
-      raise "Unable to find target \"#{target_name}\"" if target.nil?
-    elsif target_name.is_a?(Array)
-      target_name.each do |target_name|
-        target = parser.target_for(project, target_name)
-        raise "Unable to find target \"#{target_name}\"" if target.nil?
+    if project.nil?
+      if target_name.is_a?(String)
+        target = target_name
+      elsif target_name.nil?
+        guessed_name = guess_target_name_from_path(base_path)
+        raise "Unable to guess the target from the base path \"#{base_path}\", please specify the target in your config file" if guessed_name.nil?
+        target = guessed_name
+      elsif target_name.is_a?(Array)
+        raise "A template generating files in an filesystem project type cannot specify multiple targets"
+      else
+        raise "Invalid target in template #{@name}"
       end
     else
-      raise "Invalid target in template #{@name}"
+      base_group = XcodeGroupRepresentation.findGroup(base_path, project)
+      raise "Base path \"#{base_path}\" is missing" if base_group.nil?
+
+      if target_name.is_a?(String) || target_name.nil?
+        target = parser.target_for(project, target_name)
+        raise "Unable to find target \"#{target_name}\"" if target.nil?
+      elsif target_name.is_a?(Array)
+        target_name.each do |target_name|
+          target = parser.target_for(project, target_name)
+          raise "Unable to find target \"#{target_name}\"" if target.nil?
+        end
+      else
+        raise "Invalid target in template #{@name}"
+      end
     end
 
   end
@@ -55,32 +69,30 @@ class FileTemplateDefinition
     merged_variables = config.variables_for_template_element(template_definition, @name, @variables)
 
     base_path = merged_variables["base_path"]
-    base_group = project[base_path]
+    base_group = XcodeGroupRepresentation.findGroup(base_path, project)
     file_path = CodeTemplater.new.render_string(@path, context)
 
     intermediates_groups = file_path.split("/")[0...-1]
     generated_filename = file_path.split("/")[-1]
 
-    group = base_group
-    associate_path_to_group = !base_group.path.nil?
-
-    intermediates_groups.each do |group_name|
-      new_group_path = File.join(group.real_path, group_name)
-      existing_group = group.groups.find { |g| g.display_name == group_name }
-      group = existing_group || group.pf_new_group(
-        associate_path_to_group: associate_path_to_group,
-        name: group_name,
-        path: new_group_path
-      )
-    end
+    group = base_group.create_groups_if_needed_for_intermediate_groups(intermediates_groups)
 
     target_name = merged_variables["target"]
 
     targets = []
-    if target_name.is_a?(String) || target_name.nil?
-      targets = [parser.target_for(project, target_name)]
-    elsif target_name.is_a?(Array)
-      targets = target_name.map { |name| parser.target_for(project, name) }
+    if project.nil?
+      if target_name.is_a?(String)
+        targets = [target_name]
+      elsif target_name.nil?
+        guessed_name = guess_target_name_from_path(base_path)
+        targets = [guessed_name]
+      end
+    else
+      if target_name.is_a?(String) || target_name.nil?
+        targets = [parser.target_for(project, target_name)]
+      elsif target_name.is_a?(Array)
+        targets = target_name.map { |name| parser.target_for(project, name) }
+      end
     end
 
     FileCreator.new.create_file_using_template_path(
@@ -91,5 +103,16 @@ class FileTemplateDefinition
       project,
       context
     )
+  end
+
+  private def guess_target_name_from_path(path)
+    # SPM standard format
+    parts = path.split(File::SEPARATOR)
+    sources_index = parts.index("Sources")
+    if sources_index && sources_index + 1 < parts.length
+      return parts[sources_index + 1]
+    else
+      return nil
+    end
   end
 end

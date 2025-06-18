@@ -3,18 +3,6 @@ require 'fileutils'
 require 'logger'
 require 'xcodeproj'
 
-class Xcodeproj::Project::Object::PBXGroup
-
-  def pf_new_group(associate_path_to_group:, name:, path:)
-    # When using "Group with folder" we only provide a path
-    # When using "Group without folder" we only provide a name
-    new_group(
-      associate_path_to_group ? nil : name,
-      associate_path_to_group ? path : nil
-    )
-  end
-end
-
 class Xcodeproj::Project
 
   def project_name_from_path
@@ -37,10 +25,18 @@ class FileCreator
       full_username: git_username,
       date: DateTime.now.strftime("%d/%m/%Y"),
     }
-    if targets.count == 1
-      defaults["project_name"] = targets[0].display_name
+    if project.nil?
+      if targets.count == 1
+        defaults["project_name"] = targets[0]
+      else
+        raise "A file outside an xcode project cannot require multiple targets"
+      end
     else
-      defaults["project_name"] = project.project_name_from_path
+      if targets.count == 1
+        defaults["project_name"] = targets[0].display_name
+      else
+        defaults["project_name"] = project.project_name_from_path
+      end
     end
     defaults
   end
@@ -69,10 +65,7 @@ class FileCreator
     file.puts(file_content)
 
     file.close
-    file_ref = group.new_reference(file_path)
-    targets.each do |target|
-      target.add_file_references([file_ref])
-    end
+    group.register_file_to_targets(file_path, targets)
   end
 
   def print_file_content_using_template(filename, template_path, context)
@@ -83,8 +76,12 @@ class FileCreator
     logger.info file_content
   end
 
-  def create_empty_directory(group)
+  def create_empty_directory_for_group(group)
     dirname = group.real_path
+    create_empty_directory(dirname)
+  end
+
+  def create_empty_directory(dirname)
     FileUtils.mkdir_p dirname unless File.directory?(dirname)
 
     git_keep_path = File.join(dirname, ".gitkeep")

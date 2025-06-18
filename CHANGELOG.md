@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Add support for Swift Packages and Xcode 16 synchronized folders
+    - Add new optional variable nammed "project_type" which accepts 2 values: "xcode" and "filesystem". When missing ccios use "xcode" by default.
+    - When "project_type" is set to "filesystem" ccios will not try to update a pbxproj and will only generate files.
+    - When "project_type" is set to "filesystem" multi target definition is no longer supported for generated files.
+    - When generating files for an filesystem project, the target name in the header is either: the target defined in the template variables, the target defined in `.ccios.yml`, or it will try to guess the name when using SPM by searching the target name inside the standard naming scheme of: "Sources/<target_name>/".
+
 ## [5.1.0]
 
 ### Changed

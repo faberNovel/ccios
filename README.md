@@ -137,6 +137,7 @@ templates_collection: ccios/templates
 
 # Global overrides of variables [Optional]
 variables:
+  project_type: xcode
   project: Project.xcodeproj
   target: SomeDefaultTarget
 
@@ -221,6 +222,9 @@ parameters:
 # List of templates variables that is used to generate files in an xcode project. [Optional]
 # Those variables can be overridden in config file, see section "Variable hierarchy" for more informations.
 variables:
+  # Type of project "filesystem" or "xcode", will be considered as "xcode" if not specified. [Optional]
+  # You want to use "filesystem" if you want to generate files for an SPM project, or if your Xcode project uses the new synchronized group from Xcode 16.
+  project_type: filesystem
   # The name of the xcode project. "*.xcodeproj" will use the first it finds. [required]
   project: "*.xcodeproj"
   # The base path used to generate an element. This variable must be defined once here, or on each elements below.
@@ -297,3 +301,16 @@ Element will use variables in this order (first in this list is used): (For file
 - Config Template variables
 - Default templates variables
 - Config Global variables
+
+# How to develop
+
+1. install the gem locally using
+```bash
+make install
+```
+2. Run use the locally installed ccios gem on your project
+```bash
+ccios presenter MyNewPresenterStack
+```
+
+Note: ensure that you use the same ruby version when building, installing and running this local version of ccios.

@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/hola'
   s.license     = 'MIT'
   s.add_dependency 'activesupport', '> 4'
-  s.add_dependency 'xcodeproj', '~> 1.4'
+  s.add_dependency 'xcodeproj', '~> 1.27'
   s.add_dependency "mustache", "~> 1.0"
 
   s.add_development_dependency 'rake', '~> 13.2'
