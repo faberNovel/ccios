@@ -43,7 +43,7 @@ GEM
     nanaimo (0.4.0)
     nkf (0.2.0)
     rake (13.3.0)
-    rexml (3.4.1)
+    rexml (3.4.2)
     securerandom (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
